@@ -1,195 +1,26 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
+import RateInput from '../Inputs/RateInput';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Switch from '@mui/material/Switch';
+import { rows } from './TableData';
 
-function createData(rate, number, devision, deviceId, fileName, fileSize, date) {
-    return {
-        rate, number, devision, deviceId, fileName, fileSize, date
-    };
-}
+import { getComparator, stableSort, EnhancedTableHead } from './TableMethods';
 
-const rows = [
-    createData(305, 'high', 'XXXXXX_122222', '1232AAAAZZZZZ', 'AAAAAAAAAAAAA', '40 x 32 cm (12 x 20 inch)', '2022-01-03 12:00')
-];
 
 const style = {
     maxWidth: 70,
     borderStyle: "border-box"
 };
 
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
-
-function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-    {
-        id: 'rate',
-        numeric: false,
-        disablePadding: true,
-        label: 'Rate',
-        width: 70,
-    },
-    {
-        id: 'number',
-        numeric: true,
-        disablePadding: false,
-        label: 'Number',
-    },
-    {
-        id: 'devision',
-        numeric: false,
-        disablePadding: false,
-        label: 'Devision',
-    },
-    {
-        id: 'deviceId',
-        numeric: false,
-        disablePadding: false,
-        label: 'Deivice ID',
-    },
-    {
-        id: 'fileName',
-        numeric: false,
-        disablePadding: false,
-        label: 'File Name',
-    },
-    {
-        id: 'fileSize',
-        numeric: false,
-        disablePadding: false,
-        label: 'File Size',
-    },
-    {
-        id: 'date',
-        numeric: false,
-        disablePadding: false,
-        label: 'Date',
-    },
-];
-
-function EnhancedTableHead(props) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-        props;
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell padding="checkbox">
-                    <Checkbox
-                        color="primary"
-                        //indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts',
-                        }}
-                    />
-                </TableCell>
-                {headCells.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        sx={style}
-                        align={headCell.id == 'rate' ? 'left' : 'center'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-}
-
-EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
-
-function EnhancedTableToolbar(props) {
-    const { numSelected } = props;
-
-    return (
-        <Toolbar
-            sx={{
-                pl: { sm: 2 },
-                pr: { xs: 1, sm: 1 },
-                ...(numSelected > 0 && {
-                    bgcolor: (theme) =>
-                        alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-                }),
-            }}
-        >
-
-        </Toolbar>
-    );
-}
-
-EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-};
 
 export default function DataTable() {
     const [order, setOrder] = React.useState('asc');
@@ -207,7 +38,7 @@ export default function DataTable() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.name);
+            const newSelected = rows.map((n) => n.number);
             setSelected(newSelected);
             return;
         }
@@ -249,7 +80,6 @@ export default function DataTable() {
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
-    // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -261,7 +91,7 @@ export default function DataTable() {
                     <Table
                         sx={{ minWidth: 750 }}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
+                        size='small' //{dense ? 'small' : 'medium'}
                     >
                         <EnhancedTableHead
                             numSelected={selected.length}
@@ -272,12 +102,11 @@ export default function DataTable() {
                             rowCount={rows.length}
                         />
                         <TableBody>
-                            {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
                             {stableSort(rows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
+                                    //console.log(row);
+                                    const isItemSelected = isSelected(row.number);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
@@ -299,6 +128,7 @@ export default function DataTable() {
                                                     }}
                                                 />
                                             </TableCell>
+                                            <TableCell align="center"><RateInput /></TableCell>
                                             <TableCell
                                                 sx={style}
                                                 component="th"
@@ -308,8 +138,6 @@ export default function DataTable() {
                                             >
                                                 {row.number}
                                             </TableCell>
-                                            <TableCell align="center">{row.rate}</TableCell>
-
                                             <TableCell align="center">{row.devision}</TableCell>
                                             <TableCell align="center">{row.deviceId}</TableCell>
                                             <TableCell align="center">{row.fileName}</TableCell>
@@ -331,7 +159,7 @@ export default function DataTable() {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[15]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
@@ -340,10 +168,10 @@ export default function DataTable() {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            <FormControlLabel
+            {/* <FormControlLabel
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
                 label="Dense padding"
-            />
+            /> */}
         </Box>
     );
 }
