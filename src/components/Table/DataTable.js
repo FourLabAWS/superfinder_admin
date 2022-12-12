@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import DownloadIcon from '@mui/icons-material/Download';
 import Checkbox from '@mui/material/Checkbox';
 import RateInput from '../Inputs/RateInput';
 // import FormControlLabel from '@mui/material/FormControlLabel';
@@ -28,7 +30,7 @@ export default function DataTable() {
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -168,10 +170,9 @@ export default function DataTable() {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            {/* <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
-            /> */}
+            <div>
+                <Button variant="outlined" className='downloadButton' sx={{ color: '#D3D3D3', borderColor: '#D3D3D3' }} startIcon={<DownloadIcon />}>Download</Button>
+            </div>
         </Box>
     );
 }

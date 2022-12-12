@@ -5,83 +5,102 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import SearchIcon from '@mui/icons-material/Search';
 import KeywordSearch from '../Inputs/SelectInput';
 import SearchField from '../Inputs/TextInput';
 import DateInput from '../Inputs/DateInput';
 import RadioInputs from '../Inputs/RadioInput';
-import RateInput from '../Inputs/RateInput';
+import { radioLabels, ratelabels } from './TableData';
+import './styles.css'
 
-const rowStyle = {
-    border: 1,
-    borderColor: '#aaaaaa'
+
+const headerRowStyle = {
+    background: '#D3D3D3',
 }
 
 const rows = [
     { name: 'Search Keyword' },
     { name: 'Search period' },
     { name: 'Filters' },
-    { name: 'Importance Rate' }
+    { name: 'Rate' }
 ];
+
+const styles = {
+    margin: 2,
+    marginLeft: 40,
+    width: '200px',
+    color: '#D3D3D3',
+    borderColor: '#D3D3D3'
+
+}
 
 export default function FilterTable() {
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableBody>
+        <div>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table" size='small'>
+                    <TableBody sx={{ border: 1, borderColor: '#D3D3D3' }}>
 
-                    <TableRow
-                        key={rows[0].name}
-                        sx={{ 'td, th': rowStyle }}
-                    >
-                        <TableCell component="th" scope="row">
-                            {rows[0].name}
-                        </TableCell>
-                        <TableCell>
-                            <KeywordSearch />
-                        </TableCell>
-                        <TableCell>
-                            <SearchField />
-                        </TableCell>
+                        <TableRow
+                            key={rows[0].name}
+                        >
+                            <TableCell component="th" sx={headerRowStyle}>
+                                {rows[0].name}
+                            </TableCell>
+                            <TableCell>
+                                <KeywordSearch />
+                            </TableCell>
+                            <TableCell>
+                                <SearchField />
+                            </TableCell>
 
-                    </TableRow>
+                        </TableRow>
 
-                    <TableRow
-                        key={rows[1].name}
-                        sx={{ 'td, th': rowStyle }}
-                    >
-                        <TableCell component="th" scope="row">
-                            {rows[1].name}
-                        </TableCell>
-                        <TableCell>
-                            <DateInput />
-                        </TableCell>
-                        <TableCell>
-                            <DateInput />
-                        </TableCell>
-                    </TableRow>
+                        <TableRow
+                            key={rows[1].name}
+                        >
+                            <TableCell component="th" sx={headerRowStyle}>
+                                {rows[1].name}
+                            </TableCell>
+                            <TableCell>
+                                <DateInput />
+                            </TableCell>
+                            <TableCell>
+                                <DateInput />
+                            </TableCell>
+                        </TableRow>
 
-                    <TableRow
-                        key={rows[2].name}
-                        sx={{ 'td, th': rowStyle }}
-                    >
-                        <TableCell component="th" scope="row">
-                            {rows[2].name}
-                        </TableCell>
-                        <TableCell>
-                            <RadioInputs />
-                        </TableCell>
-                        <TableCell>
-                            {rows[3].name}
+                        <TableRow key={rows[2].name}>
+                            <TableCell component="th" sx={headerRowStyle}>
+                                {rows[2].name}
+                            </TableCell>
+                            <TableCell width='30%'>
+                                <RadioInputs labels={radioLabels} />
+                            </TableCell>
 
 
+                            <TableRow>
+                                <TableCell component="th" sx={headerRowStyle} width='40%'>
+                                    {rows[3].name}
+                                </TableCell>
+                                <TableCell sx={{ width: '100%' }}>
+                                    <RadioInputs labels={ratelabels} />
+                                </TableCell>
 
-                        </TableCell>
+                            </TableRow>
 
+                        </TableRow>
 
-                    </TableRow>
+                    </TableBody>
+                </Table>
 
-                </TableBody>
-            </Table>
-        </TableContainer>
+            </TableContainer>
+
+            <div>
+                <Button variant="outlined" sx={styles} startIcon={<SearchIcon />}>Search</Button>
+            </div>
+
+        </div>
     );
 }

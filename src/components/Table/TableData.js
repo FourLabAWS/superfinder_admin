@@ -46,10 +46,22 @@ const headCells = [
     },
 ];
 
+const radioLabels = [
+    { name: 'all' },
+    { name: 'normal' },
+    { name: 'error' }
+
+]
+
+const ratelabels = [
+    { name: 'all' },
+    { name: 'low' },
+    { name: 'high' }
+]
 
 const rows = [
     createData(305, 'high', 'XXXXXX_122222', '1232AAAAZZZZZ', 'AAAAAAAAAAAAA', '40 x 32 cm (12 x 20 inch)', '2022-01-03 12:00'),
     createData(303, 'high', 'XXXXXX_122222', '1232AAAAZZZZZ', 'AAAAAAAAAAAAA', '40 x 32 cm (12 x 20 inch)', '2022-01-03 12:00')
 ];
 
-export { headCells, rows };
+export { headCells, rows, radioLabels, ratelabels };

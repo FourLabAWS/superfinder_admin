@@ -1,0 +1,32 @@
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
+    width: 100%
+}
+
+.css-y70bgx>:not(style) {
+    margin: 0 !important;
+    width: 100% !important;
+
+}
+
+.css-yfjfku-MuiTableCell-root {
+    text-align: center !important;
+}
+
+.css-vtdehq-MuiTableCell-root {
+    padding: 0 !important;
+}
+
+.css-wm0ume-MuiTableCell-root {
+    border-bottom: 0 !important;
+}
+
+.radiodisplay {
+    display: inline-flex;
+    padding: 0;
+    margin: 0;
+    height: 35px;
+}
+
+.radiolabel {
+    margin-top: 6px;
+}

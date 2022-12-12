@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import './styles.css'
+
 
 export default function DateInput() {
     const [value, setValue] = React.useState(null);
@@ -15,7 +17,7 @@ export default function DateInput() {
                 onChange={(newValue) => {
                     setValue(newValue);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => <TextField size="small" {...params} />}
             />
         </LocalizationProvider>
     );
