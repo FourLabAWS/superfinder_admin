@@ -9,8 +9,8 @@ export default function KeywordSearch() {
             size='small'
             id="keywordSearch"
             options={keywords}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="All" />}
+            sx={{ width: '100%' }}
+            renderInput={(params) => <TextField {...params} />}
         />
     );
 }

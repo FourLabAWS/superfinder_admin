@@ -16,7 +16,7 @@ import './styles.css'
 
 
 const headerRowStyle = {
-    background: '#D3D3D3',
+    background: '#f5f5dc',
 }
 
 const rows = [

@@ -3,3 +3,26 @@
     margin-left: 40%;
     width: 200px;
 }
+
+.description {
+    margin-left: -10%;
+    list-style: none;
+    line-height: 2;
+    font-size: 11px;
+}
+
+.title {
+    text-align: center;
+    padding: 1%;
+}
+
+.select {
+    width: 100%;
+    border-color: 'red';
+}
+
+.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input,
+.css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input {
+    height: 8px !important;
+    width: 5px;
+}
