@@ -3,23 +3,33 @@ import Box from '@mui/material/Box';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar';
+import routes from './routes/routes'
 import Dashboard from "./pages/Dashboard";
-import Management from "./pages/Management";
-import ErrorImages from "./pages/ErrorImages";
+import { useNavigate } from 'react-router-dom';
+import { createBrowserHistory } from "history";
 
 import "./App.css";
 
+
+const history = createBrowserHistory();
+
+
 function App() {
+  const isLogged = localStorage.getItem('authenticated');
+
+  console.log(isLogged);
   return (
     <Box sx={{ display: 'flex' }}>
-      <Navbar />
-
+      {isLogged !== true && <Navbar />}
       <BrowserRouter>
-        <Sidebar />
-        <Routes>
-          <Route path="/" element={<Dashboard />}></Route>
-          <Route path="/management" element={<Management />}></Route>
-          <Route path="/errors" element={<ErrorImages />}></Route>
+        {isLogged !== true && <Sidebar />}
+        <Routes history={history}>
+          {routes.map(route => {
+            return (
+              route.path === '/login' && isLogged ? history.push('/') :
+                <Route path={route.path} element={route.component}></Route>
+            )
+          })}
         </Routes>
       </BrowserRouter>
     </Box>

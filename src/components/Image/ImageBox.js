@@ -1,18 +1,22 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import './styles.css'
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import './styles.css'
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    borderRadius: 0
-}));
+const btnStyle = {
+    fontSize: 10,
+    borderRadius: 1,
+    marginLeft: '10%',
+    borderColor: '#9e9e9e',
+    background: '#9e9e9e',
+    color: 'white',
+    "&:hover": {
+        backgroundColor: "#757575",
+        borderColor: '#757575',
+    }
+
+}
 
 
 export default function ImgBox(props) {
@@ -21,41 +25,43 @@ export default function ImgBox(props) {
         <React.Fragment>
             <Grid container spacing={0}>
 
-                <Grid item xs={6} sx={{ borderRight: 1, borderColor: '#D3D3D3' }}>
-                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#f5f5dc' }}>
-                        <div className='title'>Original Image</div>
+                <Grid item xs={6} sx={{ borderRight: 1, borderTop: 1, borderColor: '#D3D3D3' }}>
+                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#eeeeee' }}>
+                        <div className='title'>원본 이미지</div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
                         <Grid item xs={5}>
-                            <img className='imageBox' src={data.origImgPath} />
+                            <img className='imageBox' src={data.origImgPath} alt='default' />
                         </Grid>
                         <Grid item xs={7}>
-                            <Paper elevation={0} square>
-                                <ul className='description'>
-                                    <li>Size: {data.origImgW} x {data.origImgH}</li>
-                                    <li>Volume: {data.origImgV}</li>
-                                    <li>Path: {data.origImgPath}</li>
+                            <Paper elevation={0} square className='description'>
+                                <ul>
+                                    <li>크기: {data.origImgW} x {data.origImgH}</li>
+                                    <li>용량: {data.origImgV}</li>
+                                    <li>형식: {data.origImgPath}</li>
                                 </ul>
+                                <Button variant="outlined" size="large" sx={btnStyle}>이미지 다운로드</Button>
                             </Paper>
                         </Grid>
                     </Grid>
                 </Grid>
 
-                <Grid item xs={6}>
-                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#f5f5dc' }}>
-                        <div className='title'>Converted Image</div>
+                <Grid item xs={6} sx={{ borderRight: 1, borderTop: 1, borderColor: '#D3D3D3' }}>
+                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#eeeeee' }}>
+                        <div className='title'>변환 이미지</div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
                         <Grid item xs={5}>
-                            <img className='imageBox' src={data.convImgPath} />
+                            <img className='imageBox' src={data.convImgPath} alt='converted' />
                         </Grid>
                         <Grid item xs={7}>
-                            <Paper elevation={0} square>
-                                <ul className='description'>
-                                    <li>Size: {data.origImgW} x {data.origImgH}</li>
-                                    <li>Volume: {data.origImgV}</li>
-                                    <li>Path: {data.origImgPath}</li>
+                            <Paper elevation={0} square className='description'>
+                                <ul>
+                                    <li>크기: {data.origImgW} x {data.origImgH}</li>
+                                    <li>용량: {data.origImgV}</li>
+                                    <li>형식: {data.origImgPath}</li>
                                 </ul>
+                                <Button variant="outlined" size="large" sx={btnStyle}>이미지 다운로드</Button>
                             </Paper>
                         </Grid>
                     </Grid>

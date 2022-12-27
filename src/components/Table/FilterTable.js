@@ -16,22 +16,22 @@ import './styles.css'
 
 
 const headerRowStyle = {
-    background: '#f5f5dc',
+    background: '#eeeeee',
 }
 
 const rows = [
-    { name: 'Search Keyword' },
-    { name: 'Search period' },
-    { name: 'Filters' },
-    { name: 'Rate' }
+    { name: '검색어' },
+    { name: '검색기간' },
+    { name: '분석 결과' },
+    { name: '중요' }
 ];
 
 const styles = {
     margin: 2,
-    marginLeft: 40,
-    width: '200px',
-    color: '#D3D3D3',
-    borderColor: '#D3D3D3'
+    marginLeft: '40%',
+    width: '150px',
+    color: '#9e9e9e',
+    borderColor: '#9e9e9e'
 
 }
 
@@ -78,8 +78,6 @@ export default function FilterTable() {
                             <TableCell width='30%'>
                                 <RadioInputs labels={radioLabels} />
                             </TableCell>
-
-
                             <TableRow>
                                 <TableCell component="th" sx={headerRowStyle} width='40%'>
                                     {rows[3].name}
@@ -87,18 +85,14 @@ export default function FilterTable() {
                                 <TableCell sx={{ width: '100%' }}>
                                     <RadioInputs labels={ratelabels} />
                                 </TableCell>
-
                             </TableRow>
-
                         </TableRow>
-
                     </TableBody>
                 </Table>
-
             </TableContainer>
 
             <div>
-                <Button variant="outlined" sx={styles} startIcon={<SearchIcon />}>Search</Button>
+                <Button variant="outlined" sx={styles} startIcon={<SearchIcon />}>검색</Button>
             </div>
 
         </div>

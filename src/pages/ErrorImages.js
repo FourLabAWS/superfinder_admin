@@ -1,12 +1,9 @@
 import React from "react";
-import Toolbar from '@mui/material/Toolbar';
+import Container from "../components/Container/ErrorImage";
 
 const ErrorImages = () => {
     return (
-        <div>
-            <Toolbar />
-            <h1>Error Images page</h1>
-        </div>
+        <Container />
     )
 }
 export default ErrorImages;

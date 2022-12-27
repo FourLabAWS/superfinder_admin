@@ -10,7 +10,7 @@ const style = {
     padding: 2,
 };
 const headingTextStyle = {
-    fontWeight: 500,
+    fontWeight: 550,
 }
 
 export default function Container() {
@@ -23,14 +23,14 @@ export default function Container() {
             <Toolbar />
             <Typography variant="h7" noWrap component="div"
                 sx={headingTextStyle}>
-                Search Image
+                이미지 검색
             </Typography>
             <br />
             <FilterTable />
             <Toolbar />
             <Typography variant="h7" noWrap component="div"
                 sx={headingTextStyle}>
-                Image List (Total cases: ##)
+                이미지리스트 (총 건수 : ##건) 
             </Typography>
             <Divider sx={style} />
             <DataTable />

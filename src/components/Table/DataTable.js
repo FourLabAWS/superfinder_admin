@@ -11,11 +11,14 @@ import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
 import Checkbox from '@mui/material/Checkbox';
 import RateInput from '../Inputs/RateInput';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Switch from '@mui/material/Switch';
-import { rows } from './TableData';
-
 import { getComparator, stableSort, EnhancedTableHead } from './TableMethods';
+
+import axios from "axios";
+
+const client = axios.create({
+    baseURL: "https://d3o8if48d7.execute-api.ap-northeast-2.amazonaws.com/v1/getdata"
+});
+
 
 
 const style = {
@@ -25,13 +28,13 @@ const style = {
 
 
 export default function DataTable() {
+    const [rows, setPosts] = React.useState([]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('number');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(15);
-
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -76,14 +79,17 @@ export default function DataTable() {
         setPage(0);
     };
 
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
-
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    //console.log("Rows", rows.length);
+
+    React.useEffect(() => {
+        client.get('/').then((response) => {
+            setPosts(response.data["Items"]);
+        });
+    }, []);
 
     return (
         <Box sx={{ width: '100%' }}>
@@ -108,17 +114,17 @@ export default function DataTable() {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     //console.log(row);
-                                    const isItemSelected = isSelected(row.number);
+                                    const isItemSelected = isSelected(row["id"]["N"]);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.number)}
+                                            onClick={(event) => handleClick(event, row["id"]["N"])}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.number}
+                                            key={row["id"]["N"]}
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
@@ -138,16 +144,17 @@ export default function DataTable() {
                                                 scope="row"
                                                 padding="none"
                                             >
-                                                {row.number}
+                                                {row["id"]["N"]}
                                             </TableCell>
-                                            <TableCell align="center">{row.devision}</TableCell>
-                                            <TableCell align="center">{row.deviceId}</TableCell>
-                                            <TableCell align="center">{row.fileName}</TableCell>
-                                            <TableCell align="center">{row.fileSize}</TableCell>
-                                            <TableCell align="center">{row.date}</TableCell>
+                                            <TableCell align="center">{row["rate"]["S"]}</TableCell>
+                                            <TableCell align="center">{row["device_id"]["S"]}</TableCell>
+                                            <TableCell align="center">{row["original_file"]["S"]}</TableCell>
+                                            <TableCell align="center">{row["file_size"]["S"]}</TableCell>
+                                            <TableCell align="center">{row["registered_date"]["S"]}</TableCell>
                                         </TableRow>
                                     );
                                 })}
+
                             {emptyRows > 0 && (
                                 <TableRow
                                     style={{

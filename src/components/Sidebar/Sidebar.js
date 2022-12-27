@@ -11,16 +11,15 @@ import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import List from '@mui/material/List';
 import Drawer from '@mui/material/Drawer';
 import { Link } from 'react-router-dom';
-
-
-
 import './sidebar.css'
 
 const drawerWidth = 240;
 const SideBarItems = [
-    { name: 'Dashboard', link: '/', icon: <GridViewIcon /> },
-    { name: 'Image Management', link: '/management', icon: <ImageSearchIcon /> },
-    { name: 'Error Images', link: '/errors', icon: <BrokenImageIcon /> }
+    { name: '대시보드', link: '/', icon: <GridViewIcon /> },
+    { name: '전체 이미지 관리', link: '/management', icon: <ImageSearchIcon /> },
+    { name: '오류 이미지 관리', link: '/errors', icon: <BrokenImageIcon /> },
+    { name: '깃발 크기 관리', link: '/errors', icon: <BrokenImageIcon /> }
+
 
 ]
 
@@ -42,7 +41,7 @@ const Sidebar = () => {
             <Toolbar><h3 className="adminText">ADMIN</h3></Toolbar>
 
             <Divider />
-
+            <br />
             <List>
                 {SideBarItems.map((menu) => (
                     <ListItem key={menu.link} disablePadding component={Link} to={menu.link}>
@@ -50,7 +49,7 @@ const Sidebar = () => {
                             <ListItemIcon>
                                 {menu.icon}
                             </ListItemIcon>
-                            <ListItemText primaryTypographyProps={{ fontSize: '13px', color: 'black' }} primary={menu.name} />
+                            <ListItemText primaryTypographyProps={{ fontSize: '13px', color: 'black', fontWeight: 600 }} primary={menu.name} />
                         </ListItemButton>
                     </ListItem>
                 ))}

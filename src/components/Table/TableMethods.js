@@ -77,7 +77,7 @@ function EnhancedTableHead(props) {
                     <TableCell
                         key={headCell.id}
                         sx={style}
-                        align={headCell.id == 'rate' ? 'center' : 'center'}
+                        align={headCell.id === 'rate' ? 'center' : 'center'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >

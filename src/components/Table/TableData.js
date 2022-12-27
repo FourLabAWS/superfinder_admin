@@ -1,67 +1,64 @@
-import { createData } from "./TableMethods";
+import RateInput from '../Inputs/RateInput';
 
 const headCells = [
     {
         id: 'rate',
         numeric: false,
         disablePadding: true,
-        label: 'Rate',
+        label: '중요',
         width: 70,
     },
     {
         id: 'number',
         numeric: true,
         disablePadding: false,
-        label: 'Number',
+        label: '번호',
     },
     {
-        id: 'devision',
+        id: 'analysis',
         numeric: false,
         disablePadding: false,
-        label: 'Devision',
+        label: '분석결과',
     },
     {
         id: 'deviceId',
         numeric: false,
         disablePadding: false,
-        label: 'Deivice ID',
+        label: '디바이스 ID',
     },
     {
         id: 'fileName',
         numeric: false,
         disablePadding: false,
-        label: 'File Name',
+        label: '파일명',
     },
     {
         id: 'fileSize',
         numeric: false,
         disablePadding: false,
-        label: 'File Size',
+        label: '깃발 크기',
     },
     {
         id: 'date',
         numeric: false,
         disablePadding: false,
-        label: 'Date',
+        label: '등록일자',
     },
 ];
 
 const radioLabels = [
-    { name: 'all' },
-    { name: 'normal' },
-    { name: 'error' }
+    { name: '전체' },
+    { name: '정상' },
+    { name: '오류' }
 
 ]
 
 const ratelabels = [
-    { name: 'all' },
-    { name: 'low' },
-    { name: 'high' }
+    { name: '전체' },
+    { name: <RateInput /> },
+    { name: <RateInput /> }
 ]
 
-const rows = [
-    createData(305, 'high', 'XXXXXX_122222', '1232AAAAZZZZZ', 'AAAAAAAAAAAAA', '40 x 32 cm (12 x 20 inch)', '2022-01-03 12:00'),
-    createData(303, 'high', 'XXXXXX_122222', '1232AAAAZZZZZ', 'AAAAAAAAAAAAA', '40 x 32 cm (12 x 20 inch)', '2022-01-03 12:00')
-];
 
-export { headCells, rows, radioLabels, ratelabels };
+
+export { headCells, radioLabels, ratelabels };
