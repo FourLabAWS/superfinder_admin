@@ -9,7 +9,7 @@ const drawerWidth = 240;
 const Navbar = () => {
     return (
         <AppBar
-            style={{ background: 'white' }}
+            style={{ background: '#303f9f', color: 'white' }}
             elevation={1}
             color="transparent"
             sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}

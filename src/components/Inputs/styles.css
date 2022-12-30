@@ -23,13 +23,10 @@
 .radiodisplay {
     display: inline-flex;
     padding: 0;
-    margin: 0;
-    height: 35px;
+    margin-top: 0;
+    height: 10px;
 }
 
-.radiolabel {
-    margin-top: 6px;
-}
 
 /* .css-1rbh12d-MuiAutocomplete-root .MuiOutlinedInput-root.MuiInputBase-sizeSmall .MuiAutocomplete-input {
     font-size: 12px;

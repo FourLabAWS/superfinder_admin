@@ -7,16 +7,21 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import './styles.css'
 
 
-export default function DateInput() {
+export default function DateInput(props) {
     const [value, setValue] = React.useState(null);
+
+    const handleInput = (e) => {
+        setValue(e.$d);
+        let date = new Date(e.$d)
+        let formattedDate = date.getFullYear().toString() + '-' + date.getMonth().toString() + '-' + date.getDay()
+        props.setDate(formattedDate);
+    }
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
                 value={value}
-                onChange={(newValue) => {
-                    setValue(newValue);
-                }}
+                onChange={handleInput}
                 renderInput={(params) => <TextField size="small" {...params} />}
             />
         </LocalizationProvider>

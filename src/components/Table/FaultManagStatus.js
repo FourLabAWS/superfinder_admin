@@ -27,35 +27,33 @@ const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
-    color: theme.palette.text.secondary,
     borderRadius: 0,
 }));
 
 
 export default function FaultStatusTable() {
-    console.log(errorData[0].id)
     return (
         <div>
             <Grid container spacing={0}>
                 <Grid item xs={6} sx={headStyle}>
-                    <Item component={Paper} variant='outlined'><strong>미해결</strong></Item>
+                    <Item component={Paper} variant='outlined' sx={{ backgroundColor: '#9fa8da' }}><strong>미해결</strong></Item>
                 </Grid>
                 <Grid item xs={6} sx={{ height: '100%' }}>
-                    <Item component={Paper} variant='outlined'><strong>해결</strong></Item>
+                    <Item component={Paper} variant='outlined' sx={{ backgroundColor: '#9fa8da' }}><strong>해결</strong></Item>
                 </Grid>
             </Grid>
             <Grid container spacing={0}>
                 {errorData.map(data => {
                     return (
-                        <Grid item xs={2} sx={headStyle}>
-                            <Item component={Paper} variant='outlined' key={data.id}>{data.name}</Item>
+                        <Grid item xs={2} sx={headStyle} key={data.id}>
+                            <Item component={Paper} variant='outlined' >{data.name}</Item>
                         </Grid>
                     );
                 })}
                 {solutionData.map(data => {
                     return (
-                        <Grid item xs={2} sx={headStyle}>
-                            <Item component={Paper} variant='outlined' key={data.id}>{data.name}</Item>
+                        <Grid item xs={2} sx={headStyle} key={data.id}>
+                            <Item component={Paper} variant='outlined' >{data.name}</Item>
                         </Grid>
                     );
                 })}

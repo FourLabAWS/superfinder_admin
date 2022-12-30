@@ -47,16 +47,16 @@ const headCells = [
 ];
 
 const radioLabels = [
-    { name: '전체' },
-    { name: '정상' },
-    { name: '오류' }
+    { id: 1, value: 'all', label: '전체' },
+    { id: 2, value: 'normal', label: '정상' },
+    { id: 3, value: 'error', label: '오류' }
 
 ]
 
 const ratelabels = [
-    { name: '전체' },
-    { name: <RateInput /> },
-    { name: <RateInput /> }
+    { id: 1, value: 'all', label: '전체' },
+    { id: 2, value: 'high', label: <RateInput val='1' /> },
+    { id: 3, value: 'low', label: <RateInput val='null' /> }
 ]
 
 

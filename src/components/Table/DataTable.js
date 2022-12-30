@@ -11,30 +11,49 @@ import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
 import Checkbox from '@mui/material/Checkbox';
 import RateInput from '../Inputs/RateInput';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import { useNavigate } from "react-router-dom";
 import { getComparator, stableSort, EnhancedTableHead } from './TableMethods';
-
-import axios from "axios";
-
-const client = axios.create({
-    baseURL: "https://d3o8if48d7.execute-api.ap-northeast-2.amazonaws.com/v1/getdata"
-});
-
-
+import { client } from '../../routes/routes';
+import './styles.css'
 
 const style = {
     maxWidth: 70,
     borderStyle: "border-box"
 };
 
+const headingTextStyle = {
+    fontWeight: 550,
+}
 
-export default function DataTable() {
+const btnStyle = {
+    color: 'white',
+    background: '#9fa8da',
+    borderColor: '#9fa8da',
+    "&:hover": {
+        backgroundColor: "#9fa8da",
+        borderColor: '#9e9e9e'
+    }
+}
+
+export default function DataTable(filters) {
+    //console.log('filters', filters);
     const [rows, setPosts] = React.useState([]);
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('number');
+    const [orderBy, setOrderBy] = React.useState('id');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(15);
+    let navigate = useNavigate();
+
+    const routeChange = () => {
+        let path = `/management/` + selected[0];
+        if (selected.length === 1) {
+            navigate(path);
+        }
+    }
+
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -43,7 +62,7 @@ export default function DataTable() {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelected = rows.map((n) => n.number);
+            const newSelected = rows.map((n) => n['id']['N']);
             setSelected(newSelected);
             return;
         }
@@ -83,103 +102,111 @@ export default function DataTable() {
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-    //console.log("Rows", rows.length);
 
     React.useEffect(() => {
-        client.get('/').then((response) => {
+        client.get('getdata').then((response) => {
             setPosts(response.data["Items"]);
         });
     }, []);
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
+        <div>
+            <Typography variant="h7" noWrap component="div"
+                sx={headingTextStyle}>
+                이미지리스트 (총 건수 : {rows.length} 건)
+            </Typography>
+            <Divider sx={{ padding: 2 }} />
+            <Box sx={{ width: '100%' }}>
+                <Paper sx={{ width: '100%', mb: 2 }}>
 
-                <TableContainer>
-                    <Table
-                        sx={{ minWidth: 750 }}
-                        aria-labelledby="tableTitle"
-                        size='small' //{dense ? 'small' : 'medium'}
-                    >
-                        <EnhancedTableHead
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                        />
-                        <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    //console.log(row);
-                                    const isItemSelected = isSelected(row["id"]["N"]);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                    <TableContainer>
+                        <Table
+                            sx={{ minWidth: 750 }}
+                            aria-labelledby="tableTitle"
+                            size='medium' //{dense ? 'small' : 'medium'}
+                        >
+                            <EnhancedTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={rows.length}
+                            />
+                            <TableBody>
+                                {stableSort(rows, getComparator(order, orderBy))
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row, index) => {
+                                        //console.log(row);
+                                        const isItemSelected = isSelected(row["id"]["N"]);
+                                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, row["id"]["N"])}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row["id"]["N"]}
-                                            selected={isItemSelected}
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    color="primary"
-                                                    checked={isItemSelected}
-                                                    inputProps={{
-                                                        'aria-labelledby': labelId,
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center"><RateInput /></TableCell>
-                                            <TableCell
-                                                sx={style}
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={(event) => handleClick(event, row["id"]["N"])}
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={row["id"]["N"]}
+                                                selected={isItemSelected}
                                             >
-                                                {row["id"]["N"]}
-                                            </TableCell>
-                                            <TableCell align="center">{row["rate"]["S"]}</TableCell>
-                                            <TableCell align="center">{row["device_id"]["S"]}</TableCell>
-                                            <TableCell align="center">{row["original_file"]["S"]}</TableCell>
-                                            <TableCell align="center">{row["file_size"]["S"]}</TableCell>
-                                            <TableCell align="center">{row["registered_date"]["S"]}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                                                <TableCell padding="checkbox">
+                                                    <Checkbox
+                                                        color="primary"
+                                                        checked={isItemSelected}
+                                                        inputProps={{
+                                                            'aria-labelledby': labelId,
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center"><RateInput val='null' /></TableCell>
+                                                <TableCell
+                                                    sx={style}
+                                                    component="th"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    padding="none"
+                                                >
+                                                    {row["id"]["N"]}
+                                                </TableCell>
+                                                <TableCell align="center">{row["rate"]["S"]}</TableCell>
+                                                <TableCell align="center">{row["device_id"]["S"]}</TableCell>
+                                                <TableCell align="center">{row["original_file"]["S"]}</TableCell>
+                                                <TableCell align="center">{row["file_size"]["S"]}</TableCell>
+                                                <TableCell align="center">{row["registered_date"]["S"]}</TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
 
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: (dense ? 33 : 53) * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[15]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-            <div>
-                <Button variant="outlined" className='downloadButton' sx={{ color: '#D3D3D3', borderColor: '#D3D3D3' }} startIcon={<DownloadIcon />}>Download</Button>
-            </div>
-        </Box>
+                                {emptyRows > 0 && (
+                                    <TableRow
+                                        style={{
+                                            height: (33) * emptyRows,
+                                        }}
+                                    >
+                                        <TableCell colSpan={6} />
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[15]}
+                        component="div"
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+                <div>
+                    <Button variant="outlined" className='downloadButton' sx={btnStyle} startIcon={<DownloadIcon />}>다운로드</Button>
+                    <Button variant="outlined" className='selectBtn' sx={btnStyle} onClick={routeChange}>분석하다</Button>
+                </div>
+            </Box>
+        </div>
+
     );
 }

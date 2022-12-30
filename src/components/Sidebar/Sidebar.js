@@ -15,10 +15,10 @@ import './sidebar.css'
 
 const drawerWidth = 240;
 const SideBarItems = [
-    { name: '대시보드', link: '/', icon: <GridViewIcon /> },
-    { name: '전체 이미지 관리', link: '/management', icon: <ImageSearchIcon /> },
-    { name: '오류 이미지 관리', link: '/errors', icon: <BrokenImageIcon /> },
-    { name: '깃발 크기 관리', link: '/errors', icon: <BrokenImageIcon /> }
+    { id: 1, name: '대시보드', link: '/', icon: <GridViewIcon sx={{ color: '#5c6bc0' }} /> },
+    //{ id: 2, name: '전체 이미지 관리', link: '/management', icon: <ImageSearchIcon sx={{ color: '#5c6bc0' }} /> },
+    { id: 3, name: '오류 이미지 관리', link: '/errors', icon: <ImageSearchIcon sx={{ color: '#5c6bc0' }} /> },
+    { id: 4, name: '깃발 크기 관리', link: '/errors', icon: <BrokenImageIcon sx={{ color: '#5c6bc0' }} /> }
 
 
 ]
@@ -32,19 +32,19 @@ const Sidebar = () => {
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
                     boxSizing: 'border-box',
+                    //background: '#303f9f',
                 },
             }}
             variant="permanent"
             anchor="left"
-            className="sidebar"
         >
-            <Toolbar><h3 className="adminText">ADMIN</h3></Toolbar>
+            <Toolbar sx={{ background: '#303f9f', color: 'white' }}><h3 className="adminText">ADMIN</h3></Toolbar>
 
             <Divider />
             <br />
             <List>
                 {SideBarItems.map((menu) => (
-                    <ListItem key={menu.link} disablePadding component={Link} to={menu.link}>
+                    <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
                         <ListItemButton>
                             <ListItemIcon>
                                 {menu.icon}

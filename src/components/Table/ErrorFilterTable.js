@@ -9,10 +9,11 @@ import SearchField from '../Inputs/TextInput';
 import DateInput from '../Inputs/DateInput';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import SearchIcon from '@mui/icons-material/Search';
 import './styles.css'
 
 const tableStyle = {
-    padding: '10%',
+    padding: '6%',
 }
 
 const btnStyle = {
@@ -20,12 +21,12 @@ const btnStyle = {
     marginTop: '10%',
     height: '70%',
     borderRadius: 0,
-    borderColor: '#9e9e9e',
-    background: '#9e9e9e',
+    borderColor: '#7986cb',
+    background: '#7986cb',
     color: 'white',
     "&:hover": {
-        backgroundColor: "#9e9e9e",
-        borderColor: '#9e9e9e',
+        backgroundColor: "#9fa8da",
+        borderColor: '#9fa8da',
     }
 
 }
@@ -66,7 +67,7 @@ export default function ErrorFilter() {
                 </TableContainer>
             </Grid>
             <Grid item xs={2}>
-                <Button variant="outlined" size="large" sx={btnStyle} disableRipple>검색</Button>
+                <Button variant="outlined" size="large" sx={btnStyle} startIcon={<SearchIcon />}>검색</Button>
             </Grid>
         </Grid>
     )

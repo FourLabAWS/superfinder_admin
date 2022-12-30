@@ -36,6 +36,10 @@
     height: none !important;
 }
 
+.selectBtn {
+    float: right;
+}
+
 /* .css-icc45o-MuiPaper-root-MuiPaper-root .css-m18s4g-MuiPaper-root-MuiPaper-root {
     box-shadow: 0 !important;
 } */

@@ -8,25 +8,25 @@ const btnStyle = {
     fontSize: 10,
     borderRadius: 1,
     marginLeft: '10%',
-    borderColor: '#9e9e9e',
-    background: '#9e9e9e',
+    borderColor: '#7986cb',
+    background: '#7986cb',
     color: 'white',
     "&:hover": {
-        backgroundColor: "#757575",
-        borderColor: '#757575',
+        backgroundColor: "#9fa8da",
+        borderColor: '#9fa8da',
     }
 
 }
 
-
 export default function ImgBox(props) {
     const data = props.data
+
     return (
         <React.Fragment>
             <Grid container spacing={0}>
 
                 <Grid item xs={6} sx={{ borderRight: 1, borderTop: 1, borderColor: '#D3D3D3' }}>
-                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#eeeeee' }}>
+                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#e3f2fd' }}>
                         <div className='title'>원본 이미지</div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
@@ -34,7 +34,7 @@ export default function ImgBox(props) {
                             <img className='imageBox' src={data.origImgPath} alt='default' />
                         </Grid>
                         <Grid item xs={7}>
-                            <Paper elevation={0} square className='description'>
+                            <Paper elevation={0} square className='imgdesc'>
                                 <ul>
                                     <li>크기: {data.origImgW} x {data.origImgH}</li>
                                     <li>용량: {data.origImgV}</li>
@@ -47,7 +47,7 @@ export default function ImgBox(props) {
                 </Grid>
 
                 <Grid item xs={6} sx={{ borderRight: 1, borderTop: 1, borderColor: '#D3D3D3' }}>
-                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#eeeeee' }}>
+                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#e3f2fd' }}>
                         <div className='title'>변환 이미지</div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
@@ -55,7 +55,7 @@ export default function ImgBox(props) {
                             <img className='imageBox' src={data.convImgPath} alt='converted' />
                         </Grid>
                         <Grid item xs={7}>
-                            <Paper elevation={0} square className='description'>
+                            <Paper elevation={0} square className='imgdesc'>
                                 <ul>
                                     <li>크기: {data.origImgW} x {data.origImgH}</li>
                                     <li>용량: {data.origImgV}</li>

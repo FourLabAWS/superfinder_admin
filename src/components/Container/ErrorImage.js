@@ -20,20 +20,15 @@ export default function Container() {
             component="main"
             sx={{ flexGrow: 1, bgcolor: 'background.default', p: 2 }}
         >
-            <Toolbar /> 
-            <br/>
+            <Toolbar />
+            <br />
             <Typography variant="h7" noWrap component="div"
                 sx={headingTextStyle}>
                 오류 관리 현황
             </Typography>
-            <br/>
+            <br />
             <FaultStatusTable />
-            <ErrorFilterTable />            
-            <Typography variant="h7" noWrap component="div"
-                sx={headingTextStyle}>
-                오류이미지리스트  (총 건수 : ###건)
-            </Typography>
-            <Divider sx={style} />
+            <ErrorFilterTable />
             <DataTable />
         </Box>
     );

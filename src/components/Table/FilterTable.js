@@ -1,100 +1,165 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import FormGroup from '@mui/material/FormGroup';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 import KeywordSearch from '../Inputs/SelectInput';
-import SearchField from '../Inputs/TextInput';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import DateInput from '../Inputs/DateInput';
 import RadioInputs from '../Inputs/RadioInput';
 import { radioLabels, ratelabels } from './TableData';
+import Toolbar from '@mui/material/Toolbar';
+import DataTable from '../Table/DataTable';
+
 import './styles.css'
 
 
-const headerRowStyle = {
-    background: '#eeeeee',
-}
-
-const rows = [
-    { name: '검색어' },
-    { name: '검색기간' },
-    { name: '분석 결과' },
-    { name: '중요' }
-];
-
-const styles = {
-    margin: 2,
-    marginLeft: '40%',
-    width: '150px',
-    color: '#9e9e9e',
-    borderColor: '#9e9e9e'
+const btnStyle = {
+    width: "100%",
+    fontSize: 12,
+    marginLeft: '10%',
+    height: '100%',
+    borderRadius: 1,
+    borderColor: '#7986cb',
+    background: '#7986cb',
+    color: 'white',
+    "&:hover": {
+        backgroundColor: "#9fa8da",
+        borderColor: '#9fa8da'
+    }
 
 }
+
+
+const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    borderRadius: 0,
+    fontsize: 11
+}));
+
 
 export default function FilterTable() {
+    const [value, setValue] = React.useState("");
+    const [text, setText] = React.useState('');
+    const [startDate, setStartDate] = React.useState('');
+    const [endDate, setEndDate] = React.useState('');
+    const [analysis, setAnalysis] = React.useState('');
+    const [rate, setRate] = React.useState('');
+    let analisLabels = { labels: radioLabels, func: setAnalysis };
+    let rateLabels = { labels: ratelabels, func: setRate };
+    const [params, pushParams] = React.useState({});
+
+
+    const handleFilter = () => {
+        pushParams({
+            keyword: value,
+            text: text,
+            startDate: startDate,
+            endDate: endDate,
+            analysis: analysis,
+            rate: rate
+        });
+    };
+
+    const handleInput = e => {
+        setText(e.target.value);
+    }
+
     return (
         <div>
-            <TableContainer component={Paper}>
-                <Table aria-label="simple table" size='small'>
-                    <TableBody sx={{ border: 1, borderColor: '#D3D3D3' }}>
+            <FormGroup sx={{ width: "80%", marginLeft: "6%" }}>
+                <Grid container spacing={0}>
+                    <Grid item xs={11}>
+                        <Grid container spacing={0}>
+                            <Grid item xs={2}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '59%', background: '#9fa8da' }}>
+                                    검색어
+                                </Item>
+                            </Grid>
+                            <Grid item xs={5}>
+                                <Item component={Paper} variant='outlined'>
+                                    <KeywordSearch setVal={setValue} />
+                                </Item>
+                            </Grid>
+                            <Grid item xs={5}>
+                                <Item component={Paper} variant='outlined'>
+                                    <Box
+                                        component="form"
+                                        sx={{
+                                            '& > :not(style)': { m: 1, width: 300 },
+                                        }}
+                                        noValidate
+                                        autoComplete="off"
+                                    >
+                                        <TextField
+                                            value={text}
+                                            onChange={handleInput}
+                                            id="outlined-basic" variant="outlined" size='small' />
+                                    </Box>
+                                </Item>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={0}>
+                            <Grid item xs={2}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '59%', background: '#9fa8da' }}>
+                                    검색기간
+                                </Item>
+                            </Grid>
+                            <Grid item xs={5}>
+                                <Item component={Paper} variant='outlined'>
+                                    <DateInput setDate={setStartDate} />
+                                </Item>
+                            </Grid>
+                            <Grid item xs={5}>
+                                <Item component={Paper} variant='outlined'>
+                                    <DateInput setDate={setEndDate} />
+                                </Item>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={0}>
+                            <Grid item xs={2}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '58%', background: '#9fa8da' }}>
+                                    분석 결과
+                                </Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '58%' }}>
+                                    <RadioInputs {...analisLabels} />
+                                </Item>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '58%', background: '#9fa8da' }}>
+                                    중요
+                                </Item>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '58%' }}>
+                                    <RadioInputs {...rateLabels} />
+                                </Item>
+                            </Grid>
+                        </Grid>
+                    </Grid>
 
-                        <TableRow
-                            key={rows[0].name}
+                    <Grid item xs={1}>
+                        <Button
+                            variant="outlined" size="large"
+                            sx={btnStyle}
+                            startIcon={<SearchIcon />}
+                            onClick={handleFilter}
                         >
-                            <TableCell component="th" sx={headerRowStyle}>
-                                {rows[0].name}
-                            </TableCell>
-                            <TableCell>
-                                <KeywordSearch />
-                            </TableCell>
-                            <TableCell>
-                                <SearchField />
-                            </TableCell>
+                            검색
+                        </Button>
+                    </Grid>
+                </Grid>
+            </FormGroup>
 
-                        </TableRow>
-
-                        <TableRow
-                            key={rows[1].name}
-                        >
-                            <TableCell component="th" sx={headerRowStyle}>
-                                {rows[1].name}
-                            </TableCell>
-                            <TableCell>
-                                <DateInput />
-                            </TableCell>
-                            <TableCell>
-                                <DateInput />
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow key={rows[2].name}>
-                            <TableCell component="th" sx={headerRowStyle}>
-                                {rows[2].name}
-                            </TableCell>
-                            <TableCell width='30%'>
-                                <RadioInputs labels={radioLabels} />
-                            </TableCell>
-                            <TableRow>
-                                <TableCell component="th" sx={headerRowStyle} width='40%'>
-                                    {rows[3].name}
-                                </TableCell>
-                                <TableCell sx={{ width: '100%' }}>
-                                    <RadioInputs labels={ratelabels} />
-                                </TableCell>
-                            </TableRow>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-            <div>
-                <Button variant="outlined" sx={styles} startIcon={<SearchIcon />}>검색</Button>
-            </div>
-
+            <Toolbar />
+            <DataTable {...params} />
         </div>
     );
 }
