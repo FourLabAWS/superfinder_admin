@@ -46,16 +46,16 @@ export default function ImageTable() {
     const [memo, setMemo] = React.useState(rowData['memo'] !== undefined && rowData['memo']['S']);
 
     React.useEffect(() => {
-        client.get('getdetail').then((response) => {
+        client.get('getdata/' + params['id']).then((response) => {
             setData(response['data']['Item']);
         });
     }, []);
 
-    React.useEffect(() => { rowData['width'] !== undefined && setWidth(rowData['width']['S'].split(' ')[0] * inch * inch) })
-    React.useEffect(() => { rowData['height'] !== undefined && setHeight(rowData['height']['S'].split(' ')[0] * inch * inch) })
-    //if (rowData['width'] !== undefined)
-    console.log(inchW, inchH);
-    //console.log(rowData['width'] !== undefined && rowData['width']['S'].split(' ')[0] * inch);
+    React.useEffect(() => { rowData['flagW'] !== undefined && setWidth(rowData['flagW']['S'].split(' ')[0] * inch * inch) })
+    React.useEffect(() => { rowData['flagH'] !== undefined && setHeight(rowData['flagH']['S'].split(' ')[0] * inch * inch) })
+    // if (rowData['flagW'] !== undefined)
+    // console.log(inchW, inchH);
+    // console.log(rowData['flagW'] !== undefined && rowData['flagW']['S'].split(' ')[0] * inch);
     return (
         <Paper elevation={0} square sx={{ fontSize: 12 }}>
             <FormGroup>
@@ -110,7 +110,7 @@ export default function ImageTable() {
                     </Grid>
                     <Grid item xs={4} >
                         <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                            {rowData['width'] !== undefined && rowData['width']['S']} x {rowData['height'] !== undefined && rowData['height']['S']} = {inchW} x {inchH} inch
+                            {rowData['flagW'] !== undefined && rowData['flagW']['S']} x {rowData['flagH'] !== undefined && rowData['flagH']['S']} = {inchW} x {inchH} inch
                         </Item>
                     </Grid>
                 </Grid>

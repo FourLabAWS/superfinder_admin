@@ -108,7 +108,7 @@ export default function DataTable(filters) {
             setPosts(response.data["Items"]);
         });
     }, []);
-
+    
     return (
         <div>
             <Typography variant="h7" noWrap component="div"
@@ -170,11 +170,21 @@ export default function DataTable(filters) {
                                                 >
                                                     {row["id"]["N"]}
                                                 </TableCell>
-                                                <TableCell align="center">{row["rate"]["S"]}</TableCell>
-                                                <TableCell align="center">{row["device_id"]["S"]}</TableCell>
-                                                <TableCell align="center">{row["original_file"]["S"]}</TableCell>
-                                                <TableCell align="center">{row["file_size"]["S"]}</TableCell>
-                                                <TableCell align="center">{row["registered_date"]["S"]}</TableCell>
+                                                <TableCell align="center">
+                                                    {row['rate'] !== undefined && row['rate']['S']}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row['device_id'] !== undefined && row['device_id']['S']}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row['original_file'] !== undefined && row['original_file']['S']}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row['file_size'] !== undefined && row['file_size']['S']}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row['registered_date'] !== undefined && row['registered_date']['S']}
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     })}
