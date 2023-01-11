@@ -121,7 +121,7 @@ export default function FilterTable() {
                                 </Item>
                             </Grid>
                         </Grid>
-                        <Grid container spacing={0}>
+                        {/* <Grid container spacing={0}>
                             <Grid item xs={2}>
                                 <Item component={Paper} variant='outlined' sx={{ height: '58%', background: '#9fa8da' }}>
                                     분석 결과
@@ -142,7 +142,7 @@ export default function FilterTable() {
                                     <RadioInputs {...rateLabels} />
                                 </Item>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
 
                     <Grid item xs={1}>

@@ -17,12 +17,6 @@ const style = {
 };
 
 
-function createData(number, rate, devision, deviceId, fileName, fileSize, date) {
-    return {
-        number, rate, devision, deviceId, fileName, fileSize, date
-    };
-}
-
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -77,7 +71,7 @@ function EnhancedTableHead(props) {
                     <TableCell
                         key={headCell.id}
                         sx={style}
-                        align={headCell.id === 'rate' ? 'center' : 'center'}
+                        align='center' //{headCell.id === 'number' ? 'center' : 'center'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
@@ -121,4 +115,4 @@ function EnhancedTableToolbar(props) {
 
 
 
-export { createData, getComparator, descendingComparator, stableSort, EnhancedTableHead, EnhancedTableToolbar };
+export { getComparator, descendingComparator, stableSort, EnhancedTableHead, EnhancedTableToolbar };

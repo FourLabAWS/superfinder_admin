@@ -18,7 +18,7 @@ const SideBarItems = [
     { id: 1, name: '대시보드', link: '/', icon: <GridViewIcon sx={{ color: '#5c6bc0' }} /> },
     //{ id: 2, name: '전체 이미지 관리', link: '/management', icon: <ImageSearchIcon sx={{ color: '#5c6bc0' }} /> },
     { id: 3, name: '오류 이미지 관리', link: '/errors', icon: <ImageSearchIcon sx={{ color: '#5c6bc0' }} /> },
-    { id: 4, name: '깃발 크기 관리', link: '/errors', icon: <BrokenImageIcon sx={{ color: '#5c6bc0' }} /> }
+    //{ id: 4, name: '깃발 크기 관리', link: '/errors', icon: <BrokenImageIcon sx={{ color: '#5c6bc0' }} /> }
 
 
 ]

@@ -19,7 +19,7 @@ import { client } from '../../routes/routes';
 import './styles.css'
 
 const style = {
-    maxWidth: 70,
+    maxWidth: 40,
     borderStyle: "border-box"
 };
 
@@ -39,6 +39,9 @@ const btnStyle = {
 
 export default function DataTable(filters) {
     //console.log('filters', filters);
+    const inch = 0.4;
+    const [inchW, setWidth] = React.useState(0);
+    const [inchH, setHeight] = React.useState(0);
     const [rows, setPosts] = React.useState([]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
@@ -108,7 +111,10 @@ export default function DataTable(filters) {
             setPosts(response.data["Items"]);
         });
     }, []);
-    
+
+    // React.useEffect(() => { rows[0]['originW'] !== undefined && setWidth(rows[0]['originW']['S'].split(' ')[0] * inch * inch) })
+    // React.useEffect(() => { rows[0]['originH'] !== undefined && setHeight(rows[0]['originH']['S'].split(' ')[0] * inch * inch) })
+
     return (
         <div>
             <Typography variant="h7" noWrap component="div"
@@ -160,9 +166,9 @@ export default function DataTable(filters) {
                                                         }}
                                                     />
                                                 </TableCell>
-                                                <TableCell align="center"><RateInput val='null' /></TableCell>
                                                 <TableCell
                                                     sx={style}
+                                                    align='center'
                                                     component="th"
                                                     id={labelId}
                                                     scope="row"
@@ -171,16 +177,14 @@ export default function DataTable(filters) {
                                                     {row["id"]["N"]}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    {row['rate'] !== undefined && row['rate']['S']}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    {row['device_id'] !== undefined && row['device_id']['S']}
-                                                </TableCell>
-                                                <TableCell align="center">
                                                     {row['original_file'] !== undefined && row['original_file']['S']}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    {row['file_size'] !== undefined && row['file_size']['S']}
+                                                    {row['golf_field'] !== undefined && row['golf_field']['S']}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row['originW'] !== undefined && row['originW']['S']} x {row['originH'] !== undefined && row['originH']['S']}
+
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     {row['registered_date'] !== undefined && row['registered_date']['S']}

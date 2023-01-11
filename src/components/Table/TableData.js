@@ -1,36 +1,42 @@
 import RateInput from '../Inputs/RateInput';
 
 const headCells = [
-    {
-        id: 'rate',
-        numeric: false,
-        disablePadding: true,
-        label: '중요',
-        width: 70,
-    },
+    // {
+    //     id: 'rate',
+    //     numeric: false,
+    //     disablePadding: true,
+    //     label: '중요',
+    //     width: 70,
+    // },
     {
         id: 'number',
         numeric: true,
         disablePadding: false,
         label: '번호',
     },
-    {
-        id: 'analysis',
-        numeric: false,
-        disablePadding: false,
-        label: '분석결과',
-    },
-    {
-        id: 'deviceId',
-        numeric: false,
-        disablePadding: false,
-        label: '디바이스 ID',
-    },
+    // {
+    //     id: 'analysis',
+    //     numeric: false,
+    //     disablePadding: false,
+    //     label: '분석결과',
+    // },
+    // {
+    //     id: 'deviceId',
+    //     numeric: false,
+    //     disablePadding: false,
+    //     label: '디바이스 ID',
+    // },    
     {
         id: 'fileName',
         numeric: false,
         disablePadding: false,
         label: '파일명',
+    },
+    {
+        id: 'golf_field',
+        numeric: false,
+        disablePadding: false,
+        label: '골프장'
     },
     {
         id: 'fileSize',
