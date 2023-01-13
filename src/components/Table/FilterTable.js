@@ -64,6 +64,7 @@ export default function FilterTable() {
             analysis: analysis,
             rate: rate
         });
+        //console.log(startDate, endDate, value, text);
     };
 
     const handleInput = e => {

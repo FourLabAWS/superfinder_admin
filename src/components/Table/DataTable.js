@@ -38,7 +38,7 @@ const btnStyle = {
 }
 
 export default function DataTable(filters) {
-    //console.log('filters', filters);
+    console.log('filters', filters);
     const inch = 0.4;
     const [inchW, setWidth] = React.useState(0);
     const [inchH, setHeight] = React.useState(0);
@@ -107,7 +107,14 @@ export default function DataTable(filters) {
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     React.useEffect(() => {
-        client.get('getdata').then((response) => {
+        client.get('getdata', {
+            params: {
+                keyword: filters['keyword'],
+                text: filters['text'],
+                startDate: filters['startDate'],
+                endDate: filters['endDate']
+            },
+        }).then((response) => {
             setPosts(response.data["Items"]);
         });
     }, []);
@@ -129,7 +136,7 @@ export default function DataTable(filters) {
                         <Table
                             sx={{ minWidth: 750 }}
                             aria-labelledby="tableTitle"
-                            size='medium' //{dense ? 'small' : 'medium'}
+                            size='medium' //{dense ? 'small' : 'medium'} 
                         >
                             <EnhancedTableHead
                                 numSelected={selected.length}
@@ -184,7 +191,6 @@ export default function DataTable(filters) {
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     {row['originW'] !== undefined && row['originW']['S']} x {row['originH'] !== undefined && row['originH']['S']}
-
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     {row['registered_date'] !== undefined && row['registered_date']['S']}
