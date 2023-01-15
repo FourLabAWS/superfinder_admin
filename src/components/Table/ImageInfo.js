@@ -14,8 +14,6 @@ import { radioLabels } from './TableData'
 import { client } from '../../routes/routes';
 import './styles.css'
 
-const data = { deviceId: '9907d4ac2b298628d83c', name: 'superfinder_jpg', registerDate: '20222-11-09 23:11', flagWidth: 38, flagHeight: 28, golfGround: 'selectInput', origImgW: 1000, origImgH: 1000, origImgV: '2K', convImgW: 100, convImgH: 200, convImgV: '1K', origImgPath: golf, convImgPath: golf }
-
 const btnStyle = {
     fontSize: 10,
     borderRadius: 1,
@@ -53,9 +51,11 @@ export default function ImageTable() {
 
     React.useEffect(() => { rowData['flagW'] !== undefined && setWidth(rowData['flagW']['S'].split(' ')[0] * inch * inch) })
     React.useEffect(() => { rowData['flagH'] !== undefined && setHeight(rowData['flagH']['S'].split(' ')[0] * inch * inch) })
+
     // if (rowData['flagW'] !== undefined)
     // console.log(inchW, inchH);
     // console.log(rowData['flagW'] !== undefined && rowData['flagW']['S'].split(' ')[0] * inch);
+
     return (
         <Paper elevation={0} square sx={{ fontSize: 12 }}>
             <FormGroup>
@@ -120,7 +120,7 @@ export default function ImageTable() {
                         <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>이미지 분석</Item>
                     </Grid>
                     <Grid item xs={11} >
-                        <ImgBox data={data} />
+                        <ImgBox data={rowData} />
                     </Grid>
                 </Grid>
 

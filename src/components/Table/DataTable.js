@@ -18,6 +18,9 @@ import { getComparator, stableSort, EnhancedTableHead } from './TableMethods';
 import { client } from '../../routes/routes';
 import './styles.css'
 
+
+
+
 const style = {
     maxWidth: 40,
     borderStyle: "border-box"
@@ -37,12 +40,12 @@ const btnStyle = {
     }
 }
 
-export default function DataTable(filters) {
-    console.log('filters', filters);
+export default function DataTable(props) {
+    const rows = props.data
     const inch = 0.4;
     const [inchW, setWidth] = React.useState(0);
     const [inchH, setHeight] = React.useState(0);
-    const [rows, setPosts] = React.useState([]);
+    //const [rows, setPosts] = React.useState([]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [selected, setSelected] = React.useState([]);
@@ -56,6 +59,16 @@ export default function DataTable(filters) {
             navigate(path);
         }
     }
+
+    const downloadImage = () => {
+        let dataId = selected[0]
+        const FileSaver = require('file-saver');
+        let path = 'getimage/' + dataId
+        client.get(path, { responseType: 'blob' }).then((response) => {
+            FileSaver.saveAs(response.data, 'file.jpg');
+        })
+    }
+
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -105,19 +118,6 @@ export default function DataTable(filters) {
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-    React.useEffect(() => {
-        client.get('getdata', {
-            params: {
-                keyword: filters['keyword'],
-                text: filters['text'],
-                startDate: filters['startDate'],
-                endDate: filters['endDate']
-            },
-        }).then((response) => {
-            setPosts(response.data["Items"]);
-        });
-    }, []);
 
     // React.useEffect(() => { rows[0]['originW'] !== undefined && setWidth(rows[0]['originW']['S'].split(' ')[0] * inch * inch) })
     // React.useEffect(() => { rows[0]['originH'] !== undefined && setHeight(rows[0]['originH']['S'].split(' ')[0] * inch * inch) })
@@ -222,7 +222,7 @@ export default function DataTable(filters) {
                     />
                 </Paper>
                 <div>
-                    <Button variant="outlined" className='downloadButton' sx={btnStyle} startIcon={<DownloadIcon />}>다운로드</Button>
+                    <Button variant="outlined" className='downloadButton' sx={btnStyle} startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
                     <Button variant="outlined" className='selectBtn' sx={btnStyle} onClick={routeChange}>분석하다</Button>
                 </div>
             </Box>

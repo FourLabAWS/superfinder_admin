@@ -13,6 +13,7 @@ import RadioInputs from '../Inputs/RadioInput';
 import { radioLabels, ratelabels } from './TableData';
 import Toolbar from '@mui/material/Toolbar';
 import DataTable from '../Table/DataTable';
+import { client } from '../../routes/routes';
 
 import './styles.css'
 
@@ -45,13 +46,15 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function FilterTable() {
     const [value, setValue] = React.useState("");
-    const [text, setText] = React.useState('');
-    const [startDate, setStartDate] = React.useState('');
-    const [endDate, setEndDate] = React.useState('');
-    const [analysis, setAnalysis] = React.useState('');
-    const [rate, setRate] = React.useState('');
-    let analisLabels = { labels: radioLabels, func: setAnalysis };
-    let rateLabels = { labels: ratelabels, func: setRate };
+    const [text, setText] = React.useState(" ");
+    const [startDate, setStartDate] = React.useState("");
+    const [endDate, setEndDate] = React.useState("");
+    const [analysis, setAnalysis] = React.useState("");
+    const [rows, setPosts] = React.useState([]);
+    const [rate, setRate] = React.useState("");
+    const [counter, setCount] = React.useState(0);
+    // let analisLabels = { labels: radioLabels, func: setAnalysis };
+    // let rateLabels = { labels: ratelabels, func: setRate };
     const [params, pushParams] = React.useState({});
 
 
@@ -64,12 +67,28 @@ export default function FilterTable() {
             analysis: analysis,
             rate: rate
         });
-        //console.log(startDate, endDate, value, text);
+        console.log('filtering...');
+        client.get('getdata', {
+            params: {
+                keyword: params['keyword'],
+                text: params['text'],
+                startDate: params['startDate'],
+                endDate: params['endDate']
+            },
+        }).then((response) => {
+            setPosts(response.data["Items"]);
+        });
     };
 
     const handleInput = e => {
         setText(e.target.value);
     }
+
+    React.useEffect(() => {
+        client.get('getdata').then((response) => {
+            setPosts(response.data["Items"]);
+        });
+    }, []);
 
     return (
         <div>
@@ -160,7 +179,7 @@ export default function FilterTable() {
             </FormGroup>
 
             <Toolbar />
-            <DataTable {...params} />
+            <DataTable data={rows} />
         </div>
     );
 }
