@@ -9,8 +9,6 @@ import KeywordSearch from '../Inputs/SelectInput';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DateInput from '../Inputs/DateInput';
-import RadioInputs from '../Inputs/RadioInput';
-import { radioLabels, ratelabels } from './TableData';
 import Toolbar from '@mui/material/Toolbar';
 import DataTable from '../Table/DataTable';
 import { client } from '../../routes/routes';
@@ -46,13 +44,13 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function FilterTable() {
     const [value, setValue] = React.useState("");
-    const [text, setText] = React.useState(" ");
+    const [text, setText] = React.useState("");
     const [startDate, setStartDate] = React.useState("");
     const [endDate, setEndDate] = React.useState("");
-    const [analysis, setAnalysis] = React.useState("");
     const [rows, setPosts] = React.useState([]);
-    const [rate, setRate] = React.useState("");
-    const [counter, setCount] = React.useState(0);
+    // const [analysis, setAnalysis] = React.useState("");    
+    // const [rate, setRate] = React.useState("");
+    // const [counter, setCount] = React.useState(0);
     // let analisLabels = { labels: radioLabels, func: setAnalysis };
     // let rateLabels = { labels: ratelabels, func: setRate };
     const [params, pushParams] = React.useState({});
@@ -63,9 +61,7 @@ export default function FilterTable() {
             keyword: value,
             text: text,
             startDate: startDate,
-            endDate: endDate,
-            analysis: analysis,
-            rate: rate
+            endDate: endDate
         });
         console.log('filtering...');
         client.get('getdata', {

@@ -4,9 +4,6 @@ import Toolbar from '@mui/material/Toolbar';
 import FilterTable from '../Table/FilterTable';
 import Typography from '@mui/material/Typography';
 
-const style = {
-    padding: 2,
-};
 const headingTextStyle = {
     fontWeight: 550,
 }

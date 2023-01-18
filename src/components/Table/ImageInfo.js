@@ -9,9 +9,9 @@ import TextField from '@mui/material/TextField';
 import KeywordSearch from '../Inputs/SelectInput';
 import Button from '@mui/material/Button';
 import { useParams } from 'react-router-dom';
-import golf from '../Image/golf.jpg'
 import { radioLabels } from './TableData'
 import { client } from '../../routes/routes';
+import { useNavigate } from "react-router-dom";
 import './styles.css'
 
 const btnStyle = {
@@ -35,6 +35,7 @@ const Item = styled(Paper)(({ theme }) => ({
     fontSize: 12
 }));
 
+
 export default function ImageTable() {
     const inch = 0.39;
     const params = useParams()
@@ -42,6 +43,11 @@ export default function ImageTable() {
     const [inchH, setHeight] = React.useState(0);
     const [rowData, setData] = React.useState({});
     const [memo, setMemo] = React.useState(rowData['memo'] !== undefined && rowData['memo']['S']);
+    let navigate = useNavigate();
+
+    const goToPrev = () => {
+        navigate('/');
+    }
 
     React.useEffect(() => {
         client.get('getdata/' + params['id']).then((response) => {
@@ -49,12 +55,8 @@ export default function ImageTable() {
         });
     }, []);
 
-    React.useEffect(() => { rowData['flagW'] !== undefined && setWidth(rowData['flagW']['S'].split(' ')[0] * inch * inch) })
-    React.useEffect(() => { rowData['flagH'] !== undefined && setHeight(rowData['flagH']['S'].split(' ')[0] * inch * inch) })
-
-    // if (rowData['flagW'] !== undefined)
-    // console.log(inchW, inchH);
-    // console.log(rowData['flagW'] !== undefined && rowData['flagW']['S'].split(' ')[0] * inch);
+    React.useEffect(() => { rowData['flagW'] !== undefined && setWidth(rowData['flagW']['S'].split(' ')[0] * inch * inch) }, [rowData])
+    React.useEffect(() => { rowData['flagH'] !== undefined && setHeight(rowData['flagH']['S'].split(' ')[0] * inch * inch) }, [rowData])
 
     return (
         <Paper elevation={0} square sx={{ fontSize: 12 }}>
@@ -190,6 +192,7 @@ export default function ImageTable() {
             <div >
                 <Button variant="outlined" className='prevButton' size='small'
                     sx={{ color: 'white', borderColor: '#7986cb', background: '#7986cb', marginTop: '3%' }}
+                    onClick={goToPrev}
                 >
                     이전
                 </Button>

@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
 import Checkbox from '@mui/material/Checkbox';
-import RateInput from '../Inputs/RateInput';
+// import RateInput from '../Inputs/RateInput';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from "react-router-dom";
@@ -42,10 +42,6 @@ const btnStyle = {
 
 export default function DataTable(props) {
     const rows = props.data
-    const inch = 0.4;
-    const [inchW, setWidth] = React.useState(0);
-    const [inchH, setHeight] = React.useState(0);
-    //const [rows, setPosts] = React.useState([]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [selected, setSelected] = React.useState([]);
@@ -118,9 +114,6 @@ export default function DataTable(props) {
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-    // React.useEffect(() => { rows[0]['originW'] !== undefined && setWidth(rows[0]['originW']['S'].split(' ')[0] * inch * inch) })
-    // React.useEffect(() => { rows[0]['originH'] !== undefined && setHeight(rows[0]['originH']['S'].split(' ')[0] * inch * inch) })
 
     return (
         <div>

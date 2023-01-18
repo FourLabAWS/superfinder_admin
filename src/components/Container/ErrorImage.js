@@ -1,15 +1,11 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Divider from '@mui/material/Divider';
 import DataTable from '../Table/DataTable';
 import ErrorFilterTable from '../Table/ErrorFilterTable';
 import FaultStatusTable from '../Table/FaultManagStatus';
 import Typography from '@mui/material/Typography';
 
-const style = {
-    padding: 2,
-};
 const headingTextStyle = {
     fontWeight: 550,
 }
