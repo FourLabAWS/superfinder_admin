@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import './styles.css'
 
 export default function KeywordSearch(props) {
-    const keywords = ['디바이스ID', '파일명', '중요성', '골프장', '오류 상태'];
+    const keywords = ['디바이스ID', '파일명', '골프장', '오류 상태'];
     const [value, setValue] = React.useState(keywords[0]);
 
     function handleChange(v) {

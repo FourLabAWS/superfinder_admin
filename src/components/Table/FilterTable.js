@@ -120,7 +120,7 @@ export default function FilterTable() {
                                 </Item>
                             </Grid>
                         </Grid>
-                        <Grid container spacing={0}>
+                        {/* <Grid container spacing={0}>
                             <Grid item xs={2}>
                                 <Item component={Paper} variant='outlined' sx={{ height: '59%', background: '#9fa8da' }}>
                                     검색기간
@@ -136,7 +136,7 @@ export default function FilterTable() {
                                     <DateInput setDate={setEndDate} />
                                 </Item>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                         {/* <Grid container spacing={0}>
                             <Grid item xs={2}>
                                 <Item component={Paper} variant='outlined' sx={{ height: '58%', background: '#9fa8da' }}>
