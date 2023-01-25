@@ -13,7 +13,8 @@ export default function DateInput(props) {
     const handleInput = (e) => {
         setValue(e.$d);
         let date = new Date(e.$d)
-        let formattedDate = date.getFullYear().toString() + '-' + date.getMonth().toString() + '-' + date.getDay()
+        let month = date.getMonth() + 1
+        let formattedDate = date.getFullYear().toString() + '-' + month.toString() + '-' + date.getDate()
         props.setDate(formattedDate);
     }
 
@@ -22,6 +23,7 @@ export default function DateInput(props) {
             <DatePicker
                 value={value}
                 onChange={handleInput}
+                inputFormat="YYYY-MM-DD"
                 renderInput={(params) => <TextField size="small" {...params} />}
             />
         </LocalizationProvider>

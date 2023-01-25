@@ -42,11 +42,22 @@ export default function ImageTable() {
     const [inchW, setWidth] = React.useState(0);
     const [inchH, setHeight] = React.useState(0);
     const [rowData, setData] = React.useState({});
-    const [memo, setMemo] = React.useState(rowData['memo'] !== undefined && rowData['memo']['S']);
+    const [memo, setMemo] = React.useState('');
     let navigate = useNavigate();
 
     const goToPrev = () => {
         navigate('/');
+    }
+
+    const updateItem = () => {
+        const obj = params['id'];
+        const path = 'getdata/update/' + obj;
+        console.log(path, memo)
+        client.patch(path, {
+            body: JSON.stringify(memo)
+        }).then((response) => {
+            console.log(response.data)
+        });
     }
 
     React.useEffect(() => {
@@ -57,6 +68,7 @@ export default function ImageTable() {
 
     React.useEffect(() => { rowData['flagW'] !== undefined && setWidth(rowData['flagW']['S'].split(' ')[0] * inch * inch) }, [rowData])
     React.useEffect(() => { rowData['flagH'] !== undefined && setHeight(rowData['flagH']['S'].split(' ')[0] * inch * inch) }, [rowData])
+    React.useEffect(() => { rowData['memo'] !== undefined && setMemo(rowData['memo']['S']) }, [rowData])
 
     return (
         <Paper elevation={0} square sx={{ fontSize: 12 }}>
@@ -198,6 +210,7 @@ export default function ImageTable() {
                 </Button>
                 <Button variant="outlined" className='downloadButton' size='small'
                     sx={{ color: 'white', borderColor: '#7986cb', background: '#7986cb', marginTop: '3%', float: 'right' }}
+                    onClick={updateItem}
                 >
                     저장
                 </Button>

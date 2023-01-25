@@ -39,7 +39,6 @@ export default function ImgBox(props) {
 
     }
 
-
     return (
         <React.Fragment>
             <Grid container spacing={0}>

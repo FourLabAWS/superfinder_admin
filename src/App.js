@@ -7,7 +7,10 @@ import { routes } from './routes/routes'
 import { createBrowserHistory } from "history";
 
 import "./App.css";
+import moment from 'moment'
 
+require('moment-timezone')
+moment.tz.setDefault('Asia/Seoul')
 
 const history = createBrowserHistory();
 
