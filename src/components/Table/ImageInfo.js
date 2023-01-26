@@ -30,7 +30,7 @@ const btnStyle = {
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     padding: theme.spacing(1),
-    textAlign: 'center',
+    //textAlign: 'center',
     borderRadius: 0,
     fontSize: 12
 }));
@@ -167,12 +167,12 @@ export default function ImageTable() {
                                     </Grid>
                                     <Grid item xs={5} >
                                         <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                                            <TextField id="standard-basic" variant="outlined" size='small'
+                                            <TextField id="standard-basic" variant="standard" size='small'
                                             />
                                         </Item>
                                     </Grid>
                                     <Grid item xs={1} >
-                                        <Item component={Paper} variant='outlined'>
+                                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
                                             <Paper variant='outlined'>
                                                 <Button variant="text" size="small" sx={btnStyle}>확인</Button>
                                             </Paper>
@@ -191,6 +191,7 @@ export default function ImageTable() {
                     <Grid item xs={11} >
                         <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
                             <TextField
+                                sx={{ width: '100%' }}
                                 id="outlined-multiline-static"
                                 multiline
                                 rows={4}

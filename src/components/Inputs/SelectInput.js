@@ -16,12 +16,14 @@ export default function KeywordSearch(props) {
         <Autocomplete
             disablePortal
             size='small'
-            id="keywordSearch"
+            //id="keywordSearch"
+            id="disable-close-on-select"
+            disableCloseOnSelect
             value={value}
             onChange={(e, v) => { handleChange(v) }}
             options={keywords}
             sx={{ width: '100%' }}
-            renderInput={(params) => <TextField {...params} />}
+            renderInput={(params) => <TextField {...params} variant="standard" />}
         />
     );
 }

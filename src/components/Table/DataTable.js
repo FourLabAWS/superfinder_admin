@@ -18,9 +18,6 @@ import { getComparator, stableSort, EnhancedTableHead } from './TableMethods';
 import { client } from '../../routes/routes';
 import './styles.css'
 
-
-
-
 const style = {
     maxWidth: 40,
     borderStyle: "border-box"
@@ -188,6 +185,10 @@ export default function DataTable(props) {
                                                 <TableCell align="center">
                                                     {row['registered_date'] !== undefined && row['registered_date']['S']}
                                                 </TableCell>
+                                                <TableCell align="center">
+                                                    <Button variant="outlined" className='selectBtn' sx={btnStyle} onClick={routeChange}>분석하다</Button>
+                                                    <Button variant="outlined" className='downloadButton' sx={btnStyle} startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -213,11 +214,7 @@ export default function DataTable(props) {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                </Paper>
-                <div>
-                    <Button variant="outlined" className='downloadButton' sx={btnStyle} startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
-                    <Button variant="outlined" className='selectBtn' sx={btnStyle} onClick={routeChange}>분석하다</Button>
-                </div>
+                </Paper>                
             </Box>
         </div>
 

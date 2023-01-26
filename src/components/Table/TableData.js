@@ -50,6 +50,12 @@ const headCells = [
         disablePadding: false,
         label: '등록일자',
     },
+    {
+        id: 'action',
+        numeric: false,
+        disablePadding: false,
+        label: 'Action',
+    },
 ];
 
 const radioLabels = [

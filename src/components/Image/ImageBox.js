@@ -3,6 +3,9 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { client } from '../../routes/routes';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import './styles.css'
 
 const btnStyle = {
@@ -17,6 +20,13 @@ const btnStyle = {
         borderColor: '#9fa8da',
     }
 
+}
+function generate(element) {
+    return [0, 1, 2].map((value) =>
+        React.cloneElement(element, {
+            key: value,
+        }),
+    );
 }
 
 export default function ImgBox(props) {
@@ -53,11 +63,27 @@ export default function ImgBox(props) {
                         </Grid>
                         <Grid item xs={7}>
                             <Paper elevation={0} square className='imgdesc'>
-                                <ul>
-                                    <li>크기: {data['originW'] !== undefined && data['originW']['S']} x {data['originH'] !== undefined && data['originH']['S']}</li>
-                                    <li>용량: {data['origin_file_size'] !== undefined && data['origin_file_size']['S']}</li>
-                                    <li>형식: {data['original_path'] !== undefined && data['original_path']['S']}</li>
-                                </ul>
+                                <List>
+                                    <ListItem>
+                                        <ListItemText
+                                            primary="크기:"
+                                        />
+                                        {data['originW'] !== undefined && data['originW']['S']} x {data['originH'] !== undefined && data['originH']['S']}
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText
+                                            primary="용량:"
+                                        />
+                                        {data['origin_file_size'] !== undefined && data['origin_file_size']['S']}
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText
+                                            primary="형식:"
+                                        />
+                                        {data['original_file'] !== undefined && data['original_file']['S']}
+                                    </ListItem>
+
+                                </List>
                                 <Button variant="outlined" size="large" sx={btnStyle}
                                     onClick={(e) => {
                                         handleImage(e, data['original_path']);
@@ -77,11 +103,32 @@ export default function ImgBox(props) {
                         </Grid>
                         <Grid item xs={7}>
                             <Paper elevation={0} square className='imgdesc'>
-                                <ul>
+                                {/* <ul>
                                     <li>크기: {data['convW'] !== undefined && data['convW']['S']} x {data['convH'] !== undefined && data['convH']['S']}</li>
                                     <li>용량: {data['conv_file_size'] !== undefined && data['conv_file_size']['S']}</li>
                                     <li>형식: {data['converted_path'] !== undefined && data['converted_path']['S']}</li>
-                                </ul>
+                                </ul> */}
+                                <List>
+                                    <ListItem>
+                                        <ListItemText
+                                            primary="크기:"
+                                        />
+                                        {data['convW'] !== undefined && data['convW']['S']} x {data['convH'] !== undefined && data['convH']['S']}
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText
+                                            primary="용량:"
+                                        />
+                                        {data['conv_file_size'] !== undefined && data['conv_file_size']['S']}
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText
+                                            primary="형식:"
+                                        />
+                                        {data['converted_file'] !== undefined && data['converted_file']['S']}
+                                    </ListItem>
+
+                                </List>
                                 <Button variant="outlined" size="large" sx={btnStyle} onClick={(e) => {
                                     handleImage(e, data['converted_path']);
                                 }}>이미지 다운로드</Button>

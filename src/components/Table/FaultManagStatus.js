@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-
 const errorData = [
     { id: 1, name: '깃발 찾지 못함 0건' },
     { id: 2, name: '이미지 문제 0건' },
@@ -29,6 +28,7 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     borderRadius: 0,
 }));
+
 
 
 export default function FaultStatusTable() {

@@ -91,17 +91,17 @@ export default function FilterTable() {
                 <Grid container spacing={0}>
                     <Grid item xs={11}>
                         <Grid container spacing={0}>
-                            <Grid item xs={2}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '59%', background: '#9fa8da' }}>
+                            {/* <Grid item xs={2}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '60%', background: '#9fa8da' }}>
                                     검색어
                                 </Item>
-                            </Grid>
-                            <Grid item xs={5}>
+                            </Grid> */}
+                            <Grid item xs={6}>
                                 <Item component={Paper} variant='outlined'>
                                     <KeywordSearch setVal={setValue} />
                                 </Item>
                             </Grid>
-                            <Grid item xs={5}>
+                            <Grid item xs={6}>
                                 <Item component={Paper} variant='outlined'>
                                     <Box
                                         component="form"
@@ -114,23 +114,23 @@ export default function FilterTable() {
                                         <TextField
                                             value={text}
                                             onChange={handleInput}
-                                            id="outlined-basic" variant="outlined" size='small' />
+                                            id="outlined-basic" variant="standard" size='small' />
                                     </Box>
                                 </Item>
                             </Grid>
                         </Grid>
                         <Grid container spacing={0}>
-                            <Grid item xs={2}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '59%', background: '#9fa8da' }}>
+                            {/* <Grid item xs={1}>
+                                <Item component={Paper} variant='outlined' sx={{ height: '61%', background: '#9fa8da' }}>
                                     검색기간
                                 </Item>
-                            </Grid>
-                            <Grid item xs={5}>
+                            </Grid> */}
+                            <Grid item xs={6}>
                                 <Item component={Paper} variant='outlined'>
                                     <DateInput setDate={setStartDate} />
                                 </Item>
                             </Grid>
-                            <Grid item xs={5}>
+                            <Grid item xs={6}>
                                 <Item component={Paper} variant='outlined'>
                                     <DateInput setDate={setEndDate} />
                                 </Item>
