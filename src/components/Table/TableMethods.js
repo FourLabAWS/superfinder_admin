@@ -73,7 +73,7 @@ function EnhancedTableHead(props) {
                         sx={style}
                         align='center' //{headCell.id === 'number' ? 'center' : 'center'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
+                        sortDirection={orderBy === headCell.id ? order : true}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}

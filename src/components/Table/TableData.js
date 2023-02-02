@@ -36,7 +36,7 @@ const headCells = [
         id: 'golf_field',
         numeric: false,
         disablePadding: false,
-        label: '골프장'
+        label: '상태'
     },
     {
         id: 'fileSize',

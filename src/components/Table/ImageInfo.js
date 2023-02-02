@@ -37,7 +37,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export default function ImageTable() {
-    const inch = 0.39;
+    const inch = 0.4;
     const params = useParams()
     const [inchW, setWidth] = React.useState(0);
     const [inchH, setHeight] = React.useState(0);
@@ -66,8 +66,8 @@ export default function ImageTable() {
         });
     }, []);
 
-    React.useEffect(() => { rowData['flagW'] !== undefined && setWidth(rowData['flagW']['S'].split(' ')[0] * inch * inch) }, [rowData])
-    React.useEffect(() => { rowData['flagH'] !== undefined && setHeight(rowData['flagH']['S'].split(' ')[0] * inch * inch) }, [rowData])
+    React.useEffect(() => { rowData['flagW'] !== undefined && setWidth(rowData['flagW']['S'].split(' ')[0] * inch) }, [rowData])
+    React.useEffect(() => { rowData['flagH'] !== undefined && setHeight(rowData['flagH']['S'].split(' ')[0] * inch) }, [rowData])
     React.useEffect(() => { rowData['memo'] !== undefined && setMemo(rowData['memo']['S']) }, [rowData])
 
     return (

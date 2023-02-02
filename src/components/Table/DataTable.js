@@ -139,8 +139,7 @@ export default function DataTable(props) {
                             <TableBody>
                                 {stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row, index) => {
-                                        //console.log(row);
+                                    .map((row, index) => {                                        
                                         const isItemSelected = isSelected(row["id"]["N"]);
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -177,7 +176,7 @@ export default function DataTable(props) {
                                                     {row['original_file'] !== undefined && row['original_file']['S']}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    {row['golf_field'] !== undefined && row['golf_field']['S']}
+                                                    {row['error_status'] !== undefined && row['error_status']['S']}
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     {row['originW'] !== undefined && row['originW']['S']} x {row['originH'] !== undefined && row['originH']['S']}
@@ -214,7 +213,7 @@ export default function DataTable(props) {
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                </Paper>                
+                </Paper>
             </Box>
         </div>
 
