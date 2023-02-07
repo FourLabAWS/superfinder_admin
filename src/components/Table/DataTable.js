@@ -64,6 +64,7 @@ export default function DataTable(props) {
 
 
     const handleRequestSort = (event, property) => {
+        console.log("property", property, orderBy)
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -124,7 +125,7 @@ export default function DataTable(props) {
 
                     <TableContainer>
                         <Table
-                            sx={{ minWidth: 750 }}
+                            sx={{ minWidth: 650 }}
                             aria-labelledby="tableTitle"
                             size='medium' //{dense ? 'small' : 'medium'} 
                         >
@@ -133,23 +134,21 @@ export default function DataTable(props) {
                                 order={order}
                                 orderBy={orderBy}
                                 onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
                                 rowCount={rows.length}
+                                onRequestSort={handleRequestSort}
                             />
                             <TableBody>
                                 {stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row, index) => {                                        
+                                    .map((row, index) => {
                                         const isItemSelected = isSelected(row["id"]["N"]);
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
                                         return (
                                             <TableRow
-                                                hover
+                                                sx={{ background: row["error_status"]["S"] === "unsuccess" && '#ffcdd2' }}
                                                 onClick={(event) => handleClick(event, row["id"]["N"])}
-                                                role="checkbox"
                                                 aria-checked={isItemSelected}
-                                                tabIndex={-1}
                                                 key={row["id"]["N"]}
                                                 selected={isItemSelected}
                                             >
@@ -178,15 +177,15 @@ export default function DataTable(props) {
                                                 <TableCell align="center">
                                                     {row['error_status'] !== undefined && row['error_status']['S']}
                                                 </TableCell>
-                                                <TableCell align="center">
+                                                {/* <TableCell align="center">
                                                     {row['originW'] !== undefined && row['originW']['S']} x {row['originH'] !== undefined && row['originH']['S']}
-                                                </TableCell>
+                                                </TableCell> */}
                                                 <TableCell align="center">
                                                     {row['registered_date'] !== undefined && row['registered_date']['S']}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    <Button variant="outlined" className='selectBtn' sx={btnStyle} onClick={routeChange}>분석하다</Button>
-                                                    <Button variant="outlined" className='downloadButton' sx={btnStyle} startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
+                                                    <Button variant="outlined" className='selectBtn' sx={btnStyle} onClick={routeChange} size="small">분석하다</Button>
+                                                    <Button variant="outlined" className='downloadButton' sx={btnStyle} size="small" startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
                                                 </TableCell>
                                             </TableRow>
                                         );

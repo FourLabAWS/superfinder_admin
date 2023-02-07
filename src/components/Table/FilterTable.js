@@ -114,7 +114,7 @@ export default function FilterTable() {
                                         <TextField
                                             value={text}
                                             onChange={handleInput}
-                                            id="outlined-basic" variant="standard" size='small' />
+                                            id="outlined-basic" variant="standard" size="small" />
                                     </Box>
                                 </Item>
                             </Grid>

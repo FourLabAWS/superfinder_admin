@@ -9,7 +9,7 @@ const headCells = [
     //     width: 70,
     // },
     {
-        id: 'number',
+        id: 'id',
         numeric: true,
         disablePadding: false,
         label: '번호',
@@ -33,17 +33,17 @@ const headCells = [
         label: '파일명',
     },
     {
-        id: 'golf_field',
+        id: 'status',
         numeric: false,
         disablePadding: false,
         label: '상태'
     },
-    {
-        id: 'fileSize',
-        numeric: false,
-        disablePadding: false,
-        label: '깃발 크기',
-    },
+    // {
+    //     id: 'fileSize',
+    //     numeric: false,
+    //     disablePadding: false,
+    //     label: '깃발 크기',
+    // },
     {
         id: 'date',
         numeric: false,
