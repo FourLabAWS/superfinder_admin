@@ -2,6 +2,7 @@ import React from "react";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import './navbar.css'
 
 const drawerWidth = 240;
@@ -9,8 +10,8 @@ const drawerWidth = 240;
 const Navbar = () => {
     return (
         <AppBar
-            style={{ background: '#303f9f', color: 'white' }}
-            elevation={1}
+            style={{ background: 'white' }}
+            elevation={0}
             color="transparent"
             sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
         >
@@ -19,7 +20,9 @@ const Navbar = () => {
                     <span><b>Superfinder</b></span>
                 </Typography>
             </Toolbar>
+            <Divider />
         </AppBar>
+
     );
 };
 

@@ -15,12 +15,12 @@ export default function Container() {
             sx={{ flexGrow: 1, bgcolor: 'background.default', p: 2 }}
         >
             <br />
-            <Toolbar />
-            <Typography variant="h7" noWrap component="div"
+            {/* <Toolbar /> */}
+            {/* <Typography variant="h7" noWrap component="div"
                 sx={headingTextStyle}>
                 이미지 검색
             </Typography>
-            <br />
+            <br /> */}
             <FilterTable />
         </Box>
     );

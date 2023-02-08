@@ -12,7 +12,7 @@ import DateInput from '../Inputs/DateInput';
 import Toolbar from '@mui/material/Toolbar';
 import DataTable from '../Table/DataTable';
 import { client } from '../../routes/routes';
-
+import { useNavigate } from "react-router-dom";
 import './styles.css'
 
 
@@ -54,6 +54,8 @@ export default function FilterTable() {
     // let analisLabels = { labels: radioLabels, func: setAnalysis };
     // let rateLabels = { labels: ratelabels, func: setRate };
     const [params, pushParams] = React.useState({});
+    const [selectedRows, setSelectedRows] = React.useState([]);
+    let navigate = useNavigate();
 
 
     const handleFilter = () => {
@@ -79,23 +81,34 @@ export default function FilterTable() {
         setText(e.target.value);
     }
 
+    const routeChange = () => {
+        let path = `/management/` + selectedRows[0]['id'];
+        if (selectedRows.length === 1) {
+            navigate(path);
+        }
+    }
+
     React.useEffect(() => {
         client.get('getdata').then((response) => {
-            setPosts(response.data["Items"]);
+            let data = []
+            response.data["Items"].map((item) => {
+                data.push({
+                    id: item['id']['N'],
+                    fileName: item['original_file']['S'],
+                    status: item['error_status']['S'],
+                    date: item['registered_date']['S']
+                })
+            })
+            setPosts(data);
         });
     }, []);
 
     return (
         <div>
-            <FormGroup sx={{ width: "80%", marginLeft: "6%" }}>
+            {/* <FormGroup sx={{ width: "80%", marginLeft: "6%" }}>
                 <Grid container spacing={0}>
                     <Grid item xs={11}>
                         <Grid container spacing={0}>
-                            {/* <Grid item xs={2}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '60%', background: '#9fa8da' }}>
-                                    검색어
-                                </Item>
-                            </Grid> */}
                             <Grid item xs={6}>
                                 <Item component={Paper} variant='outlined'>
                                     <KeywordSearch setVal={setValue} />
@@ -120,11 +133,6 @@ export default function FilterTable() {
                             </Grid>
                         </Grid>
                         <Grid container spacing={0}>
-                            {/* <Grid item xs={1}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '61%', background: '#9fa8da' }}>
-                                    검색기간
-                                </Item>
-                            </Grid> */}
                             <Grid item xs={6}>
                                 <Item component={Paper} variant='outlined'>
                                     <DateInput setDate={setStartDate} />
@@ -136,28 +144,6 @@ export default function FilterTable() {
                                 </Item>
                             </Grid>
                         </Grid>
-                        {/* <Grid container spacing={0}>
-                            <Grid item xs={2}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '58%', background: '#9fa8da' }}>
-                                    분석 결과
-                                </Item>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '58%' }}>
-                                    <RadioInputs {...analisLabels} />
-                                </Item>
-                            </Grid>
-                            <Grid item xs={2}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '58%', background: '#9fa8da' }}>
-                                    중요
-                                </Item>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Item component={Paper} variant='outlined' sx={{ height: '58%' }}>
-                                    <RadioInputs {...rateLabels} />
-                                </Item>
-                            </Grid>
-                        </Grid> */}
                     </Grid>
 
                     <Grid item xs={1}>
@@ -171,7 +157,7 @@ export default function FilterTable() {
                         </Button>
                     </Grid>
                 </Grid>
-            </FormGroup>
+            </FormGroup> */}
 
             <Toolbar />
             <DataTable data={rows} />

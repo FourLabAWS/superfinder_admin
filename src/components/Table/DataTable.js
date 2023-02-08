@@ -1,27 +1,16 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
-import Checkbox from '@mui/material/Checkbox';
-// import RateInput from '../Inputs/RateInput';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from "react-router-dom";
-import { getComparator, stableSort, EnhancedTableHead } from './TableMethods';
+import { GridApi, GridCellValue } from '@mui/x-data-grid';
+//import { columns } from './TableData';
 import { client } from '../../routes/routes';
+import { DataGrid } from '@mui/x-data-grid';
+import { useNavigate } from "react-router-dom";
+import { darken, lighten } from '@mui/material/styles';
 import './styles.css'
-
-const style = {
-    maxWidth: 40,
-    borderStyle: "border-box"
-};
 
 const headingTextStyle = {
     fontWeight: 550,
@@ -37,24 +26,70 @@ const btnStyle = {
     }
 }
 
+
+
 export default function DataTable(props) {
     const rows = props.data
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('id');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(15);
+    const [selectedRows, setSelectedRows] = React.useState([]);
     let navigate = useNavigate();
 
-    const routeChange = () => {
-        let path = `/management/` + selected[0];
-        if (selected.length === 1) {
-            navigate(path);
-        }
+    function routeChange(data) {
+        let path = `/management/` + data;
+        navigate(path);
+
     }
 
+
+    const columns = [
+        { field: 'id', headerName: '번호', width: 90 },
+        {
+            field: 'fileName',
+            headerName: '파일명',
+            width: 450,
+            editable: true,
+        },
+        {
+            field: 'status',
+            headerName: '상태',
+            width: 200,
+            editable: true,
+        },
+        {
+            field: 'date',
+            headerName: '등록일자',
+            width: 200,
+            editable: true,
+        },
+        {
+            field: 'action',
+            headerName: 'Action',
+            sortable: false,
+            editable: false,
+            renderCell: (params) => {
+                const onClick = (e) => {
+                    e.stopPropagation();
+
+                    const api = params.api;
+                    const thisRow = {};
+
+                    api
+                        .getAllColumns()
+                        .filter((c) => c.field !== '__check__' && !!c)
+                        .forEach(
+                            (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+                        );
+
+                    return routeChange(thisRow["id"]);
+                };
+
+                return <Button onClick={onClick}>분석하다</Button>;
+            },
+        }
+    ];
+
+
     const downloadImage = () => {
-        let dataId = selected[0]
+        let dataId = selectedRows[0]['id']
         const FileSaver = require('file-saver');
         let path = 'getimage/' + dataId
         client.get(path, { responseType: 'blob' }).then((response) => {
@@ -62,56 +97,8 @@ export default function DataTable(props) {
         })
     }
 
-
-    const handleRequestSort = (event, property) => {
-        console.log("property", property, orderBy)
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelected = rows.map((n) => n['id']['N']);
-            setSelected(newSelected);
-            return;
-        }
-        setSelected([]);
-    };
-
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        setSelected(newSelected);
-    };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const isSelected = (name) => selected.indexOf(name) !== -1;
-
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const getBackgroundColor = (color, mode) =>
+        mode === 'dark' ? darken(color, 0.6) : lighten(color, 0.6);
 
     return (
         <div>
@@ -119,102 +106,37 @@ export default function DataTable(props) {
                 sx={headingTextStyle}>
                 이미지리스트 (총 건수 : {rows.length} 건)
             </Typography>
-            <Divider sx={{ padding: 2 }} />
-            <Box sx={{ width: '100%' }}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
+            <Divider sx={{ padding: 2, border: 'none' }} />
+            <Box sx={{
+                height: 860, width: '100%',
+                '& .super-app-theme--unsuccess': {
+                    bgcolor: (theme) =>
+                        getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+                },
+            }}>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={15}
+                    rowHeight={50}
+                    rowsPerPageOptions={[15]}
+                    getRowClassName={(params) => `super-app-theme--${params.row.status}`}
+                    checkboxSelection
+                    experimentalFeatures={{ newEditingApi: true }}
+                    onSelectionModelChange={(ids) => {
+                        const selectedIDs = new Set(ids);
+                        const selectedRows = rows.filter((row) =>
+                            selectedIDs.has(row.id),
+                        );
 
-                    <TableContainer>
-                        <Table
-                            sx={{ minWidth: 650 }}
-                            aria-labelledby="tableTitle"
-                            size='medium' //{dense ? 'small' : 'medium'} 
-                        >
-                            <EnhancedTableHead
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onSelectAllClick={handleSelectAllClick}
-                                rowCount={rows.length}
-                                onRequestSort={handleRequestSort}
-                            />
-                            <TableBody>
-                                {stableSort(rows, getComparator(order, orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row, index) => {
-                                        const isItemSelected = isSelected(row["id"]["N"]);
-                                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                                        return (
-                                            <TableRow
-                                                sx={{ background: row["error_status"]["S"] === "unsuccess" && '#ffcdd2' }}
-                                                onClick={(event) => handleClick(event, row["id"]["N"])}
-                                                aria-checked={isItemSelected}
-                                                key={row["id"]["N"]}
-                                                selected={isItemSelected}
-                                            >
-                                                <TableCell padding="checkbox">
-                                                    <Checkbox
-                                                        color="primary"
-                                                        checked={isItemSelected}
-                                                        inputProps={{
-                                                            'aria-labelledby': labelId,
-                                                        }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell
-                                                    sx={style}
-                                                    align='center'
-                                                    component="th"
-                                                    id={labelId}
-                                                    scope="row"
-                                                    padding="none"
-                                                >
-                                                    {row["id"]["N"]}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    {row['original_file'] !== undefined && row['original_file']['S']}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    {row['error_status'] !== undefined && row['error_status']['S']}
-                                                </TableCell>
-                                                {/* <TableCell align="center">
-                                                    {row['originW'] !== undefined && row['originW']['S']} x {row['originH'] !== undefined && row['originH']['S']}
-                                                </TableCell> */}
-                                                <TableCell align="center">
-                                                    {row['registered_date'] !== undefined && row['registered_date']['S']}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <Button variant="outlined" className='selectBtn' sx={btnStyle} onClick={routeChange} size="small">분석하다</Button>
-                                                    <Button variant="outlined" className='downloadButton' sx={btnStyle} size="small" startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-
-                                {emptyRows > 0 && (
-                                    <TableRow
-                                        style={{
-                                            height: (33) * emptyRows,
-                                        }}
-                                    >
-                                        <TableCell colSpan={6} />
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[15]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                </Paper>
+                        setSelectedRows(selectedRows);
+                    }}
+                />
             </Box>
-        </div>
+            <Divider sx={{ padding: 2, border: 'none' }} />
+            <Button variant="outlined" className='downloadButton' sx={btnStyle} size="small" startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
+            <Button variant="outlined" className='selectBtn' sx={btnStyle} size="small">삭제</Button>
 
+        </div>
     );
 }

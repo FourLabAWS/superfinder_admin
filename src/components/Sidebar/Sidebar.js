@@ -38,7 +38,7 @@ const Sidebar = () => {
             variant="permanent"
             anchor="left"
         >
-            <Toolbar sx={{ background: '#303f9f', color: 'white' }}><h3 className="adminText">ADMIN</h3></Toolbar>
+            <Toolbar sx={{ background: 'white' }}><h3 className="adminText">ADMIN</h3></Toolbar>
 
             <Divider />
             <br />
@@ -55,7 +55,7 @@ const Sidebar = () => {
                 ))}
 
             </List>
-            <Divider />
+
 
         </Drawer>
     )
