@@ -8,9 +8,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import './styles.css'
 
-
-
-
 const btnStyle = {
     fontSize: 10,
     marginLeft: '20%',
@@ -29,7 +26,8 @@ const btnStyle = {
 const adminCreds = { Id: 'admin', pass: 'password' }
 
 export default function Container() {
-    const navigate = useNavigate();
+    let navigate = useNavigate();
+
     const [ID, setID] = React.useState("");
     const [passwd, setPass] = React.useState("");
 
@@ -37,6 +35,9 @@ export default function Container() {
         if (Id === adminCreds.Id && pass === adminCreds.pass) {
             localStorage.setItem('authenticated', true);
             navigate('/');
+            window.location.reload(false);
+
+
         }
     }
 
@@ -57,14 +58,13 @@ export default function Container() {
                                 <TextField
                                     id="outlined-basic"
                                     variant="outlined"
-                                    size='small'
+                                    //size='medium'
                                     value={ID}
                                     onChange={(e) => { setID(e.target.value) }}
                                 />
                             </Grid>
                         </Grid>
-                        <br />
-                        <Grid container spacing={0}>
+                        <Grid container spacing={0} sx={{ marginTop: '2%' }}>
                             <Grid item xs={3}>
                                 PW
                             </Grid>
@@ -72,7 +72,7 @@ export default function Container() {
                                 <TextField
                                     id="outlined-basic"
                                     variant="outlined"
-                                    size='small'
+                                    //size='small'
                                     type='password'
                                     value={passwd}
                                     onChange={(e) => { setPass(e.target.value) }}

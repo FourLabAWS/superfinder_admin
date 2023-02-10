@@ -4,8 +4,6 @@ import Button from '@mui/material/Button';
 import DownloadIcon from '@mui/icons-material/Download';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { GridApi, GridCellValue } from '@mui/x-data-grid';
-//import { columns } from './TableData';
 import { client } from '../../routes/routes';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from "react-router-dom";

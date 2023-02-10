@@ -5,7 +5,6 @@ import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar';
 import { routes } from './routes/routes'
 import { createBrowserHistory } from "history";
-
 import "./App.css";
 import moment from 'moment'
 
@@ -14,11 +13,8 @@ moment.tz.setDefault('Asia/Seoul')
 
 const history = createBrowserHistory();
 
-
-function App() {
-  const isLogged = localStorage.getItem('authenticated');
-  console.log(history)
-  var timeOutInterval = 10;
+function setUpTiming() {
+  var timeOutInterval = 120;
   var now = new Date().getTime();
   var setupTime = localStorage.getItem('setupTime');
   if (setupTime == null) {
@@ -29,24 +25,31 @@ function App() {
       localStorage.setItem('setupTime', now);
     }
   }
+}
 
+
+function App() {
+  const isLogged = localStorage.getItem('authenticated');
   console.log('logged in ', isLogged);
+
+  setUpTiming();
+
   return (
     <Box sx={{ display: 'flex' }}>
-      {isLogged !== true && <Navbar />}
+      {isLogged != null && <Navbar />}
       <BrowserRouter>
-        {isLogged !== true && <Sidebar />}
+        {isLogged != null && <Sidebar />}
         <Routes history={history}>
           {routes.map(route => {
             return (
-              route.path === '/login' && isLogged !== null ? history.push('/') :
-                <Route key={route.id} path={route.path} element={route.component}></Route>
+              <Route key={route.id} path={route.path} element={route.component}></Route>
             )
           })}
         </Routes>
       </BrowserRouter>
     </Box>
   );
+
 }
 
 export default App;

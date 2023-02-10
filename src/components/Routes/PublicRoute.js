@@ -1,15 +1,16 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
-import { isLogin } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
-    return (
-        <Route {...rest} render={props => (
-            isLogin() && restricted ?
-                <Navigate to="/" />
-                : <Component {...props} />
-        )} />
-    );
-};
+function PublicRoute({ children }) {
+    const isLogged = localStorage.getItem('authenticated');
+    const navigate = useNavigate();
+
+    React.useEffect(() => {
+        isLogged && navigate('/');
+    })
+
+    return children;
+
+}
 
 export default PublicRoute;
