@@ -22,6 +22,7 @@ function setUpTiming() {
   } else {
     if (now - setupTime > timeOutInterval * 1000) {
       localStorage.clear()
+      window.location.reload(false);
       localStorage.setItem('setupTime', now);
     }
   }

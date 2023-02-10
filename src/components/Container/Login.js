@@ -23,7 +23,7 @@ const btnStyle = {
 
 }
 
-const adminCreds = { Id: 'admin', pass: 'password' }
+const adminCreds = { Id: 'sadmin', pass: 'superfinder123' }
 
 export default function Container() {
     let navigate = useNavigate();
