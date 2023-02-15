@@ -16,7 +16,7 @@ const Navbar = () => {
             sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
         >
             <Toolbar>
-                <Typography noWrap component="div">
+                <Typography noWrap component="div" variant="h6">
                     <span><b>Superfinder</b></span>
                 </Typography>
             </Toolbar>

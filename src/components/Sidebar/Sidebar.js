@@ -7,7 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import GridViewIcon from '@mui/icons-material/GridView';
 // import BrokenImageIcon from '@mui/icons-material/BrokenImage';
-// import ImageSearchIcon from '@mui/icons-material/ImageSearch';
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import List from '@mui/material/List';
 import Drawer from '@mui/material/Drawer';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,8 @@ import './sidebar.css'
 
 const drawerWidth = 240;
 const SideBarItems = [
-    { id: 1, name: '대시보드', link: '/', icon: <GridViewIcon sx={{ color: '#5c6bc0' }} /> },
+    { id: 1, name: '대시보드', link: '/', icon: <GridViewIcon sx={{ color: '#1976d2' }} /> },
+    { id: 2, name: '전체 이미지 관리', link: '/analysis', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
 ]
 
 const Sidebar = () => {
@@ -27,7 +28,6 @@ const Sidebar = () => {
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
                     boxSizing: 'border-box',
-                    //background: '#303f9f',
                 },
             }}
             variant="permanent"

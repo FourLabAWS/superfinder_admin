@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import FilterTable from '../Table/FilterTable';
 import Typography from '@mui/material/Typography';
-import Stats from '../Table/Stats';
+
 const headingTextStyle = {
     fontWeight: 550,
 }
+
 export default function Container() {
     return (
         <Box
@@ -14,12 +16,12 @@ export default function Container() {
         >
             <br />
             <Toolbar />
-            <Typography variant="h6" noWrap component="div"
+            <Typography variant="h7" noWrap component="div"
                 sx={headingTextStyle}>
-                통계 데이터
+                이미지 검색
             </Typography>
-            <Toolbar />
-            <Stats />
+            <br />
+            <FilterTable />
         </Box>
     );
 }

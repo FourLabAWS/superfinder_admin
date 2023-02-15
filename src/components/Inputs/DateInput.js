@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import dayjs from 'dayjs';
 import './styles.css'
 
@@ -20,12 +21,13 @@ export default function DateInput(props) {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
+            <DesktopDatePicker
                 value={value}
                 onChange={handleInput}
                 inputFormat="YYYY-MM-DD"
                 renderInput={(params) => <TextField
-                    sx={{ width: '100%' }}
+                    InputProps={{ readOnly: true }}
+                    sx={{ width: '100%', svg: { color: '#1976d2' } }}
                     size="small" {...params} variant="outlined" />}
             />
         </LocalizationProvider>

@@ -54,7 +54,7 @@ export default function ImgBox(props) {
             <Grid container spacing={0}>
 
                 <Grid item xs={6} sx={{ borderRight: 1, borderTop: 1, borderColor: '#D3D3D3' }}>
-                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#e3f2fd' }}>
+                    <Grid item xs={12} sx={{ borderBottom: 1, backgroundColor: '#1976d2', color: '#fff' }}>
                         <div className='title'>원본 이미지</div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
@@ -84,7 +84,7 @@ export default function ImgBox(props) {
                                     </ListItem>
 
                                 </List>
-                                <Button variant="outlined" size="large" sx={btnStyle}
+                                <Button variant="contained" size='small'
                                     onClick={(e) => {
                                         handleImage(e, data['original_path']);
                                     }}>이미지 다운로드</Button>
@@ -94,7 +94,7 @@ export default function ImgBox(props) {
                 </Grid>
 
                 <Grid item xs={6} sx={{ borderRight: 1, borderTop: 1, borderColor: '#D3D3D3' }}>
-                    <Grid item xs={12} sx={{ borderBottom: 1, borderColor: '#D3D3D3', backgroundColor: '#e3f2fd' }}>
+                    <Grid item xs={12} sx={{ borderBottom: 1, backgroundColor: '#1976d2', color: '#fff' }}>
                         <div className='title'>변환 이미지</div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
@@ -129,7 +129,7 @@ export default function ImgBox(props) {
                                     </ListItem>
 
                                 </List>
-                                <Button variant="outlined" size="large" sx={btnStyle} onClick={(e) => {
+                                <Button variant="contained" size='small' onClick={(e) => {
                                     handleImage(e, data['converted_path']);
                                 }}>이미지 다운로드</Button>
                             </Paper>

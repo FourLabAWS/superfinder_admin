@@ -20,14 +20,12 @@ const btnStyle = {
     fontSize: 12,
     marginLeft: '50%',
     height: '100%',
-    borderRadius: 1,
-    borderColor: '#7986cb',
-    background: '#7986cb',
-    color: 'white',
-    "&:hover": {
-        backgroundColor: "#9fa8da",
-        borderColor: '#9fa8da'
-    }
+    // borderRadius: 1,    
+    // background: '#2196f3',
+    // color: 'white',
+    // "&:hover": {
+    //     backgroundColor: "#1769aa"
+    // }
 
 }
 
@@ -97,7 +95,7 @@ export default function FilterTable() {
                     <Grid container spacing={1}>
                         <Grid item xs={10}>
                             <Grid container spacing={1}>
-                                <Grid item xs={2} backgroundColor='#e0e0e0' marginTop={1}>
+                                <Grid item xs={2} backgroundColor='#1976d2' color='#fff' marginTop={1}>
                                     <Box component="div" marginLeft='30%'>
                                         검색어
                                     </Box>
@@ -119,7 +117,7 @@ export default function FilterTable() {
                             </Grid>
                             <br />
                             <Grid container spacing={1}>
-                                <Grid item xs={2} backgroundColor='#e0e0e0' marginTop={1}>
+                                <Grid item xs={2} backgroundColor='#1976d2' color='#fff' marginTop={1}>
                                     <Box component="div" marginLeft='28%'>
                                         검색기간
                                     </Box>
@@ -140,7 +138,7 @@ export default function FilterTable() {
 
                         <Grid item xs={2}>
                             <Button
-                                variant="outlined" size="large"
+                                variant="contained" size="large"
                                 sx={btnStyle}
                                 startIcon={<SearchIcon />}
                                 onClick={handleFilter}

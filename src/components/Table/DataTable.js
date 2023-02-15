@@ -14,18 +14,6 @@ const headingTextStyle = {
     fontWeight: 550,
 }
 
-const btnStyle = {
-    color: 'white',
-    background: '#9fa8da',
-    borderColor: '#9fa8da',
-    "&:hover": {
-        backgroundColor: "#9fa8da",
-        borderColor: '#9e9e9e'
-    }
-}
-
-
-
 export default function DataTable(props) {
     const rows = props.data
     const [selectedRows, setSelectedRows] = React.useState([]);
@@ -91,12 +79,15 @@ export default function DataTable(props) {
 
 
     const downloadImage = () => {
-        let dataId = selectedRows[0]['id']
-        const FileSaver = require('file-saver');
-        let path = 'getimage/' + dataId
-        client.get(path, { responseType: 'blob' }).then((response) => {
-            FileSaver.saveAs(response.data, selectedRows[0]['fileName']);
+        selectedRows.map((item) => {
+            let dataId = item['id']
+            const FileSaver = require('file-saver');
+            let path = 'getimage/' + dataId
+            client.get(path, { responseType: 'blob' }).then((response) => {
+                FileSaver.saveAs(response.data, item['fileName']);
+            })
         })
+
     }
 
     const getBackgroundColor = (color, mode) =>
@@ -136,7 +127,7 @@ export default function DataTable(props) {
                 />
             </Box>
             <Divider sx={{ padding: 1, border: 'none' }} />
-            <Button variant="outlined" className='downloadButton' sx={btnStyle} size="small" startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
+            <Button variant="contained" className='downloadButton' startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
             {/* <Button variant="outlined" className='selectBtn' sx={btnStyle} size="small">삭제</Button> */}
 
         </div>

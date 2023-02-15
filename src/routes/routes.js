@@ -1,4 +1,5 @@
 import Dashboard from "../pages/Dashboard";
+import DataTable from "../pages/DataTable";
 import Management from "../pages/Management";
 import Login from '../pages/Login';
 import axios from "axios";
@@ -24,6 +25,11 @@ const routes = [
     },
     {
         id: 3,
+        path: '/analysis',
+        component: <PrivateRoute> <DataTable /> </PrivateRoute>
+    },
+    {
+        id: 4,
         path: '/login',
         component: <PublicRoute> <Login /> </PublicRoute>
     }
