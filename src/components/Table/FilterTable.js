@@ -82,7 +82,8 @@ export default function FilterTable() {
                     fileName: item['original_file']['S'],
                     status: item['error_status']['S'],
                     date: item['registered_date']['S'],
-                    device_id: item['device_id']['S']
+                    device_id: item['device_id']['S'],
+                    flag_size: item['flagH']['S'] + ' x ' + item['flagW']['S']
                 })
             })
             setPosts(data);

@@ -66,21 +66,27 @@ export default function DataTable(props) {
         {
             field: 'status',
             headerName: '상태',
-            width: 200,
+            width: 110,
             editable: true,
         },
         {
             field: 'date',
             headerName: '등록일자',
-            width: 200,
+            width: 140,
             editable: true,
         },
         {
             field: 'device_id',
             headerName: '디바이스 ID',
-            width: 250,
+            width: 200,
             editable: true,
         },
+        {
+            field: 'flag_size',
+            headerName: '깃발 크기',
+            width: 200,
+            editable: true,
+        }
     ];
 
 
@@ -89,7 +95,7 @@ export default function DataTable(props) {
         const FileSaver = require('file-saver');
         let path = 'getimage/' + dataId
         client.get(path, { responseType: 'blob' }).then((response) => {
-            FileSaver.saveAs(response.data, 'file.jpg');
+            FileSaver.saveAs(response.data, selectedRows[0]['fileName']);
         })
     }
 
