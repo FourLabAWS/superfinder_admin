@@ -1,31 +1,32 @@
 import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import './styles.css'
 
-export default function KeywordSearch(props) {
+export default function SelectField(props) {
     const keywords = ['디바이스ID', '파일명', '골프장', '오류 상태'];
     const [value, setValue] = React.useState(keywords[0]);
 
-    function handleChange(v) {
-        setValue(v);
-        props.setVal(v);
-    }
+    function handleChange(e) {
+        setValue(e.target.value);
+        props.setVal(e.target.value);
 
+    }
     return (
-        <Autocomplete
-            disablePortal
-            size='small'
-            //id="keywordSearch"
-            id="disable-close-on-select"
-            disableCloseOnSelect
-            value={value}
-            onChange={(e, v) => { handleChange(v) }}
-            options={keywords}
+        <Select
             sx={{ width: '100%' }}
-            renderInput={(params) => <TextField {...params} variant="standard" />}
-        />
+            size='small'
+            labelId="demo-select-small"
+            id="demo-select-small"
+            value={value}
+            onChange={handleChange}
+        >
+            {keywords.map(key =>
+                <MenuItem value={key} key={key}>
+                    {key}
+                </MenuItem>
+            )}
+        </Select>
+
     );
 }
-
-

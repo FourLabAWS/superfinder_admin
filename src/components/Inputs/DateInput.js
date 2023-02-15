@@ -1,14 +1,14 @@
 import * as React from 'react';
-
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import './styles.css'
 
 
 export default function DateInput(props) {
-    const [value, setValue] = React.useState(null);
+    const [value, setValue] = React.useState(dayjs(new Date()));
 
     const handleInput = (e) => {
         setValue(e.$d);
@@ -24,7 +24,9 @@ export default function DateInput(props) {
                 value={value}
                 onChange={handleInput}
                 inputFormat="YYYY-MM-DD"
-                renderInput={(params) => <TextField size="small" {...params} variant="standard" />}
+                renderInput={(params) => <TextField
+                    sx={{ width: '100%' }}
+                    size="small" {...params} variant="outlined" />}
             />
         </LocalizationProvider>
     );

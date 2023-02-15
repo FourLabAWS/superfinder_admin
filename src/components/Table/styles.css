@@ -21,12 +21,6 @@
     border-color: 'red';
 }
 
-.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input,
-.css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input {
-    height: 8px !important;
-    width: 5px;
-}
-
 .label {
     font-weight: 550;
     font-size: 10;
@@ -36,9 +30,10 @@
     height: none !important;
 }
 
-.selectBtn {
+
+/* .selectBtn {
     float: right;
-}
+} */
 
 /* .css-icc45o-MuiPaper-root-MuiPaper-root .css-m18s4g-MuiPaper-root-MuiPaper-root {
     box-shadow: 0 !important;

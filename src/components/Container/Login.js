@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
@@ -12,13 +10,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import IconButton from '@mui/material/IconButton';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import PasswordIcon from '@mui/icons-material/Password';
 import LockIcon from '@mui/icons-material/Lock';
 import './styles.css'
 
-const btnStyle = {
-    fontSize: 10,
-    //marginLeft: '20%',
+const btnStyle = {    
     width: '100%'
 
 }
@@ -55,7 +50,7 @@ export default function Container() {
                 <Typography variant='h6' sx={{ padding: '3%', marginLeft: '15%' }} color='black'>
                     슈퍼샷/슈퍼파인더 관리자 로그인
                 </Typography>
-                <br/>
+                <br />
                 <Grid container spacing={0} sx={{ width: '70%', marginLeft: '9%' }}>
                     <Grid container spacing={0}>
                         <OutlinedInput
@@ -96,7 +91,7 @@ export default function Container() {
                         />
                     </Grid>
                     <Grid container spacing={0} sx={{ marginTop: '2%' }}>
-                        <Button variant="contained" size="large" sx={btnStyle} onClick={(event) => handleLogin(ID, passwd)}>LOGIN</Button>
+                        <Button variant="contained" size="large" sx={btnStyle} onClick={(event) => handleLogin(ID, passwd)}>로그인</Button>
                     </Grid>
                     <Grid container spacing={0} sx={{ marginTop: '2%' }}>
                         <br />

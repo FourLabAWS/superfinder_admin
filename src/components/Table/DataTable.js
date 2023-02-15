@@ -37,7 +37,6 @@ export default function DataTable(props) {
 
     }
 
-
     const columns = [
         { field: 'id', headerName: '번호', width: 90 },
         {
@@ -45,6 +44,24 @@ export default function DataTable(props) {
             headerName: '파일명',
             width: 450,
             editable: true,
+            renderCell: (params) => {
+                const onClick = (e) => {
+                    e.stopPropagation();
+
+                    const api = params.api;
+                    const thisRow = {};
+
+                    api
+                        .getAllColumns()
+                        .filter((c) => c.field !== '__check__' && !!c)
+                        .forEach(
+                            (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
+                        );
+                    return routeChange(thisRow["id"]);
+
+                };
+                return <Button onClick={onClick}>{params.row['fileName']}</Button>;
+            },
         },
         {
             field: 'status',
@@ -59,30 +76,11 @@ export default function DataTable(props) {
             editable: true,
         },
         {
-            field: 'action',
-            headerName: 'Action',
-            sortable: false,
-            editable: false,
-            renderCell: (params) => {
-                const onClick = (e) => {
-                    e.stopPropagation();
-
-                    const api = params.api;
-                    const thisRow = {};
-
-                    api
-                        .getAllColumns()
-                        .filter((c) => c.field !== '__check__' && !!c)
-                        .forEach(
-                            (c) => (thisRow[c.field] = params.getValue(params.id, c.field)),
-                        );
-
-                    return routeChange(thisRow["id"]);
-                };
-
-                return <Button onClick={onClick}>분석하다</Button>;
-            },
-        }
+            field: 'device_id',
+            headerName: '디바이스 ID',
+            width: 250,
+            editable: true,
+        },
     ];
 
 
@@ -131,9 +129,9 @@ export default function DataTable(props) {
                     }}
                 />
             </Box>
-            <Divider sx={{ padding: 2, border: 'none' }} />
+            <Divider sx={{ padding: 1, border: 'none' }} />
             <Button variant="outlined" className='downloadButton' sx={btnStyle} size="small" startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
-            <Button variant="outlined" className='selectBtn' sx={btnStyle} size="small">삭제</Button>
+            {/* <Button variant="outlined" className='selectBtn' sx={btnStyle} size="small">삭제</Button> */}
 
         </div>
     );
