@@ -31,7 +31,6 @@ export default function DataTable(props) {
             field: 'fileName',
             headerName: '파일명',
             width: 450,
-            editable: true,
             renderCell: (params) => {
                 const onClick = (e) => {
                     e.stopPropagation();
@@ -55,25 +54,21 @@ export default function DataTable(props) {
             field: 'status',
             headerName: '상태',
             width: 110,
-            editable: true,
         },
         {
             field: 'date',
             headerName: '등록일자',
-            width: 140,
-            editable: true,
+            width: 140
         },
         {
             field: 'device_id',
             headerName: '디바이스 ID',
             width: 200,
-            editable: true,
         },
         {
             field: 'flag_size',
             headerName: '깃발 크기',
-            width: 200,
-            editable: true,
+            width: 200
         }
     ];
 
@@ -115,6 +110,7 @@ export default function DataTable(props) {
                     rowsPerPageOptions={[15]}
                     getRowClassName={(params) => `super-app-theme--${params.row.status}`}
                     checkboxSelection
+                    disableSelectionOnClick
                     experimentalFeatures={{ newEditingApi: true }}
                     onSelectionModelChange={(ids) => {
                         const selectedIDs = new Set(ids);
