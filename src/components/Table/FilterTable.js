@@ -11,7 +11,6 @@ import DateInput from '../Inputs/DateInput';
 import Toolbar from '@mui/material/Toolbar';
 import DataTable from '../Table/DataTable';
 import { client } from '../../routes/routes';
-import { useNavigate } from "react-router-dom";
 import './styles.css'
 
 
@@ -19,14 +18,7 @@ const btnStyle = {
     width: "50%",
     fontSize: 12,
     marginLeft: '50%',
-    height: '100%',
-    // borderRadius: 1,    
-    // background: '#2196f3',
-    // color: 'white',
-    // "&:hover": {
-    //     backgroundColor: "#1769aa"
-    // }
-
+    height: '100%'
 }
 
 export default function FilterTable() {
@@ -55,13 +47,16 @@ export default function FilterTable() {
         }).then((response) => {
             let data = []
             response.data["Items"].map((item) => {
-                data.push({
-                    id: item['id']['N'],
-                    fileName: item['original_file']['S'],
-                    status: item['error_status']['S'],
-                    date: item['registered_date']['S'],
-                    device_id: item['device_id']['S']
-                })
+                if (item['deleted']['BOOL'] === false) {
+                    data.push({
+                        id: item['id']['N'],
+                        fileName: item['original_file']['S'],
+                        status: item['error_status']['S'],
+                        date: item['registered_date']['S'],
+                        device_id: item['device_id']['S'],
+                        flag_size: item['flagH']['S'] + ' x ' + item['flagW']['S']
+                    })
+                }
             })
             setPosts(data);
         });
@@ -75,14 +70,16 @@ export default function FilterTable() {
         client.get('getdata').then((response) => {
             let data = []
             response.data["Items"].map((item) => {
-                data.push({
-                    id: item['id']['N'],
-                    fileName: item['original_file']['S'],
-                    status: item['error_status']['S'],
-                    date: item['registered_date']['S'],
-                    device_id: item['device_id']['S'],
-                    flag_size: item['flagH']['S'] + ' x ' + item['flagW']['S']
-                })
+                if (item['deleted']['BOOL'] === false) {
+                    data.push({
+                        id: item['id']['N'],
+                        fileName: item['original_file']['S'],
+                        status: item['error_status']['S'],
+                        date: item['registered_date']['S'],
+                        device_id: item['device_id']['S'],
+                        flag_size: item['flagH']['S'] + ' x ' + item['flagW']['S']
+                    })
+                }
             })
             setPosts(data);
         });

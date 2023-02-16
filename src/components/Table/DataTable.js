@@ -8,6 +8,7 @@ import { client } from '../../routes/routes';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from '@mui/material/styles';
+import DeleteIcon from '@mui/icons-material/Delete';
 import './styles.css'
 
 const headingTextStyle = {
@@ -23,6 +24,15 @@ export default function DataTable(props) {
         let path = `/management/` + data;
         navigate(path);
 
+    }
+
+    const deleteItem = () => {
+        selectedRows.map((item) => {
+            client.delete('delete/' + item['id']).then((response) => {
+                window.location.reload(false);
+                return (response)
+            })
+        })
     }
 
     const columns = [
@@ -124,7 +134,7 @@ export default function DataTable(props) {
             </Box>
             <Divider sx={{ padding: 1, border: 'none' }} />
             <Button variant="contained" className='downloadButton' startIcon={<DownloadIcon />} onClick={downloadImage}>다운로드</Button>
-            {/* <Button variant="outlined" className='selectBtn' sx={btnStyle} size="small">삭제</Button> */}
+            <Button variant="contained" className='selectBtn' sx={{ marginLeft: '2%' }} startIcon={<DeleteIcon />} onClick={deleteItem}>삭제</Button>
 
         </div>
     );

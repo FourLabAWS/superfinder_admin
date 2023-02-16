@@ -6,10 +6,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import GridViewIcon from '@mui/icons-material/GridView';
-// import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import List from '@mui/material/List';
 import Drawer from '@mui/material/Drawer';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import './sidebar.css'
 
@@ -33,7 +33,13 @@ const Sidebar = () => {
             variant="permanent"
             anchor="left"
         >
-            <Toolbar sx={{ background: 'white' }}><h3 className="adminText">ADMIN</h3></Toolbar>
+            <Toolbar sx={{ background: 'white' }}>
+                <Typography variant="h6" fontWeight={600} marginLeft='26%'
+                    component={Link} to='/' color='black' sx={{ textDecoration: 'none' }}
+                >
+                    ADMIN
+                </Typography>
+            </Toolbar>
 
             <Divider />
             <br />
