@@ -87,17 +87,11 @@ export default function ImageTable() {
                 </Grid>
             </FormGroup>
             <div >
-                <Button variant="contained" className='prevButton' size='small'
+                <Button variant="contained" className='prevButton'
                     sx={{ marginTop: '3%' }}
                     onClick={goToPrev}
                 >
                     이전
-                </Button>
-                <Button variant="contained" className='downloadButton' size='small'
-                    sx={{ marginTop: '3%', float: 'right' }}
-                    onClick={updateItem}
-                >
-                    저장
                 </Button>
             </div>
         </Paper>
