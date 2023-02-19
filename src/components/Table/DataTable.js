@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { darken, lighten } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './styles.css'
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
+import JSZipUtils from 'jszip-utils';
 
 const headingTextStyle = {
     fontWeight: 550,
@@ -84,15 +87,22 @@ export default function DataTable(props) {
 
 
     const downloadImage = () => {
+        const zip = new JSZip();
+        const FileSaver = require('file-saver');
         selectedRows.map((item) => {
             let dataId = item['id']
-            const FileSaver = require('file-saver');
             let path = 'getimage/' + dataId
             client.get(path, { responseType: 'blob' }).then((response) => {
-                FileSaver.saveAs(response.data, item['fileName']);
+                //FileSaver.saveAs(response.data, item['fileName']);               
+                console.log('img data', typeof response.data)
+                zip.file(item['fileName'], response.data);
             })
         })
-
+        //console.log(zip.files, zip)
+        zip.generateAsync({ type: "blob" }).then((content) => {
+            console.log(content)
+            saveAs(content, 'flags.zip')
+        })
     }
 
     const getBackgroundColor = (color, mode) =>
@@ -122,6 +132,11 @@ export default function DataTable(props) {
                     checkboxSelection
                     disableSelectionOnClick
                     experimentalFeatures={{ newEditingApi: true }}
+                    initialState={{
+                        sorting: {
+                            sortModel: [{ field: 'date', sort: 'desc' }],
+                        },
+                    }}
                     onSelectionModelChange={(ids) => {
                         const selectedIDs = new Set(ids);
                         const selectedRows = rows.filter((row) =>

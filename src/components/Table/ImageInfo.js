@@ -56,115 +56,34 @@ export default function ImageTable() {
     return (
         <Paper elevation={0} square sx={{ fontSize: 12 }}>
             <FormGroup>
-                <Grid container spacing={0}>
-                    <Grid item xs={3} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}><strong>디바이스 ID</strong></Item>
-                    </Grid>
-                    <Grid item xs={3} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
+                <Grid container spacing={0} component={Paper} padding={2} variant='outlined'>
+                    <Grid container spacing={0} padding='1%' component={Paper} variant='outlined' borderRadius={0}>
+                        <Grid item xs={1} borderRight={1} borderColor='#0000001f'>
+                            <strong>디바이스 ID :</strong>
+                        </Grid>
+                        <Grid item xs={3} >
                             {rowData['device_id'] !== undefined && rowData['device_id']['S']}
-                        </Item>
-                    </Grid>
-                    <Grid item xs={3} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }} ><strong>등록일자</strong></Item>
-                    </Grid>
-                    <Grid item xs={3} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
+                        </Grid>
+                        <Grid item xs={1} >
+                            <strong>등록일자 : </strong>
+                        </Grid>
+                        <Grid item xs={2} >
                             {rowData['registered_date'] !== undefined && rowData['registered_date']['S']}
-                        </Item>
-                    </Grid>
-                </Grid>
-
-                <Grid container spacing={0}>
-                    <Grid container spacing={0} sx={{ borderTop: 1, borderColor: '#D3D3D3' }}>
-                        <Grid item xs={2} >
-                            <Item component={Paper} variant='outlined' sx={{ height: '100%' }}><strong>파일명</strong></Item>
+                        </Grid>
+                        <Grid item xs={1} >
+                            <strong>등록일자 :</strong>
                         </Grid>
                         <Grid item xs={4} >
-                            <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                                {rowData['original_file'] !== undefined && rowData['original_file']['S']}
-                            </Item>
+                            {rowData['flagW'] !== undefined && rowData['flagW']['S']} x {rowData['flagH'] !== undefined && rowData['flagH']['S']} = {inchW} x {inchH} inch
                         </Grid>
+                    </Grid>
 
-                        <Grid item xs={2} >
-                            <Item component={Paper} variant='outlined' sx={{ height: '100%' }} ><strong>깃발 크기</strong></Item>
-                        </Grid>
-                        <Grid item xs={4} >
-                            <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                                {rowData['flagW'] !== undefined && rowData['flagW']['S']} x {rowData['flagH'] !== undefined && rowData['flagH']['S']} = {inchW} x {inchH} inch
-                            </Item>
+                    <Grid container spacing={1} marginTop='1%' padding='2%'>
+                        <Grid className='imagebox'>
+                            <ImgBox data={rowData} />
                         </Grid>
                     </Grid>
-                </Grid>
-                <Grid container spacing={0}>
-                    <Grid item xs={1} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}><strong>이미지 분석</strong></Item>
-                    </Grid>
-                    <Grid item xs={11} >
-                        <ImgBox data={rowData} />
-                    </Grid>
-                </Grid>
 
-                {/* <Grid container spacing={0}>
-                    <Grid item xs={1} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>분석 결과</Item>
-                    </Grid>
-                    <Grid item xs={11}>
-                        <Grid container spacing={0}>
-                            <Grid item xs={12} >
-                                <Item component={Paper} variant='outlined' sx={{ height: '100%' }}><RadioInputs labels={radioLabels} /></Item>
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={0}>
-                            <Grid item xs={1} >
-                                <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>오류 원인</Item>
-                            </Grid>
-                            <Grid item xs={11} >
-                                <Grid container spacing={0}>
-                                    <Grid item xs={3} >
-                                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                                            <KeywordSearch />
-                                        </Item>
-                                    </Grid>
-                                    <Grid item xs={3} >
-                                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                                            <KeywordSearch />
-                                        </Item>
-                                    </Grid>
-                                    <Grid item xs={5} >
-                                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                                            <TextField id="standard-basic" variant="standard" size='small'
-                                            />
-                                        </Item>
-                                    </Grid>
-                                    <Grid item xs={1} >
-                                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                                            <Button variant="contained">확인</Button>
-                                        </Item>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid> */}
-
-                <Grid container spacing={0}>
-                    <Grid item xs={1} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}><strong>메모</strong></Item>
-                    </Grid>
-                    <Grid item xs={11} >
-                        <Item component={Paper} variant='outlined' sx={{ height: '100%' }}>
-                            <TextField
-                                sx={{ width: '100%' }}
-                                id="outlined-multiline-static"
-                                multiline
-                                rows={4}
-                                value={memo}
-                                onChange={(e) => { setMemo(e.target.value) }}
-                            />
-                        </Item>
-                    </Grid>
                 </Grid>
             </FormGroup>
             <div >

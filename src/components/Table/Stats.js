@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
-import PieChart, {
-    Legend,
+import PieChart, {    
     Export,
     Series,
     Label,
@@ -30,12 +29,6 @@ export default function Stats() {
                 dataSource={data}
                 title="Superfinder model performance in 2023"
             >
-                <Legend
-                    orientation="horizontal"
-                    itemTextPosition="right"
-                    horizontalAlignment="center"
-                    verticalAlignment="bottom"
-                    columnCount={4} />
                 <Export enabled={true} />
                 <Series argumentField="item" valueField="num">
                     <Label

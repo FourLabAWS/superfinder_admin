@@ -13,7 +13,7 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LockIcon from '@mui/icons-material/Lock';
 import './styles.css'
 
-const btnStyle = {    
+const btnStyle = {
     width: '100%'
 
 }
@@ -34,6 +34,7 @@ export default function Container() {
     const handleLogin = (Id, pass) => {
         if (Id === adminCreds.Id && pass === adminCreds.pass) {
             localStorage.setItem('authenticated', true);
+            localStorage.setItem('user', Id);
             navigate('/');
             window.location.reload(false);
 
