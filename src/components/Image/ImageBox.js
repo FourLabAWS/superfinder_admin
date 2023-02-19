@@ -56,10 +56,10 @@ export default function ImgBox(props) {
 
                 <Grid item xs={6} component={Paper} variant='outlined' borderRadius={0}>
                     <Grid sx={{ borderBottom: 1, borderColor: '#0000001f' }}>
-                        <div className='title'>원본 이미지</div>
+                        <div className='title'><strong>원본 이미지</strong></div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
-                        <Grid onClick={handleOpenOne}>
+                        <Grid onClick={handleOpenOne} component={Paper} elevation={3}>
                             <img className='imageBox' src={`data:image/jpg;base64,${data['original_img']}`} alt='default' />
                         </Grid>
                         <Modal
@@ -101,10 +101,10 @@ export default function ImgBox(props) {
 
                 <Grid item xs={6} component={Paper} variant='outlined' borderRadius={0}>
                     <Grid sx={{ borderBottom: 1, borderColor: '#0000001f' }}>
-                        <div className='title'>변환 이미지</div>
+                        <div className='title'><strong>변환 이미지</strong></div>
                     </Grid>
                     <Grid container spacing={0} sx={{ padding: 2 }}>
-                        <Grid onClick={handleOpenTwo}>
+                        <Grid onClick={handleOpenTwo} component={Paper} elevation={3}>
                             <img className='imageBox' src={`data:image/jpg;base64,${data['converted_img']}`} alt='converted' />
                         </Grid>
 

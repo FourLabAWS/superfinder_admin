@@ -54,11 +54,11 @@ export default function ImageTable() {
     React.useEffect(() => { rowData['memo'] !== undefined && setMemo(rowData['memo']['S']) }, [rowData])
 
     return (
-        <Paper elevation={0} square sx={{ fontSize: 12 }}>
+        <Paper elevation={0} square sx={{ fontSize: 14 }}>
             <FormGroup>
-                <Grid container spacing={0} component={Paper} padding={2} variant='outlined'>
-                    <Grid container spacing={0} padding='1%' component={Paper} variant='outlined' borderRadius={0}>
-                        <Grid item xs={1} borderRight={1} borderColor='#0000001f'>
+                <Grid container spacing={0} component={Paper} padding={2} variant='outlined' >
+                    <Grid container padding='1%' component={Paper} elevation={2} borderRadius={0} backgroundColor='#1976d2' color='#fff'>
+                        <Grid item xs={1} >
                             <strong>디바이스 ID :</strong>
                         </Grid>
                         <Grid item xs={3} >
@@ -71,7 +71,7 @@ export default function ImageTable() {
                             {rowData['registered_date'] !== undefined && rowData['registered_date']['S']}
                         </Grid>
                         <Grid item xs={1} >
-                            <strong>등록일자 :</strong>
+                            <strong>깃발 크기 :</strong>
                         </Grid>
                         <Grid item xs={4} >
                             {rowData['flagW'] !== undefined && rowData['flagW']['S']} x {rowData['flagH'] !== undefined && rowData['flagH']['S']} = {inchW} x {inchH} inch
