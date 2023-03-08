@@ -1,7 +1,18 @@
 .login {
-    width: 100%;
+  width: 100%;
 }
 
 .logo {
-    margin-left: 25%;
+}
+
+ul {
+  margin: 0;
+  padding: 0 10px;
+  list-style: none;
+}
+
+li {
+  color: gray;
+  font-size: 14px;
+  line-height: 24px;
 }
