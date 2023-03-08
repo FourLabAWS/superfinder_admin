@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import LockIcon from "@mui/icons-material/Lock";
 import "./styles.css";
+import { Box } from "@mui/material";
 
 const btnStyle = {
   width: "100%",
@@ -47,24 +48,24 @@ export default function Container() {
         justifyContent: "center",
       }}
     >
-      <Paper sx={{ padding: "0", width: "40vw" }} elevation={0}>
+      <Paper sx={{ padding: "0", width: "100vw" }} elevation={0}>
         <Grid
           container
           //   spacing={"30px"}
-          gap={"40px"}
+          gap={"48px"}
           justifyContent={"center"}
           m={"0"}
           pt={"60px"}
         >
           <Grid
             container
-            // direction={"column"}
+            direction={"column"}
             justifyContent={"center"}
-            // spacing={"10px"}
+            alignItems={"center"}
           >
-            <Grid container justifyContent={"center"} h={"60px"}>
+            <Box width={"222px"} height={"60px"}>
               <img className="logo" src="Ci_4-lab_com.gif" />
-            </Grid>
+            </Box>
 
             <Typography
               variant="h7"
@@ -87,7 +88,8 @@ export default function Container() {
             direction={"column"}
             justifyContent={"center"}
             spacing={0}
-            minWidth={""}
+            width={"40vw"}
+            minWidth={"280px"}
             maxWidth={"400px"}
             sx={{}}
           >
@@ -155,8 +157,8 @@ export default function Container() {
           </Grid>
 
           {/*  */}
-          <Grid container spacing={0} sx={{}}>
-            <ul>
+          <Grid container spacing={0} sx={{}} justifyContent={"center"}>
+            <ul className="" style={{}}>
               <li>본 시스템은 허가된 사용자만 접근할 수 있습니다.</li>
               <li>계정은 관리자에게 문의해 주세요.</li>
             </ul>
