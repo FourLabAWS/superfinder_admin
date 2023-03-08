@@ -7,6 +7,8 @@ import { routes } from './routes/routes'
 import { createBrowserHistory } from "history";
 import "./App.css";
 import moment from 'moment'
+import SignUpPage from "./components/Container/sign/signUp";
+
 
 require('moment-timezone')
 moment.tz.setDefault('Asia/Seoul')
@@ -46,6 +48,9 @@ function App() {
               <Route key={route.id} path={route.path} element={route.component}></Route>
             )
           })}
+        </Routes>
+        <Routes>          
+          <Route path="/signUp" element={<SignUpPage />}></Route>
         </Routes>
       </BrowserRouter>
     </Box>

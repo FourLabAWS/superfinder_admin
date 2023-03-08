@@ -30,6 +30,10 @@ export default function Container() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  
+  const navigateToSignUp = () => {
+    navigate("/SignUp");
+  };
 
   const handleLogin = (Id, pass) => {
     if (Id === adminCreds.Id && pass === adminCreds.pass) {
@@ -157,6 +161,12 @@ export default function Container() {
           </Grid>
 
           {/*  */}
+          <Grid container spacing={0} sx={{}} justifyContent={"center"}>
+            <ul className="" style={{}}>
+              <li>회원이 아니신가요?</li>
+            </ul>
+            <button onClick={navigateToSignUp}>회원가입</button>
+          </Grid>
           <Grid container spacing={0} sx={{}} justifyContent={"center"}>
             <ul className="" style={{}}>
               <li>본 시스템은 허가된 사용자만 접근할 수 있습니다.</li>
