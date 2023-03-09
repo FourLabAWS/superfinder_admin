@@ -58,10 +58,10 @@ const routes = [
     id: 5,
     path: "/notice",
     component: (
-      <PublicRoute>
+      <PrivateRoute>
         {" "}
         <Notice />{" "}
-      </PublicRoute>
+      </PrivateRoute>
     ),
   },
 ];
