@@ -163,9 +163,9 @@ export default function Container() {
           {/*  */}
           <Grid container spacing={0} sx={{}} justifyContent={"center"}>
             <ul className="" style={{}}>
-              <li>회원이 아니신가요?</li>
+              <li>관리자 계정</li>
             </ul>
-            <button onClick={navigateToSignUp}>회원가입</button>
+            <button onClick={navigateToSignUp}>등록</button>
           </Grid>
           <Grid container spacing={0} sx={{}} justifyContent={"center"}>
             <ul className="" style={{}}>
