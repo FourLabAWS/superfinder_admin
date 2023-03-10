@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "./styles.css";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
+import { ImageModal } from "../Popup";
 // import JSZipUtils from "jszip-utils";
 
 const headingTextStyle = {
@@ -21,8 +22,9 @@ const headingTextStyle = {
 export default function DataTable(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
+  //
   let navigate = useNavigate();
-
+  //
   function routeChange(data) {
     let path = `/management/` + data;
     navigate(path);
@@ -63,7 +65,13 @@ export default function DataTable(props) {
             );
           return routeChange(thisRow["id"]);
         };
-        return <Button onClick={onClick}>{params.row["fileName"]}</Button>;
+        return (
+          <ImageModal
+            btnTxt={params.row["fileName"]}
+            onClick={onClick}
+          ></ImageModal>
+        );
+        // <Butzton onClick={onClick}>{params.row["fileName"]}</Butzton>;
       },
     },
     {
@@ -118,7 +126,7 @@ export default function DataTable(props) {
       <Divider sx={{ padding: 2, border: "none" }} />
       <Box
         sx={{
-          height: 860,
+          height: 600,
           width: "100%",
           "& .super-app-theme--unsuccess": {
             bgcolor: (theme) =>
@@ -132,12 +140,15 @@ export default function DataTable(props) {
         <DataGrid
           rows={rows}
           columns={columns}
+          //
           paginationMode="server"
           keepNonExistentRowsSelected
           pageSize={15}
+          //
           rowHeight={50}
           rowsPerPageOptions={[15]}
           rowSelectionModel={15}
+          //
           getRowClassName={(params) => `super-app-theme--${params.row.status}`}
           checkboxSelection
           disableSelectionOnClick
