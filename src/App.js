@@ -49,9 +49,6 @@ function App() {
             )
           })}
         </Routes>
-        <Routes>          
-          <Route path="/signUp" element={<SignUpPage />}></Route>
-        </Routes>
       </BrowserRouter>
     </Box>
   );

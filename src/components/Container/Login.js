@@ -163,12 +163,6 @@ export default function Container() {
           {/*  */}
           <Grid container spacing={0} sx={{}} justifyContent={"center"}>
             <ul className="" style={{}}>
-              <li>관리자 계정</li>
-            </ul>
-            <button onClick={navigateToSignUp}>등록</button>
-          </Grid>
-          <Grid container spacing={0} sx={{}} justifyContent={"center"}>
-            <ul className="" style={{}}>
               <li>본 시스템은 허가된 사용자만 접근할 수 있습니다.</li>
               <li>계정은 관리자에게 문의해 주세요.</li>
             </ul>

@@ -6,7 +6,7 @@
 //   </div>;
 // };
 
-import "./signUp.css";
+/*import "./signUp.css";
 import "./signCheck.js"
 import React, { useState } from "react";
 import { CognitoUserPool, CognitoUserAttribute } from "amazon-cognito-identity-js";
@@ -77,10 +77,10 @@ function App() {
                 </label><br/>
                   {/* <input type="hidden" name="ENTR_DE" value='0'onChange={handleInputChange} />
                   <input type="hidden" name="MODF_DE" value='0' onChange={handleInputChange} />
-                  <input type="hidden" name="SECE_DE" value='0' onChange={handleInputChange} /> */}
+                  <input type="hidden" name="SECE_DE" value='0' onChange={handleInputChange} /> }
                 <button type="submit">Sign up</button>
               </form>
             </div>
           );
         }
-    export default App;
+    export default App;*/
