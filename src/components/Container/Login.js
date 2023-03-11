@@ -30,10 +30,6 @@ export default function Container() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  
-  const navigateToSignUp = () => {
-    navigate("/SignUp");
-  };
 
   const handleLogin = (Id, pass) => {
     if (Id === adminCreds.Id && pass === adminCreds.pass) {

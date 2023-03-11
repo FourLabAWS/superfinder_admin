@@ -17,7 +17,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "amazon-cognito-identity-js": "^6.1.2",
-    "aws-sdk": "^2.1332.0",
+    "aws-sdk": "^2.1333.0",
     "axios": "^1.2.1",
     "dayjs": "^1.11.6",
     "devextreme": "^22.2.4",

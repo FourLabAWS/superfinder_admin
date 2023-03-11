@@ -7,7 +7,6 @@ import { routes } from './routes/routes'
 import { createBrowserHistory } from "history";
 import "./App.css";
 import moment from 'moment'
-import SignUpPage from "./components/Container/sign/signUp";
 
 
 require('moment-timezone')

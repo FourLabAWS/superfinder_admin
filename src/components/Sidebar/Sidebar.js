@@ -16,6 +16,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
+import AWS from 'aws-sdk';
 
 const drawerWidth = 240;
 
@@ -34,7 +35,8 @@ const SideBarItems = [
   { id: 1, name: '대시보드', link: '/', icon: <GridViewIcon sx={{ color: '#1976d2' }} /> },
   { id: 2, name: '이미지 관리', link: '/analysis', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
   { id: 3, name: '공지사항', link: '/analysis', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
-  { id: 4, name: '관리자 계정 생성', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
+  { id: 4, name: '관리자 계정 조회', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
+  { id: 5, name: '관리자 계정 생성', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
 ];
 
 const Sidebar = () => {
@@ -63,9 +65,43 @@ const Sidebar = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
-    handleCloseModal();
+    createAdminAccount(formData)
+      .then(() => {
+        insertAdminAccount({
+          id: formData.id,
+          password: formData.password,
+          name: formData.name,
+          email: formData.email
+        });
+      });
   };
+  
+  const createAdminAccount = (formData) => {
+    const formDataJson = JSON.stringify(formData);
+    return fetch('', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: formDataJson
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        handleCloseModal();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const insertAdminAccount = (newItem) => {
+    AWS.config.update({
+      accessKeyId: 'AKIA3ILGYDW4ND3L4NPI',
+      secretAccessKey: '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',
+      region: 'ap-northeast-2'
+    });
+  }
   
   return (
     <>
@@ -100,7 +136,7 @@ const Sidebar = () => {
         <List>
           {SideBarItems.map((menu) => (
             <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
-              <ListItemButton onClick={menu.id === 4 ? handleOpenModal : null}>
+              <ListItemButton onClick={menu.id === 5 ? handleOpenModal : null}>
                 <ListItemIcon>{menu.icon}</ListItemIcon>
                 <ListItemText
                   primaryTypographyProps={{
