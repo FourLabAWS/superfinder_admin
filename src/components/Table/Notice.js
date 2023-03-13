@@ -1,3 +1,4 @@
+// Notice.js 양식 (23-03-13)
 import * as React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import Button from '@mui/material/Button';
@@ -9,7 +10,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import DateInput from '../Inputs/DateInput';
 import Toolbar from '@mui/material/Toolbar';
-import DataTable from '../Table/DataTable';
+import NoticeTable from '../Table/NoticeTable';
 import { client } from '../../routes/routes';
 import './styles.css'
 
@@ -21,7 +22,7 @@ const btnStyle = {
     height: '100%'
 }
 
-export default function FilterTable() {
+export default function NoticeList() {
     const [value, setValue] = React.useState("");
     const [text, setText] = React.useState("");
     const [startDate, setStartDate] = React.useState("");
@@ -32,11 +33,12 @@ export default function FilterTable() {
 
     const handleFilter = () => {
 
-        client.get('getNotiList', {
-
-        }).then((response) => {
+        client.get('getNotiList').then((response) => {
             let data = []
             response.data["Items"].map((item) => {
+                data.push({
+                    notiTl: item['NOTI_TL']['S'],
+                })
 
             })
             setPosts(data);
@@ -51,15 +53,12 @@ export default function FilterTable() {
         client.get('getNotiList').then((response) => {
             let data = []
             response.data["Items"].map((item) => {
-                if (item['deleted']['BOOL'] === false) {
-                    data.push({
-                       
-                    })
-                }
+                
             })
             setPosts(data);
         });
     }, []);
+
 
     return (
         <div>
@@ -124,9 +123,7 @@ export default function FilterTable() {
             </FormGroup>
 
             <Toolbar />
-            <DataTable data={rows} />
+            <NoticeTable data={rows} />
         </div>
     );
 }
-
-
