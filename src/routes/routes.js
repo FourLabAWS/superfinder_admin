@@ -1,6 +1,7 @@
 import Dashboard from "../pages/Dashboard";
 import DataTable from "../pages/DataTable";
 import Management from "../pages/Management";
+import Board from "../pages/Board";
 import Login from '../pages/Login';
 import axios from "axios";
 import PublicRoute from "../components/Routes/PublicRoute";
@@ -32,6 +33,11 @@ const routes = [
         id: 4,
         path: '/login',
         component: <PublicRoute> <Login /> </PublicRoute>
+    },
+    {
+        id: 99,
+        path: '/board',
+        component: <PrivateRoute> <Board /> </PrivateRoute>
     }
 ]
 
