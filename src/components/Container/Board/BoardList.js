@@ -88,7 +88,7 @@ export default function DataTable(props) {
       <Typography variant="h7" noWrap component="div" sx={headingTextStyle}>
         목록 (총 건수 : {rows.length} 건)
       </Typography>
-      <Divider sx={{ padding: 2, border: "none" }} />
+      <Divider sx={{ padding: 1, border: "none" }} />
       <Box
         sx={{
           height: 860,

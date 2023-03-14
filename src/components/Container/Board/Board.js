@@ -118,7 +118,8 @@ export default function Container() {
 
                             <Grid item xs={2}>
                                 <Button
-                                    variant="contained" size="large"
+                                    variant="contained" 
+                                    size="large"
                                     sx={btnStyle}
                                     startIcon={<SearchIcon />}
                                     onClick={handleFilter}

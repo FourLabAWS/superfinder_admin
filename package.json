@@ -27,6 +27,7 @@
     "devextreme-react": "^22.2.4",
     "file-saver": "^2.0.5",
     "history": "^5.3.0",
+    "http-proxy-middleware": "^2.0.6",
     "jquery": "^3.6.4",
     "jszip": "^3.10.1",
     "jszip-utils": "^0.1.0",

@@ -39,38 +39,24 @@ const Sidebar = () => {
       variant="permanent"
       anchor="left"
     >
-      <Toolbar sx={{ background: "white" }}>
-        <Typography
-          variant="h6"
-          fontWeight={600}
-          marginLeft="26%"
-          component={Link}
-          to="/"
-          color="black"
-          sx={{ textDecoration: "none" }}
-        >
-          ADMIN
+      <Toolbar sx={{width:"100%", background: "white" }}>
+        <Typography variant="h6" fontWeight={600} component={Link} color="black" sx={{ textDecoration: "none" }} align="center" to="/">
+          SuperFinder Admin
         </Typography>
       </Toolbar>
-
       <Divider />
-      <br />
+      <br/>
       <List>
-        {SideBarItems.map((menu) => (
-          <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
-            <ListItemButton>
-              <ListItemIcon>{menu.icon}</ListItemIcon>
-              <ListItemText
-                primaryTypographyProps={{
-                  fontSize: "13px",
-                  color: "black",
-                  fontWeight: 600,
-                }}
-                primary={menu.name}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {
+          SideBarItems.map((menu) => (
+            <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
+              <ListItemButton>
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primaryTypographyProps={{fontSize: "13px", color: "black", fontWeight: 600}} primary={menu.name}/>
+              </ListItemButton>
+            </ListItem>
+          ))
+        }
       </List>
     </Drawer>
   );

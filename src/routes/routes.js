@@ -9,8 +9,8 @@ import Dashboard from "../pages/Dashboard";
 import DataTable from "../pages/DataTable";
 import Management from "../pages/Management";
 
-import Notice from "../pages/Notice";
-import NotiAdd from "../pages/notice/NotiAdd";
+import Notice from "../pages/notice/Notice";
+import NoticeReg from "../pages/notice/NoticeReg";
 
 const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const client = axios.create({baseURL: BASE_URL});
@@ -39,12 +39,12 @@ const routes = [
     {
       id: 5,
       path: "/notice",
-      component: (<PrivateRoute> {" "} <Notice />{" "} </PrivateRoute>)
+      component: (<PrivateRoute> <Notice /> </PrivateRoute>)
     },
     {
       id: 6,
-      path: "/notice/add",
-      component: (<PrivateRoute>{" "}<NotiAdd />{" "}</PrivateRoute>)
+      path: "/noticeReg",
+      component: (<PrivateRoute> <NoticeReg /> </PrivateRoute>)
     },
     {
         id: 99,

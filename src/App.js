@@ -31,7 +31,7 @@ function setUpTiming() {
 
 function App() {
   const isLogged = localStorage.getItem('authenticated');
-  console.log('logged in ', isLogged);
+  //console.log('logged in ', isLogged);
   
   setUpTiming();
   
