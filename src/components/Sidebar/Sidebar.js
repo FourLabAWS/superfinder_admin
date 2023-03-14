@@ -39,7 +39,7 @@ const SideBarItems = [
 ];
 
 const Sidebar = () => {
-  const [openModal, setOpenModal] = useState(false); // 모달 창 열림 여부 상태
+  const [openModal, setOpenSignUpModal] = useState(false); // 모달 창 열림 여부 상태
   const [formData, setFormData] = useState({
     id: '',
     password: '',
@@ -47,12 +47,12 @@ const Sidebar = () => {
     email: '',
   }); // 입력한 데이터 상태
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
+  const handleOpenSignUpModal = () => {
+    setOpenSignUpModal(true);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
+  const handleCloseSignUpModal = () => {
+    setOpenSignUpModal(false);
   };
 
   const handleFormChange = (event) => {
@@ -77,18 +77,21 @@ const Sidebar = () => {
         console.error(error);
       });
   };
-  
+
   const apiUrl = 'https://ouwwxbyxsf.execute-api.ap-northeast-2.amazonaws.com/signUp/signup';
 
   const createAdminAccount = async (formData) => {
     try {
       const response = await axios.post(apiUrl, formData, {
+        //withCredentials: true,
+        //withCredentials: false,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin' : '*' 
         }
       });
       console.log(response.data);
-      handleCloseModal();
+      handleCloseSignUpModal();
     } catch (error) {
       console.error(error);
     }
@@ -97,8 +100,11 @@ const Sidebar = () => {
   const insertAdminAccount = async (formData) => {
     try {
       const response = await axios.post(apiUrl, formData, {
+        //withCredentials: true,
+        //withCredentials: false,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin' : '*'
         }
       });
       return response.data;
@@ -141,7 +147,7 @@ const Sidebar = () => {
         <List>
           {SideBarItems.map((menu) => (
             <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
-              <ListItemButton onClick={menu.id === 5 ? handleOpenModal : null}>
+              <ListItemButton onClick={menu.id === 5 ? handleOpenSignUpModal : null}>
                 <ListItemIcon>{menu.icon}</ListItemIcon>
                 <ListItemText
                   primaryTypographyProps={{
@@ -158,7 +164,7 @@ const Sidebar = () => {
       </Drawer>
   
       {/* 모달 창 */}
-      <Modal open={openModal} onClose={handleCloseModal}>
+      <Modal open={openModal} onClose={handleCloseSignUpModal}>
         <Box sx={style}>
           <Typography variant="h6" gutterBottom>
             관리자 계정 생성
