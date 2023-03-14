@@ -37,7 +37,7 @@ export default function NoticeList() {
             let data = []
             response.data["Items"].map((item) => {
                 data.push({
-                    notiTl: item['NOTI_TL']['S'],
+                    notil: item['NOTI_TL']['S'],
                 })
 
             })
