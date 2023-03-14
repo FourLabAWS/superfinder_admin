@@ -47,7 +47,6 @@ export default function DataTable(props) {
       field: "fileName",
       headerName: "파일명",
       //   width: ,
-      flexGrow: "1",
 
       renderCell: (params) => {
         const onClick = (e) => {
@@ -71,25 +70,21 @@ export default function DataTable(props) {
       field: "status",
       headerName: "상태",
       //   width: 110,
-      flexGrow: "1",
     },
     {
       field: "date",
       headerName: "등록일자",
       //   width: 140,
-      flexGrow: "1",
     },
     {
       field: "device_id",
       headerName: "디바이스 ID",
       //   width: 200,
-      flexGrow: "1",
     },
     {
       field: "flag_size",
       headerName: "깃발 크기",
       //   width: 200,
-      flexGrow: "1",
     },
   ];
 
@@ -137,9 +132,12 @@ export default function DataTable(props) {
         <DataGrid
           rows={rows}
           columns={columns}
+          paginationMode="server"
+          keepNonExistentRowsSelected
           pageSize={15}
           rowHeight={50}
           rowsPerPageOptions={[15]}
+          rowSelectionModel={15}
           getRowClassName={(params) => `super-app-theme--${params.row.status}`}
           checkboxSelection
           disableSelectionOnClick

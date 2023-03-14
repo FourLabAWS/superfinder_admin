@@ -12,15 +12,8 @@ export default function Container() {
       component="main"
       sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}
     >
-      <br />
-      <Toolbar />
-
-      <Typography variant="h6" noWrap component="div" sx={headingTextStyle}>
-        통계 데이터
-      </Typography>
-
-      <Toolbar />
-      <Stats />
+      {/* 여기에 넣으세요 */}
+      화면에 데이터가 안 띄워지는데 왜그럴까
     </Box>
   );
 }
