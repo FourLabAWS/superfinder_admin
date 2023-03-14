@@ -6,6 +6,7 @@ import axios from "axios";
 import PublicRoute from "../components/Routes/PublicRoute";
 import PrivateRoute from "../components/Routes/PrivateRoute";
 import Notice from "../pages/Notice";
+import NotiAdd from "../pages/notice/NotiAdd";
 
 const BASE_URL =
   "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
@@ -61,6 +62,17 @@ const routes = [
       <PrivateRoute>
         {" "}
         <Notice />{" "}
+      </PrivateRoute>
+    ),
+  },
+  // 아래부터는 깃 충돌발생할 것 같다....
+  {
+    id: 6,
+    path: "/notice/add",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NotiAdd />{" "}
       </PrivateRoute>
     ),
   },

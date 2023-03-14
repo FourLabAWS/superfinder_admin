@@ -1,15 +1,11 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import { client } from "../../routes/routes";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
-import DeleteIcon from "@mui/icons-material/Delete";
 import "./styles.css";
-import { saveAs } from "file-saver";
 import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -19,9 +15,18 @@ const headingTextStyle = {
   fontWeight: 550,
 };
 
+// 버튼 CSS
+const btnStyle = {
+  width: "50%",
+  fontSize: 12,
+  marginLeft: '50%',
+  height: '100%'
+}
+
 function GetNotiList(props) {
     const [rows, setRows] = useState();
     const [selectedRows, setSelectedRows] = React.useState([]);
+    const movePage = useNavigate();
 
     const apiUrl = 'https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/getNotiList';
     let [list, setList] = useState([]);  // 공지사항 데이터를 담을 곳
@@ -83,9 +88,8 @@ function GetNotiList(props) {
         axios.get(`${apiUrl}`)
         .then(response => {
             let items = response.data.Items;
-            // setRows(items.length);
+            setRows(items.length);
             let item = [];
-            console.log(items[0]);
             items.map(function(a,i){
                 item.push({
                     id : i,
@@ -102,9 +106,7 @@ function GetNotiList(props) {
                     modfId : items[i].MODF_ID.S, // 수정자
                 })
             })
-            console.log("setList");
             setList(item);
-            console.log(list);
 
 
         })
@@ -118,8 +120,17 @@ function GetNotiList(props) {
   return (
     <div>
         <Typography variant="h7" noWrap component="div" sx={headingTextStyle}>
-            {/* 공지사항 리스트 (총 건수 : {rows} 건) */}
+            공지사항 리스트 (총 건수 : {rows} 건)
         </Typography>
+        <Button
+            variant="contained" size="large"
+            sx={btnStyle}
+            onClick={()=>{
+              movePage('/notice/add');
+            } }
+        >
+            추가
+        </Button>
         <Box
         // 백그라운드
         sx={{
@@ -155,12 +166,12 @@ function GetNotiList(props) {
               sortModel: [{ field: "date", sort: "desc" }],
             },
           }}
-          // onSelectionModelChange={(ids) => {
-          //   const selectedIDs = new Set(ids);
-          //   const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
+          onSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
 
-          //   setSelectedRows(selectedRows);
-          // }}
+            setSelectedRows(selectedRows);
+          }}
         />
         {/* }  */}
         </Box>

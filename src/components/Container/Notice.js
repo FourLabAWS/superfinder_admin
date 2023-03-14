@@ -1,7 +1,5 @@
 import * as React from "react";
-import {useState, useEffect,useRef } from 'react';
 import Box from "@mui/material/Box";
-import { Table, TableBody, TableHead } from "@mui/material";
 import NoticeList from "../Table/Notice";
 
 export default function Container() {
