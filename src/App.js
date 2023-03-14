@@ -8,7 +8,6 @@ import { createBrowserHistory } from "history";
 import "./App.css";
 import moment from 'moment'
 
-
 require('moment-timezone')
 moment.tz.setDefault('Asia/Seoul')
 
@@ -33,11 +32,11 @@ function setUpTiming() {
 function App() {
   const isLogged = localStorage.getItem('authenticated');
   console.log('logged in ', isLogged);
-
+  
   setUpTiming();
-
+  
   return (
-    <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }}>
       {isLogged != null && <Navbar />}
       <BrowserRouter>
         {isLogged != null && <Sidebar />}
@@ -51,7 +50,6 @@ function App() {
       </BrowserRouter>
     </Box>
   );
-
 }
 
 export default App;

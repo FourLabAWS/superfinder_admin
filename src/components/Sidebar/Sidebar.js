@@ -16,10 +16,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
-import AWS from 'aws-sdk';
+import axios from 'axios';
 
 const drawerWidth = 240;
-
 const style = {
     position: 'absolute',
     top: '50%',
@@ -73,35 +72,41 @@ const Sidebar = () => {
           name: formData.name,
           email: formData.email
         });
-      });
-  };
-  
-  const createAdminAccount = (formData) => {
-    const formDataJson = JSON.stringify(formData);
-    return fetch('', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: formDataJson
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        handleCloseModal();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
   };
+  
+  const apiUrl = 'https://ouwwxbyxsf.execute-api.ap-northeast-2.amazonaws.com/signUp/signup';
 
-  const insertAdminAccount = (newItem) => {
-    AWS.config.update({
-      accessKeyId: 'AKIA3ILGYDW4ND3L4NPI',
-      secretAccessKey: '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',
-      region: 'ap-northeast-2'
-    });
-  }
+  const createAdminAccount = async (formData) => {
+    try {
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log(response.data);
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const insertAdminAccount = async (formData) => {
+    try {
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   
   return (
     <>
