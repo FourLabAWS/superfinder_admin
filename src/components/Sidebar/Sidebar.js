@@ -20,6 +20,8 @@ const SideBarItems = [
     { id: 1, name: '대시보드', link: '/', icon: <GridViewIcon sx={{ color: '#1976d2' }} /> },
     { id: 2, name: '이미지 관리', link: '/analysis', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
     { id: 3, name: '공지사항', link: '/notice', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
+    { id: 4, name: '관리자 계정 조회', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
+    { id: 5, name: '관리자 계정 생성', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
     { id: 99, name: '게시판', link: '/board', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
 ]
 
@@ -55,12 +57,7 @@ const Sidebar = () => {
       <br />
       <List>
         {SideBarItems.map((menu) => (
-          <ListItem
-            key={menu.id}
-            disablePadding
-            component={Link}
-            to={menu.link}
-          >
+          <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
             <ListItemButton>
               <ListItemIcon>{menu.icon}</ListItemIcon>
               <ListItemText
