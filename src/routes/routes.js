@@ -12,7 +12,10 @@ import Management from "../pages/Management";
 import Notice from "../pages/notice/Notice";
 import NoticeReg from "../pages/notice/NoticeReg";
 
-const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
+import UserAdmin from "../components/Container/userAdmin/UserAdmin";
+
+//const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
+const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const client = axios.create({baseURL: BASE_URL});
 
 const routes = [
@@ -45,6 +48,11 @@ const routes = [
       id: 6,
       path: "/noticeReg",
       component: (<PrivateRoute> <NoticeReg /> </PrivateRoute>)
+    },
+    {
+      id: 7,
+      path: "/userAdmin",
+      component: (<PrivateRoute> <UserAdmin /> </PrivateRoute>)
     },
     {
         id: 99,

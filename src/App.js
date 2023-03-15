@@ -7,6 +7,7 @@ import { routes } from './routes/routes'
 import { createBrowserHistory } from "history";
 import "./App.css";
 import moment from 'moment'
+import Sign from './components/Container/sign/Sign';
 
 require('moment-timezone')
 moment.tz.setDefault('Asia/Seoul')
