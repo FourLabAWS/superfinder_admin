@@ -56,11 +56,11 @@ const routes = [
       path: "/userAdmin",
       component: (<PrivateRoute> <UserAdmin /> </PrivateRoute>)
     },
-    {
-      id: 8,
-      path: "/noticeDtl/:notiId",
-      component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
-    },
+    // {
+    //   id: 8,
+    //   path: "/noticeDtl/:notiId",
+    //   component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
+    // },
     // { // 공지사항 수정
     //   id: 8,
     //   path: "/noticeModf",
