@@ -1,9 +1,9 @@
-import React from "react";
-import NoticeDtl from "../../components/Container/notice/NoticeDtl";
+import * as React from 'react';
+import NoticeDtl from '../../components/Container/notice/NoticeDtl';
 
 const Dtl = ()=> {
     return (
-      <NoticeDtl />
+       <NoticeDtl />
     );
 }
 
