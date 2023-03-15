@@ -38,8 +38,8 @@ function Content(){
     // 공지사항 DB 데이터 불러오기
     useEffect(()=> {
         const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
-        axios.get(`${apiUrl}`, { params: {notiId : paramObj['notiId']} })
-        //client.get('getNoticeList/' + paramObj['notiId'])
+        //axios.get(`${apiUrl}`, { params: {notiId : paramObj['notiId']} })
+        client.get('getNoticeList/' + paramObj['notiId'])
         // axios({
         //     method: 'get',
         //     url: apiUrl,
@@ -47,10 +47,10 @@ function Content(){
         // })
         .then(response => {
             console.log(response);
-            // setNotiTl(response.data.Item.NOTI_TL);
-            // setRegId(response.data.Item.REG_ID.S);
-            // setRegDt(response.data.Item.REG_DT.S);
-            // setContent(response.data.Item.NOTI_CT.S);
+            setNotiTl(response.data.Item.NOTI_TL.S);
+            setRegId(response.data.Item.REG_ID.S);
+            setRegDt(response.data.Item.REG_DT.S);
+            setContent(response.data.Item.NOTI_CT.S);
         })
         .catch(error => {
             console.error(error);
@@ -58,15 +58,15 @@ function Content(){
     }, []);
 
     return (
-        <div>
+        <div className="detail-area">
             
             <div>
                 <h2>{notiTl}</h2>
             </div>
-            <div>
-                {regId} {regDt}
+            <div className="regInfo-box">
+                작성자 : {regId} 작성일 : {regDt}
             </div>
-            <div>
+            <div className="notiCt-box">
                 {content}
             </div>
            
@@ -91,7 +91,7 @@ function Dtl(props){
             <Toolbar />
             <Typography variant="h6" noWrap component="div"
                 sx={headingTextStyle}>
-                공지사항 정보
+                공지사항
             </Typography>
             <br />
             <Content />
