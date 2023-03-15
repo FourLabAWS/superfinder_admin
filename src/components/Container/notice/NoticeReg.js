@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { client } from '../../../routes/routes';
 import "./Notice.css";
 
+
 // 버튼 CSS
 const btnStyle = {
     width: "50%",
@@ -18,6 +18,12 @@ const btnStyle = {
     marginLeft: '50%',
     height: '100%'
 }
+
+// cors 에러 설정
+// const proxy = require('http-proxy-middleware');
+// module.exports = function(app) {
+//   app.use(proxy('/o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com',{ target : 'http://localhost:3000/'}));
+// };
 
 function NoticeReg() {
     const movePage = useNavigate();
@@ -59,6 +65,7 @@ function NoticeReg() {
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 2 }}>
         <br />
         <Toolbar />
+        
         <div>
           <Typography variant="h7" noWrap component="div" sx={{fontWeight: 550}}>
             공지사항 등록
