@@ -18,16 +18,44 @@ function GetNotiList(props) {
     const [rows, setRows] = useState();
     const [selectedRows, setSelectedRows] = React.useState([]);
     const movePage = useNavigate();
+
     
     let [list, setList] = useState([]);  // 공지사항 데이터를 담을 곳
 
     const getBackgroundColor = (color, mode) => mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
+    // 제목 클릭 시, 상세페이지로 이동할 파라미터 전달
+    function routeChange(data) {
+      let path = `/noticeDtl/` + data;
+      movePage(path);
+    }
+
     // 보여줄 칼럼 정의
     const columns = [
       {field: "notiId"  , headerName: "번호", width: 80},
       {field: "notiTpSe", headerName: "구분", width: 100},
-      {field: "notiTl", headerName: "제목", width: 600},
+      {field: "notiTl", headerName: "제목", width: 600,
+        renderCell: (params) => {
+          const onClick = (e)=>{
+            e.stopPropagation();
+
+            const api = params.api; // api를 왜 조회할까?
+            const thisRow = {};     // thisRow는 왜 작성할까? thisRow["id"]는 무슨 의미일까
+
+            api
+            .getAllColumns()
+            .filter((c) => c.field !== "__check__" && !!c)
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+              );
+
+            return routeChange(thisRow["notiId"]);
+
+          }
+          // params.row["notiTl"] 으로 작성해야 제목에 notiTL의 값이 출력된다.
+          return <Button onClick={onClick}>{params.row["notiTl"]}</Button>;
+        }
+      },
       {field: "useYn", headerName: "사용여부", width: 100},
       {field: "regId", headerName: "등록자", width: 100},
       {field: "regDt", headerName: "등록일자", width: 120},
