@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from '../../../routes/routes';
 
+
 import "../../Table/styles.css";
 
 
@@ -21,9 +22,9 @@ function GetNotiList(props) {
 
     const getBackgroundColor = (color, mode) => mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
-    // 제목 클릭 시, 상세페이지로 이동할 파라미터 전달
-    function routeChange(data) {
-      let path = `/noticeDtl/` + data;
+    // 제목 클릭 시, 상세페이지로 이동
+    function routeChange(notiTl) {
+      let path = `/noticeDtl/` + notiTl;
       movePage(path);
     }
 
@@ -35,7 +36,6 @@ function GetNotiList(props) {
         renderCell: (params) => {
           const onClick = (e)=>{
             e.stopPropagation();
-
             const api = params.api; // api를 왜 조회할까?
             const thisRow = {};     // thisRow는 왜 작성할까? thisRow["id"]는 무슨 의미일까
 
