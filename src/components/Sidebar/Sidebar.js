@@ -22,7 +22,7 @@ const SideBarItems = [
     { id: 3, name: '공지사항', link: '/notice', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
     { id: 4, name: '관리자 계정 조회', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
     { id: 5, name: '관리자 계정 생성', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
-    { id: 99, name: '게시판', link: '/board', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
+    // { id: 99, name: '게시판', link: '/board', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
 ]
 
 const Sidebar = () => {

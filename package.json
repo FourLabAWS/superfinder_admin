@@ -69,6 +69,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy":"https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com",
   "devDependencies": {
     "@types/node": "^18.14.6"
   }
