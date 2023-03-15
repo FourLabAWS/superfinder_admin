@@ -14,7 +14,10 @@ import NoticeReg from "../pages/notice/NoticeReg";
 import NoticeDtl from "../pages/notice/NoticeDtl";
 
 
-const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
+import UserAdmin from "../components/Container/userAdmin/UserAdmin";
+
+//const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
+const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const client = axios.create({baseURL: BASE_URL});
 
 const routes = [
@@ -50,7 +53,12 @@ const routes = [
     },
     {
       id: 7,
-      path: "/noticeDtl/:notiId",
+      path: "/userAdmin",
+      component: (<PrivateRoute> <UserAdmin /> </PrivateRoute>)
+    },
+    {
+      id: 8,
+      path: "/noticeDtl",
       component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
     },
     // { // 공지사항 수정
@@ -63,6 +71,7 @@ const routes = [
     //   path: "/noticeDet",
     //   component: (<PrivateRoute> <NoticeDet /> </PrivateRoute>)
     // },
+
     {
         id: 99,
         path: '/board',
