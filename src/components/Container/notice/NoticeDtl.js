@@ -33,7 +33,7 @@ function Content(){
 
     // 공지사항 DB 데이터 불러오기
     useEffect(()=> {
-        const apiUrl = 'https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/getNotiList/{notiId}';
+        const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
         axios.get(`${apiUrl}`, {params: {notiId: '1'}})
         .then(response => {
             console.log(response.data.Item);          

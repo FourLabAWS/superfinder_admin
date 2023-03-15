@@ -9,12 +9,12 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
-import {BASE_URL} from '../../routes/routes';
 
-import "../../../Table/styles.css";
+
+import "../../Table/styles.css";
 
 function GetNotiList(props) {
-    const apiUrl = BASE_URL +'getNotiList';
+    const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList';
 
     const [rows, setRows] = useState();
     const [selectedRows, setSelectedRows] = React.useState([]);
