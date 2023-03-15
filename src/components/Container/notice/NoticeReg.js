@@ -19,15 +19,9 @@ const btnStyle = {
     height: '100%'
 }
 
-// cors 에러 설정
-// const proxy = require('http-proxy-middleware');
-// module.exports = function(app) {
-//   app.use(proxy('/o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com',{ target : 'http://localhost:3000/'}));
-// };
-
 function NoticeReg() {
     const movePage = useNavigate();
-    const apiUrl = 'https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/AddNoti';
+    const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/AddNoti';
     
     const [notiTpSe, setNotiTpSe] = useState('');
     const [notiTl, setNotiTl] = useState('');
@@ -35,31 +29,34 @@ function NoticeReg() {
     const [message, setMessage] = useState('');
 
     function sendPostRequest() {
-      const data = {
+
+      if (notiTpSe === '') {
+        alert('공지 구분을 선택해주세요.');
+        return false;
+      }
+
+      const requestBody = {
         notiTpSe:notiTpSe,
         notiTl:notiTl,
         notiCt:notiCt,
       };
 
       axios
-        .post(`${apiUrl}`, data)
+        .post(`${apiUrl}`, requestBody)
         .then(response => {
 
           // 등록 결과 메시지 설정
           setMessage('등록되었습니다.');
-    
-          // 폼 초기화
-          setNotiTpSe('');
-          setNotiTl('');
-          setNotiCt('');
+          alert('등록되었습니다.');
+
+          movePage('/notice')
         })
         .catch(error => {
-          console.error(error);
+          //console.error(error);
 
           setMessage('저장중 오류가 발생되었습니다.');
         });
     }
-
 
     return (
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 2 }}>
@@ -79,8 +76,8 @@ function NoticeReg() {
               <label htmlFor="notiTpSe">공지 구분</label>
               <select id="notiTpSe" name="notiTpSe" value={notiTpSe} onChange={(event) => setNotiTpSe(event.target.value)}>
                 <option value="" >선택</option>
-                <option value="N">일반</option>
-                <option value="E">긴급</option>
+                <option value="일반">일반</option>
+                <option value="긴급">긴급</option>
               </select>
             </div>
             <div className="form-group">

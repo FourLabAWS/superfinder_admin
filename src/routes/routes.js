@@ -13,7 +13,6 @@ import Notice from "../pages/notice/Notice";
 import NoticeReg from "../pages/notice/NoticeReg";
 import NoticeDtl from "../pages/notice/NoticeDtl";
 
-
 import UserAdmin from "../components/Container/userAdmin/UserAdmin";
 
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
@@ -71,7 +70,11 @@ const routes = [
     //   path: "/noticeDet",
     //   component: (<PrivateRoute> <NoticeDet /> </PrivateRoute>)
     // },
-
+    {
+      id: 98,
+      path: '/AddNoti',
+      component: <PrivateRoute> <NoticeReg /> </PrivateRoute>
+    },
     {
         id: 99,
         path: '/board',
