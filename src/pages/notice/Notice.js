@@ -1,7 +1,6 @@
 import React from "react";
-import Container from "../../components/Container/notice/Notice";
 
 const Management = () => {
-  return <Container />;
+  return (<div></div>);
 };
 export default Management;

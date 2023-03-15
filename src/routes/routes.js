@@ -50,7 +50,7 @@ const routes = [
     },
     {
       id: 7,
-      path: "/noticeDtl",
+      path: "/noticeDtl/:notiId",
       component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
     },
     // { // 공지사항 수정

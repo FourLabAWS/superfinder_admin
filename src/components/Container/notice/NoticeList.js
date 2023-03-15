@@ -9,11 +9,12 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
+import {BASE_URL} from '../../routes/routes';
 
-import "../../Table/styles.css";
+import "../../../Table/styles.css";
 
 function GetNotiList(props) {
-    const apiUrl = 'https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/getNotiList';
+    const apiUrl = BASE_URL +'getNotiList';
 
     const [rows, setRows] = useState();
     const [selectedRows, setSelectedRows] = React.useState([]);
@@ -24,9 +25,9 @@ function GetNotiList(props) {
 
     const getBackgroundColor = (color, mode) => mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
-    // 제목 클릭 시, 상세페이지로 이동할 파라미터 전달
-    function routeChange(data) {
-      let path = `/noticeDtl/` + data;
+    // 제목 클릭 시, 상세페이지로 이동
+    function routeChange(notiTl) {
+      let path = `/noticeDtl/` + notiTl;
       movePage(path);
     }
 
@@ -38,7 +39,6 @@ function GetNotiList(props) {
         renderCell: (params) => {
           const onClick = (e)=>{
             e.stopPropagation();
-
             const api = params.api; // api를 왜 조회할까?
             const thisRow = {};     // thisRow는 왜 작성할까? thisRow["id"]는 무슨 의미일까
 
@@ -135,14 +135,16 @@ function GetNotiList(props) {
           />
         </Box>
         <Divider sx={{ padding: 1, border: "none" }} />
-        <Button variant="contained" 
-          sx={{width: "100px", fontSize: 12}}
-          onClick={()=> {
-            movePage('/noticeReg');
-          }}
-        >
-          추가
-        </Button>
+        <div className="btn-area">
+          <Button variant="contained" 
+            sx={{width: "100px", fontSize: 12}}
+            onClick={()=> {
+              movePage('/noticeReg');
+            }}
+          >
+            추가
+          </Button>
+        </div>
     </div>
   );
 }

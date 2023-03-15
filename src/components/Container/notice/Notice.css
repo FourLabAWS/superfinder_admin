@@ -68,3 +68,8 @@ select:focus {
 select::-ms-expand {
     display: none;
 }
+
+.btn-area {
+    text-align: end; 
+   
+}
