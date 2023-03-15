@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState,useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -25,40 +26,72 @@ const btnSearch = {
 
 export default function Notice() {
     const [text, setText] = React.useState("");
-    const [rows, setPosts] = React.useState([]);
-    
-    const handleFilter = () => {
+    const [list, setList] = React.useState([]);
+    const [params, pushParams] = React.useState({});
 
-        client.get('getNotiList').then((response) => {
-            let data = []
-            response.data["Items"].map((item) => {
-                data.push({
-                    notiTl: item['NOTI_TL']['S'],
+    const handleFilter = () => {
+        pushParams({
+            text: text
+        });
+        
+        client.get('getNoticeList',{
+            params: {
+                text: params['text']
+            },
+        })
+        .then((response) => {
+
+            let item = [];  
+            let items = response.data.Items;
+            items.map(function(a, itemNm) {
+                item.push({
+                  id : itemNm,
+                  notiId : items[itemNm].NOTI_ID.S, // 공지사항ID
+                  notiTpSe : items[itemNm].NOTI_TP_SE.S, // 분류(긴급/일반)
+                  notiTl : items[itemNm].NOTI_TL.S, // 제목
+                  useYn : items[itemNm].USE_YN.S, // 사용여부
+                  atchDocId : items[itemNm].ATCH_DOC_ID.S, // 첨부파일ID
+                  regDt : items[itemNm].REG_DT.S, // 등록일
+                  regId : items[itemNm].REG_ID.S, // 등록자
                 })
             })
-            setPosts(data);
+
+            setList(item);
         });
     };
 
-    const handleInput = e => {
-        setText(e.target.value);
-    }
-/*
-    React.useEffect(() => {
-        client.get('getNotiList').then((response) => {
-            let data = []
-            response.data["Items"].map((item) => {
-                
-            })
-            setPosts(data);
+    // 공지사항 DB 데이터 불러오기
+    useEffect(()=> {
+        client.get('getNoticeList').then(response => {
+
+          let item = [];  
+          let items = response.data.Items;
+           
+          items.map(function(a, itemNm) {
+              item.push({
+                id : itemNm,
+                notiId : items[itemNm].NOTI_ID.S, // 공지사항ID
+                notiTpSe : items[itemNm].NOTI_TP_SE.S, // 분류(긴급/일반)
+                notiTl : items[itemNm].NOTI_TL.S, // 제목
+                useYn : items[itemNm].USE_YN.S, // 사용여부
+                atchDocId : items[itemNm].ATCH_DOC_ID.S, // 첨부파일ID
+                regDt : items[itemNm].REG_DT.S, // 등록일
+                regId : items[itemNm].REG_ID.S, // 등록자
+              })
+          })
+
+          setList(item);
+        })
+        .catch(error => {
+            console.error(error);
         });
     }, []);
-*/
+
     return (
       <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 2 }}>
         <br />
         <Toolbar />
-        <Typography variant="h7" noWrap component="div" sx={{fontWeight: 550}}>
+        <Typography variant="h6" noWrap component="div" sx={{fontWeight: 550}}>
             공지사항
         </Typography>
         <br />
@@ -75,10 +108,11 @@ export default function Notice() {
                               </Grid>
                               <Grid item xs={5}>
                                 <TextField
-                                  sx={{ height: '70%' }}
+                                  sx={{ width: '70%' }}
                                   value={text}
-                                  onChange={handleInput}
-                                  id="outlined-basic" variant="outlined"
+                                  onChange={(event) => setText(event.target.value)}
+                                  id="outlined-basic" 
+                                  variant="outlined"
                                   size='small'
                                   fullWidth
                                   placeholder='제목을 입력하세요'
@@ -103,7 +137,7 @@ export default function Notice() {
               </Grid>
           </FormGroup>
           <Divider sx={{ padding: 2, border: "none" }} />
-          <NoticeList data={rows} />
+          <NoticeList data={list} />
         </div>
       </Box>
     );
