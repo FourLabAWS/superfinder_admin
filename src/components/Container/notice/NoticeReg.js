@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useState,useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Toolbar from '@mui/material/Toolbar';
@@ -9,15 +10,6 @@ import Typography from "@mui/material/Typography";
 
 import { client } from '../../../routes/routes';
 import "./Notice.css";
-
-
-// 버튼 CSS
-const btnStyle = {
-    width: "50%",
-    fontSize: 12,
-    marginLeft: '50%',
-    height: '100%'
-}
 
 function NoticeReg() {
     const movePage = useNavigate();
@@ -34,6 +26,14 @@ function NoticeReg() {
         alert('공지 구분을 선택해주세요.');
         return false;
       }
+      if (notiTl === '') {
+        alert('제목을 입력해주세요.');
+        return false;
+      }
+      if (notiCt === '') {
+        alert('내용을 입력해주세요.');
+        return false;
+      }
 
       const requestBody = {
         notiTpSe:notiTpSe,
@@ -45,15 +45,12 @@ function NoticeReg() {
         .post(`${apiUrl}`, requestBody)
         .then(response => {
 
-          // 등록 결과 메시지 설정
           setMessage('등록되었습니다.');
           alert('등록되었습니다.');
 
           movePage('/notice')
         })
         .catch(error => {
-          //console.error(error);
-
           setMessage('저장중 오류가 발생되었습니다.');
         });
     }

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState,useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Toolbar from '@mui/material/Toolbar';
@@ -10,45 +11,26 @@ import Typography from "@mui/material/Typography";
 import { client } from '../../../routes/routes';
 import "./Notice.css";
 
-
-// 버튼 CSS
-const btnStyle = {
-    width: "50%",
-    fontSize: 12,
-    marginLeft: '50%',
-    height: '100%'
-}
-
-// cors 에러 설정
-// const proxy = require('http-proxy-middleware');
-// module.exports = function(app) {
-//   app.use(proxy('/o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com',{ target : 'http://localhost:3000/'}));
-// };
-
 function Modf() {
-
     const paramObj = useParams();
-    
     const movePage = useNavigate();
+    const notiId = paramObj['notiId'];
+
     const [notiTpSe, setNotiTpSe] = useState('');
     const [notiTl, setNotiTl] = useState('');
     const [notiCt, setNotiCt] = useState('');
     const [message, setMessage] = useState('');
 
     // detail API Gateway
-    // useEffect(()=> {
-    //   const getNoticeUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
-    //   client.get('getNoticeList/' + paramObj['notiId'])
-    //   .then(response => {
-    //     setNotiTpSe(response.data.Item.NOTI_TP_SE.S);
-    //     setNotiTl(response.data.Item.NOTI_TL.S);
-    //     setContent(response.data.Item.NOTI_CT.S);
-    //   })
-    // }, []);
-
-    const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/UpdNoti/{notiId}';
-    
-    const notiId = paramObj['notiId'];
+    useEffect(()=> {
+      const getNoticeUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
+      client.get('getNoticeList/' + paramObj['notiId'])
+      .then(response => {
+        setNotiTpSe(response.data.Item.NOTI_TP_SE.S);
+        setNotiTl(response.data.Item.NOTI_TL.S);
+        setNotiCt(response.data.Item.NOTI_CT.S);
+      })
+    }, []);
 
     function sendPostRequest() {
 
@@ -56,6 +38,15 @@ function Modf() {
         alert('공지 구분을 선택해주세요.');
         return false;
       }
+      if (notiTl === '') {
+        alert('제목을 입력해주세요.');
+        return false;
+      }
+      if (notiCt === '') {
+        alert('내용을 입력해주세요.');
+        return false;
+      }
+
       console.log(notiId);
       const requestBody = {
         notiId:notiId,

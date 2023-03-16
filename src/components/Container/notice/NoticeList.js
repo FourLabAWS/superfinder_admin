@@ -9,9 +9,8 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
+
 import { client } from '../../../routes/routes';
-
-
 import "../../Table/styles.css";
 
 

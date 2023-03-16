@@ -60,7 +60,6 @@ export default function Notice() {
         });
     };
 
-    // 공지사항 DB 데이터 불러오기
     useEffect(()=> {
         client.get('getNoticeList').then(response => {
 

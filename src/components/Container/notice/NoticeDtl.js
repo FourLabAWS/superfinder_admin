@@ -39,7 +39,6 @@ function Content(){
     const goToPrev = () => { navigate('/notice'); }
     const goToModf = () => { navigate('/noticeModf/' + paramObj['notiId']); }
 
-    // 공지사항 DB 데이터 불러오기
     useEffect(()=> {
         const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
 
