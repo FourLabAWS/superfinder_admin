@@ -22,13 +22,11 @@ function GetNotiList(props) {
 
     const getBackgroundColor = (color, mode) => mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
-    // 제목 클릭 시, 상세페이지로 이동
     function routeChange(notiTl) {
       let path = `/noticeDtl/` + notiTl;
       movePage(path);
     }
 
-    // 보여줄 칼럼 정의
     const columns = [
       {field: "notiId"  , headerName: "번호", width: 80, hide: true},
       {field: "notiTpSe", headerName: "구분", width: 100},
@@ -36,9 +34,8 @@ function GetNotiList(props) {
         renderCell: (params) => {
           const onClick = (e)=>{
             e.stopPropagation();
-            const api = params.api; // api를 왜 조회할까?
-            const thisRow = {};     // thisRow는 왜 작성할까? thisRow["id"]는 무슨 의미일까
-
+            const api = params.api;
+            const thisRow = {};
             api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
@@ -49,7 +46,7 @@ function GetNotiList(props) {
             return routeChange(thisRow["notiId"]);
 
           }
-          // params.row["notiTl"] 으로 작성해야 제목에 notiTL의 값이 출력된다.
+
           return <Button onClick={onClick}>{params.row["notiTl"]}</Button>;
         }
       },
@@ -58,7 +55,7 @@ function GetNotiList(props) {
       {field: "regDt", headerName: "등록일자", width: 120},
     ];
 
-    //공지사항 삭제
+
     const deleteItem = () => {
 
       if (selectedRows.length === 0) {
@@ -125,7 +122,7 @@ function GetNotiList(props) {
         </Box>
         <Divider sx={{ padding: 1, border: "none" }} />
         <Button variant="contained" 
-          sx={{width: "100px", fontSize: 12}}
+          sx={{width: "100px",  marginRight: "1%" }}
           onClick={()=> {
             movePage('/noticeReg');
           }}
@@ -133,7 +130,7 @@ function GetNotiList(props) {
           추가
         </Button>
         <Button variant="contained" 
-          sx={{width: "100px",  marginLeft: "1%" }}
+          sx={{width: "100px",  marginRight: "1%" }}
           onClick={deleteItem}
         >
           삭제

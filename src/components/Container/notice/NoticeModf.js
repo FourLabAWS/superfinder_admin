@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState,useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import Box from "@mui/material/Box";
@@ -27,44 +26,53 @@ const btnStyle = {
 // };
 
 function Modf() {
-    // 전달받은 파라미터 : notiId 값
+
     const paramObj = useParams();
-    console.log(paramObj);
-    // modify API Gateway
-    const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/ModfNoti';
     
-    const notiId = paramObj['notiId'];
+    const movePage = useNavigate();
     const [notiTpSe, setNotiTpSe] = useState('');
     const [notiTl, setNotiTl] = useState('');
     const [notiCt, setNotiCt] = useState('');
     const [message, setMessage] = useState('');
 
-    // 고친 값
+    // detail API Gateway
+    // useEffect(()=> {
+    //   const getNoticeUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
+    //   client.get('getNoticeList/' + paramObj['notiId'])
+    //   .then(response => {
+    //     setNotiTpSe(response.data.Item.NOTI_TP_SE.S);
+    //     setNotiTl(response.data.Item.NOTI_TL.S);
+    //     setContent(response.data.Item.NOTI_CT.S);
+    //   })
+    // }, []);
+
+    const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/UpdNoti/{notiId}';
+    
+    const notiId = paramObj['notiId'];
+
     function sendPostRequest() {
-      const data = {
+
+      if (notiTpSe === '') {
+        alert('공지 구분을 선택해주세요.');
+        return false;
+      }
+      console.log(notiId);
+      const requestBody = {
         notiId:notiId,
         notiTpSe:notiTpSe,
         notiTl:notiTl,
         notiCt:notiCt,
       };
-      console.log(data);
-      // update 방식으로 고치세요? axios 공식문서 참조할 것
-      axios
-        .post(`${apiUrl}`, data)
+ 
+      client.post("UpdNoti", requestBody)
         .then(response => {
+          setMessage('수정되었습니다.');
+          alert('수정되었습니다.');
 
-          // 등록 결과 메시지 설정
-          setMessage('등록되었습니다.');
-    
-          // 폼 초기화
-          setNotiTpSe('');
-          setNotiTl('');
-          setNotiCt('');
+          movePage('/notice')
         })
         .catch(error => {
-          console.error(error);
-
-          setMessage('저장중 오류가 발생되었습니다.');
+          setMessage('수정중 오류가 발생되었습니다.');
         });
     }
 
@@ -80,8 +88,6 @@ function Modf() {
           </Typography>
           
           <Toolbar />
-
-            {/* 데이터를 불러와 기존 값을 넣고, 수정할 수 있도록 데이터를 수정하기 */}
           <form className="notice-form">
             <input type="hidden" id="regId" name="regId"/>
             <div className="form-group">
@@ -102,7 +108,7 @@ function Modf() {
             </div>
           </form>         
           <Button variant="contained" 
-            sx={{width: "100px", fontSize: 12}}
+            sx={{width: "100px",  marginRight: "1%" }}
             onClick={()=> {sendPostRequest()}}
           >
             저장

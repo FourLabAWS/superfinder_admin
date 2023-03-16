@@ -81,11 +81,14 @@ select::-ms-expand {
     background-color: whitesmoke; */
 }
 .regInfo-box {
+    display: flex;
+    align-items: center;
     padding: 5px 10px;
     border-top : 1px solid gray;
     border-bottom : 1px solid gray;
     color : gray;
 }
 .notiCt-box {
+    min-height: 380px;
     padding: 10px 10px;
 }
