@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState,useEffect } from 'react';
-import axios from 'axios';
 
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import Person from '@mui/icons-material/Person';
+import CalendarMonth from '@mui/icons-material/CalendarMonth';
 
 import { client } from '../../../routes/routes';
 import { useParams } from 'react-router-dom';
@@ -27,7 +28,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Content(){
-    // 전달받은 파라미터 : notiId 값
     const paramObj = useParams();
 
     const [notiTl, setNotiTl] = useState('');
@@ -35,21 +35,14 @@ function Content(){
     const [regDt, setRegDt] = useState('');
     const [content, setContent] = useState('');
     
-    // 네비게이트 코드를 어떻게해야 간단하게 바꿀 수 있을까?
     let navigate = useNavigate();
     const goToPrev = () => { navigate('/notice'); }
     const goToModf = () => { navigate('/noticeModf/' + paramObj['notiId']); }
 
-    // 공지사항 DB 데이터 불러오기
     useEffect(()=> {
         const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
-        //axios.get(`${apiUrl}`, { params: {notiId : paramObj['notiId']} })
+
         client.get('getNoticeList/' + paramObj['notiId'])
-        // axios({
-        //     method: 'get',
-        //     url: apiUrl,
-        //     params: {notiId : paramObj['notiId']} ,
-        // })
         .then(response => {
             console.log(response);
             setNotiTl(response.data.Item.NOTI_TL.S);
@@ -70,22 +63,21 @@ function Content(){
                     <h2>{notiTl}</h2>
                 </div>
                 <div className="regInfo-box">
-                    작성자 : {regId} 작성일 : {regDt}
+                    <CalendarMonth fontSize="small" />{regDt} <Person fontSize="small"  sx={{marginLeft: "1%" }} /> {regId} 
                 </div>
                 <div className="notiCt-box">
                     {content}
                 </div>
-            
             </div>
             <div className="btn-area">
-                <Button variant="contained" className='prevButton'
-                    sx={{ marginRight: '3%' }}
+                <Button variant="contained" 
+                    sx={{width: "100px",  marginRight: "1%" }}
                     onClick={goToModf}
                 >
                     수정
                 </Button>
-                <Button variant="contained" className='prevButton'
-                    sx={{ marginRight: '3%' }}
+                <Button variant="contained" 
+                    sx={{width: "100px",  marginRight: "1%" }}
                     onClick={goToPrev}
                 >
                     목록

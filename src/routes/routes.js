@@ -61,16 +61,11 @@ const routes = [
       path: "/noticeDtl/:notiId",
       component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
     },
-    { // 공지사항 수정
+    {
       id: 9,
       path: "/noticeModf/:notiId",
       component: (<PrivateRoute> <NoticeModf /> </PrivateRoute>)
     },
-    // { // 공지사항 삭제
-    //   id: 9,
-    //   path: "/noticeDet",
-    //   component: (<PrivateRoute> <NoticeDet /> </PrivateRoute>)
-    // },
     {
       id: 98,
       path: '/AddNoti',
