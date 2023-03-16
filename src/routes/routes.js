@@ -12,6 +12,8 @@ import Management from "../pages/Management";
 import Notice from "../pages/notice/Notice";
 import NoticeReg from "../pages/notice/NoticeReg";
 import NoticeDtl from "../pages/notice/NoticeDtl";
+import NoticeModf from "../pages/notice/NoticeModf";
+
 
 import UserAdmin from "../components/Container/userAdmin/UserAdmin";
 
@@ -55,16 +57,16 @@ const routes = [
       path: "/userAdmin",
       component: (<PrivateRoute> <UserAdmin /> </PrivateRoute>)
     },
-    // {
-    //   id: 8,
-    //   path: "/noticeDtl/:notiId",
-    //   component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
-    // },
-    // { // 공지사항 수정
-    //   id: 8,
-    //   path: "/noticeModf",
-    //   component: (<PrivateRoute> <NoticeModf /> </PrivateRoute>)
-    // },
+    {
+      id: 8,
+      path: "/noticeDtl/:notiId",
+      component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
+    },
+    { // 공지사항 수정
+      id: 9,
+      path: "/noticeModf/:notiId",
+      component: (<PrivateRoute> <NoticeModf /> </PrivateRoute>)
+    },
     // { // 공지사항 삭제
     //   id: 9,
     //   path: "/noticeDet",
