@@ -73,3 +73,19 @@ select::-ms-expand {
     text-align: end; 
    
 }
+
+/* NoticeDtl */
+.detail-area {
+    padding: 20px;
+    /* border : 1px solid whitesmoke;
+    background-color: whitesmoke; */
+}
+.regInfo-box {
+    padding: 5px 10px;
+    border-top : 1px solid gray;
+    border-bottom : 1px solid gray;
+    color : gray;
+}
+.notiCt-box {
+    padding: 10px 10px;
+}
