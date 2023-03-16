@@ -18,7 +18,7 @@ function GetNotiList(props) {
     const rows = props.data;   
     const [selectedRows, setSelectedRows] = React.useState([]);
     const movePage = useNavigate(); 
-
+    
     const getBackgroundColor = (color, mode) => mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
     function routeChange(notiTl) {
@@ -120,20 +120,22 @@ function GetNotiList(props) {
           />
         </Box>
         <Divider sx={{ padding: 1, border: "none" }} />
-        <Button variant="contained" 
-          sx={{width: "100px",  marginRight: "1%" }}
-          onClick={()=> {
-            movePage('/noticeReg');
-          }}
-        >
-          추가
-        </Button>
-        <Button variant="contained" 
-          sx={{width: "100px",  marginRight: "1%" }}
-          onClick={deleteItem}
-        >
-          삭제
-        </Button>
+        <div className="btn-area">
+          <Button variant="contained" 
+            sx={{width: "100px",  marginRight: "1%" }}
+            onClick={()=> {
+              movePage('/noticeReg');
+            }}
+          >
+            추가
+          </Button>
+          <Button variant="contained" 
+            sx={{width: "100px",  marginRight: "1%" }}
+            onClick={deleteItem}
+          >
+            삭제
+          </Button>
+        </div>
     </div>
   );
 }

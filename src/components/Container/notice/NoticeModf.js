@@ -47,7 +47,6 @@ function Modf() {
         return false;
       }
 
-      console.log(notiId);
       const requestBody = {
         notiId:notiId,
         notiTpSe:notiTpSe,
