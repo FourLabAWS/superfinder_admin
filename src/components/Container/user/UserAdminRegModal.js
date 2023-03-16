@@ -54,7 +54,6 @@ function UserAdminRegModal(obj) {
   const doSave = (event) => {
     event.preventDefault();
 
-    // Check if passwords match
     if (formData.admnrPw !== formData.admnrPwConfirm) {
       alert("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.");
       return;
@@ -63,8 +62,9 @@ function UserAdminRegModal(obj) {
 
     createAdminAccount(formData)
       .then(() => {
-        console.log("Successfully inserted admin account into DynamoDB");
         handleCloseCreateAdminModal();
+        obj.onClose();
+        window.location.reload(false);
       })
       .catch((error) => {
         console.error(error);
@@ -72,7 +72,7 @@ function UserAdminRegModal(obj) {
   };
 
   const createAdminAccount = async (formData) => {
-    console.log("Sending formData:", formData);
+    const rtnData = null;
     const postUrl =
       "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/signUpAdmin";
     try {
@@ -81,17 +81,15 @@ function UserAdminRegModal(obj) {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
-      return response.data;
+      rtnData = response.data;
     } catch (error) {
       console.error(error);
-      return null;
     }
+    return rtnData;
   };
 
-  // close는 List함수에서 받아 처리할수 있도록.
   return (
-    <Modal open={modalObj} onClose={() => handleOpenCreateAdminModal(false)}>
+    <Modal open={modalObj}>
       <Box
         className="modalBoxWrap"
         sx={{
@@ -177,7 +175,7 @@ function UserAdminRegModal(obj) {
           <Button
             variant="outlined"
             sx={{ mt: 2, mr: 1 }}
-            onClick={handleCloseCreateAdminModal}
+            onClick={obj.onClose}
           >
             취소
           </Button>

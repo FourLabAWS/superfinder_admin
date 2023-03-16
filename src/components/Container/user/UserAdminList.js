@@ -59,6 +59,10 @@ function GetUserAdminList(props) {
     setOpenCreateAdminModal(true);
   };
 
+  const userAddCloseModal = () => {
+    setOpenCreateAdminModal(false);
+  };
+
   //사용자 삭제
   const deleteUser = () => {
     if (selectedRows.length === 0) {
@@ -142,7 +146,10 @@ function GetUserAdminList(props) {
       >
         삭제
       </Button>
-      <UserAdminRegModal modalObj={openCreateAdminModal} />
+      <UserAdminRegModal
+        modalObj={openCreateAdminModal}
+        onClose={userAddCloseModal}
+      />
     </div>
   );
 }
