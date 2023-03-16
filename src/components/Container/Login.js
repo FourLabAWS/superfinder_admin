@@ -39,6 +39,11 @@ export default function Container() {
       window.location.reload(false);
     }
   };
+  const onCheckEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin(ID, passwd);
+    }
+  };
 
   return (
     <div
@@ -140,6 +145,7 @@ export default function Container() {
                   </InputAdornment>
                 }
                 placeholder="비밀번호를 입력하세요"
+                onKeyPress={onCheckEnter}
               />
             </Grid>
 
