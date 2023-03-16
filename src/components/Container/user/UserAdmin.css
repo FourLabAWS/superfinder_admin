@@ -17,3 +17,14 @@
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
+
+.modalBoxWrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.24);
+    padding: 16px;
+}

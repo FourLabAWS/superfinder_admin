@@ -14,8 +14,7 @@ import NoticeReg from "../pages/notice/NoticeReg";
 import NoticeDtl from "../pages/notice/NoticeDtl";
 import NoticeModf from "../pages/notice/NoticeModf";
 
-
-import UserAdmin from "../components/Container/userAdmin/UserAdmin";
+import UserAdmin from "../pages/user/UserAdmin";
 
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";

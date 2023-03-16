@@ -56,6 +56,13 @@ function GetAdminList(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Check if passwords match
+    if (formData.pw !== formData.pwConfirm) {
+      alert("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.");
+      return;
+    }
+
     createAdminAccount(formData)
       .then(() => {
         console.log('Successfully inserted admin account into DynamoDB');
@@ -121,7 +128,12 @@ function GetAdminList(props) {
           `super-app-theme--${params.getValue(params.id, "admnrId").toString().toLowerCase()}`
         }
       />
-      <button id="addButton" variant="contained" sx={{ mt: 2 }} onClick={handleOpenCreateAdminModal}>추가</button>
+      <div id="buttonArea">
+      <button id="adminButton" variant="contained" sx={{ mt: 2 }} /*onClick={handleOpenCreateAdminModal}*/>조회</button>
+      <button id="adminButton" variant="contained" sx={{ mt: 2 }} onClick={handleOpenCreateAdminModal}>추가</button>
+      <button id="adminButton" variant="contained" sx={{ mt: 2 }} /*onClick={handleOpenCreateAdminModal}*/>수정</button>
+      <button id="adminButton" variant="contained" sx={{ mt: 2 }} /*onClick={handleOpenCreateAdminModal}*/>삭제</button>
+      </div>
       <Modal open={openCreateAdminModal} onClose={() => setOpenCreateAdminModal(false)}>
   <Box sx={style}>
     <Typography variant="h6" gutterBottom>
@@ -151,6 +163,17 @@ function GetAdminList(props) {
             value={formData.password}
             onChange={handleFormChange}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            id="pwConfirm"
+            name="pwConfirm"
+            label="비밀번호 확인"
+            type="password"
+            onChange={handleFormChange}
+            />
         </Grid>
         <Grid item xs={12}>
           <TextField
