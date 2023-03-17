@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+
+import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -11,14 +13,17 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import IconButton from "@mui/material/IconButton";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import LockIcon from "@mui/icons-material/Lock";
+
+import { client } from '../../routes/routes';
 import "./styles.css";
-import { Box } from "@mui/material";
+
 
 const btnStyle = {
   width: "100%",
 };
-
-const adminCreds = { Id: "sadmin", pass: "superfinder123" };
+const adminId = '';
+const adminPw = '';
+//const adminCreds = { Id: "sadmin", pass: "superfinder123" };
 
 export default function Container() {
   let navigate = useNavigate();
@@ -30,9 +35,32 @@ export default function Container() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  
+  const requestBody = {
+    admrnId : ID,
+    admrnPw : passwd,
+  }
+
+  const login = ()=>{
+    {
+      client.get('getadmin/' + ID)
+        .then(response => {
+          if (response.data.Item != null){
+            alert('로그인 조회에 성공했습니다.');
+            adminId = response.data.Item.ADMNR_ID.S;
+            adminPw = response.data.Item.ADMNR_PW.S;
+          } else {
+            alert('아이디/패스워드를 확인해주세요.');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
+  }
 
   const handleLogin = (Id, pass) => {
-    if (Id === adminCreds.Id && pass === adminCreds.pass) {
+    if (login) {
       localStorage.setItem("authenticated", true);
       localStorage.setItem("user", Id);
       navigate("/");
