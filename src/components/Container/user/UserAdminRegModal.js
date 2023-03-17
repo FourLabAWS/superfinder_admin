@@ -25,17 +25,6 @@ function UserAdminRegModal(obj) {
     admnrEmail: "",
   });
 
-  if (userInfo !== undefined) {
-    setTitle("사용자 수정");
-    setFormData({
-      admnrId: userInfo.admnrId || "",
-      admnrPw: userInfo.admnrPw || "",
-      admnrPwConfirm: "", // 비밀번호 확인을 위한 초기값 설정
-      admnrNm: userInfo.admnrNm || "",
-      admnrEmail: userInfo.admnrEmail || "",
-    });
-  }
-
   const handleOpenCreateAdminModal = () => {
     setOpenCreateAdminModal(true);
   };
