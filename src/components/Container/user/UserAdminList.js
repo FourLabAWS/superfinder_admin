@@ -12,12 +12,14 @@ import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
 
 import UserAdminRegModal from "./UserAdminRegModal";
+import UserAdminInquiryModal from "./UserAdminInquiryModal";
 import "../../Table/styles.css";
 
 function GetUserAdminList(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [openCreateAdminModal, setOpenCreateAdminModal] = useState(false);
+  const [openInquiryAdminModal, setOpenInquiryAdminModal] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
 
   const getBackgroundColor = (color, mode) =>
@@ -43,9 +45,9 @@ function GetUserAdminList(props) {
               (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
             );
 
-          return userAddModal(thisRow["admnrId"]);
+          userInquiryModal(thisRow);
         };
-        return <Button onClick={onClick}>{params.row["admnrId"]}</Button>;
+        return <Button onClick={onClick}>{params.row["admnrNm"]}</Button>;
       },
     },
     { field: "admnrEmail", headerName: "이메일", width: 200 },
@@ -63,6 +65,15 @@ function GetUserAdminList(props) {
     setOpenCreateAdminModal(false);
   };
 
+  const userInquiryModal = (selectedRows) => {
+    setSelectedRows(selectedRows);
+    setOpenInquiryAdminModal(true);
+  };
+
+  const userInquiryCloseModal = () => {
+    setOpenInquiryAdminModal(false);
+  };
+
   //사용자 삭제
   const deleteUser = () => {
     if (selectedRows.length === 0) {
@@ -70,11 +81,15 @@ function GetUserAdminList(props) {
       return;
     }
 
+    if (!window.confirm("선택한 사용자를 삭제하겠습니까?")) {
+      return;
+    }
+
     selectedRows.map((item) => {
       client
-        .delete("DelUserAdmin/" + item["admnrId"])
+        .delete("delAdmin/" + item["admnrId"])
         .then((response) => {
-          alert("모달을 닫는다.");
+          alert("삭제되었습니다.");
           //1. 모달을 닫는다.
           //2. 리로드 한다.
           window.location.reload(false);
@@ -135,7 +150,7 @@ function GetUserAdminList(props) {
       <Button
         variant="contained"
         sx={{ width: "100px", fontSize: 12 }}
-        onClick={() => setOpenCreateAdminModal(true)}
+        onClick={userAddModal}
       >
         추가
       </Button>
@@ -149,6 +164,11 @@ function GetUserAdminList(props) {
       <UserAdminRegModal
         modalObj={openCreateAdminModal}
         onClose={userAddCloseModal}
+      />
+      <UserAdminInquiryModal
+        modalObj={openInquiryAdminModal}
+        onClose={userInquiryCloseModal}
+        selectedUser={selectedRows}
       />
     </div>
   );
