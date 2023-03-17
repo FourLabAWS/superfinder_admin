@@ -44,7 +44,6 @@ function Content(){
 
         client.get('getNoticeList/' + paramObj['notiId'])
         .then(response => {
-            console.log(response);
             setNotiTl(response.data.Item.NOTI_TL.S);
             setRegId(response.data.Item.REG_ID.S);
             setRegDt(response.data.Item.REG_DT.S);
