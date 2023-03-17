@@ -21,8 +21,7 @@ import "./styles.css";
 const btnStyle = {
   width: "100%",
 };
-const adminId = '';
-const adminPw = '';
+
 //const adminCreds = { Id: "sadmin", pass: "superfinder123" };
 
 export default function Container() {
@@ -35,37 +34,27 @@ export default function Container() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  
-  const requestBody = {
-    admrnId : ID,
-    admrnPw : passwd,
-  }
 
-  const login = ()=>{
-    {
-      client.get('getadmin/' + ID)
-        .then(response => {
-          if (response.data.Item != null){
-            alert('로그인 조회에 성공했습니다.');
-            adminId = response.data.Item.ADMNR_ID.S;
-            adminPw = response.data.Item.ADMNR_PW.S;
+  const handleLogin = (Id, pass) => {
+    client.get('getadmin/' + ID)
+      .then(response => {
+        if (response.data.Item != null){
+          if (Id === response.data.Item.ADMNR_ID.S && pass === response.data.Item.ADMNR_PW.S) {
+            alert('로그인에 성공했습니다.');
+            localStorage.setItem("authenticated", true);
+            localStorage.setItem("user", Id);
+            navigate("/");
+            window.location.reload(false);
           } else {
             alert('아이디/패스워드를 확인해주세요.');
           }
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }
-  }
-
-  const handleLogin = (Id, pass) => {
-    if (login) {
-      localStorage.setItem("authenticated", true);
-      localStorage.setItem("user", Id);
-      navigate("/");
-      window.location.reload(false);
-    }
+        } else {
+          alert('일치하는 아이디가 없습니다.');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
   };
   const onCheckEnter = (e) => {
     if (e.key === 'Enter') {

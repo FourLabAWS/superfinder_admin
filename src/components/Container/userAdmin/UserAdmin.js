@@ -26,6 +26,10 @@ const style = {
 
 function GetAdminList(props) {
   const getUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getadmin';
+<<<<<<< HEAD
+  const postUrl = '';
+=======
+>>>>>>> 156fc888c5d6617a68f8a1a74adb15d73cd18937
   const [rows, setRows] = useState();
   const [selectedRows, setSelectedRows] = useState([]);
   let [list, setList] = useState([]);  // 데이터를 담을 곳
@@ -43,7 +47,11 @@ function GetAdminList(props) {
     setOpenCreateAdminModal(true); 
   };
 
+<<<<<<< HEAD
+  const handleCreateAdminModal = () => {
+=======
   const handleCloseCreateAdminModal = () => {
+>>>>>>> 156fc888c5d6617a68f8a1a74adb15d73cd18937
     setOpenModal(false);
   };
 
@@ -56,6 +64,12 @@ function GetAdminList(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+<<<<<<< HEAD
+    createAdminAccount(formData)
+      .then(() => {
+        console.log('Successfully inserted admin account into DynamoDB');
+        handleCreateAdminModal();
+=======
 
     // Check if passwords match
     if (formData.pw !== formData.pwConfirm) {
@@ -67,11 +81,30 @@ function GetAdminList(props) {
       .then(() => {
         console.log('Successfully inserted admin account into DynamoDB');
         handleCloseCreateAdminModal();
+>>>>>>> 156fc888c5d6617a68f8a1a74adb15d73cd18937
       })
       .catch((error) => {
         console.error(error);
       });
   };
+<<<<<<< HEAD
+
+  const createAdminAccount = async (formData) => {
+    try {
+      const response = await axios.post(getUrl, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(response.data);
+    //   insertAdminAccount({
+    //     id: formData.id,
+    //     pw: formData.pw,
+    //     name: formData.name,
+    //     email: formData.email
+    //   });
+    //   return response.data;
+=======
   
   const createAdminAccount = async (formData) => {
   console.log("Sending formData:", formData);
@@ -84,12 +117,30 @@ function GetAdminList(props) {
       });
       console.log(response.data);
       return response.data;
+>>>>>>> 156fc888c5d6617a68f8a1a74adb15d73cd18937
     } catch (error) {
       console.error(error);
       return null;
     }
   };
   
+<<<<<<< HEAD
+//   const insertAdminAccount = async (formData) => {
+//     try {
+//       const response = await axios.post(getUrl, formData, {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         }
+//       });
+//       return response.data;
+//     } catch (error) {
+//       console.error(error);
+//       return null;
+//     }
+//   };
+
+=======
+>>>>>>> 156fc888c5d6617a68f8a1a74adb15d73cd18937
   // 보여줄 컬럼 정의
   const columns = [
     { field: "admnrId", headerName: "아이디", width: 120 },
@@ -128,6 +179,69 @@ function GetAdminList(props) {
           `super-app-theme--${params.getValue(params.id, "admnrId").toString().toLowerCase()}`
         }
       />
+<<<<<<< HEAD
+      <button id="addButton" variant="contained" sx={{ mt: 2 }} onClick={handleOpenCreateAdminModal}>추가</button>
+      <Modal open={openCreateAdminModal} onClose={() => setOpenCreateAdminModal(false)}>
+      <Box sx={style}>
+    <Typography variant="h6" gutterBottom>
+    관리자 계정 등록
+    </Typography>
+    <form onSubmit={handleSubmit}>
+    <Grid container spacing={2}>
+    <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="id"
+                  name="id"
+                  label="아이디"
+                  value={formData.id}
+                  onChange={handleFormChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="pw"
+                  name="pw"
+                  label="비밀번호"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleFormChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="name"
+                  name="name"
+                  label="이름"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  name="email"
+                  label="이메일"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                />
+              </Grid>              
+              </Grid>
+    <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+    저장
+    </Button>
+    </form>
+    </Box>
+      </Modal>
+=======
       <div id="buttonArea">
       <button id="adminButton" variant="contained" sx={{ mt: 2 }} /*onClick={handleOpenCreateAdminModal}*/>조회</button>
       <button id="adminButton" variant="contained" sx={{ mt: 2 }} onClick={handleOpenCreateAdminModal}>추가</button>
@@ -205,6 +319,7 @@ function GetAdminList(props) {
     </form>
   </Box>
 </Modal>
+>>>>>>> 156fc888c5d6617a68f8a1a74adb15d73cd18937
     </div>
   );
 }
