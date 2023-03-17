@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+
+import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -11,14 +13,16 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import IconButton from "@mui/material/IconButton";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import LockIcon from "@mui/icons-material/Lock";
+
+import { client } from '../../routes/routes';
 import "./styles.css";
-import { Box } from "@mui/material";
+
 
 const btnStyle = {
   width: "100%",
 };
 
-const adminCreds = { Id: "sadmin", pass: "superfinder123" };
+//const adminCreds = { Id: "sadmin", pass: "superfinder123" };
 
 export default function Container() {
   let navigate = useNavigate();
@@ -32,11 +36,29 @@ export default function Container() {
   };
 
   const handleLogin = (Id, pass) => {
-    if (Id === adminCreds.Id && pass === adminCreds.pass) {
-      localStorage.setItem("authenticated", true);
-      localStorage.setItem("user", Id);
-      navigate("/");
-      window.location.reload(false);
+    client.get('getadmin/' + ID)
+      .then(response => {
+        if (response.data.Item != null){
+          if (Id === response.data.Item.ADMNR_ID.S && pass === response.data.Item.ADMNR_PW.S) {
+            alert('로그인에 성공했습니다.');
+            localStorage.setItem("authenticated", true);
+            localStorage.setItem("user", Id);
+            navigate("/");
+            window.location.reload(false);
+          } else {
+            alert('아이디/패스워드를 확인해주세요.');
+          }
+        } else {
+          alert('일치하는 아이디가 없습니다.');
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  };
+  const onCheckEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin(ID, passwd);
     }
   };
 
@@ -140,6 +162,7 @@ export default function Container() {
                   </InputAdornment>
                 }
                 placeholder="비밀번호를 입력하세요"
+                onKeyPress={onCheckEnter}
               />
             </Grid>
 

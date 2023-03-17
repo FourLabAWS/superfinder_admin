@@ -1,15 +1,20 @@
 import * as React from "react";
+import { useState,useEffect } from 'react';
+
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { useNavigate } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import "../../Table/styles.css";
-import { useState,useEffect } from 'react';
-import axios from 'axios';
+import Person from '@mui/icons-material/Person';
+import CalendarMonth from '@mui/icons-material/CalendarMonth';
 
+import { client } from '../../../routes/routes';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
+import "../../Table/styles.css";
 
 const headingTextStyle = {
     fontWeight: 500,
@@ -23,52 +28,67 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Content(){
-    const [data, setData] = useState(); // DB에서 가져온 데이터를 저장할 값
+    const paramObj = useParams();
+
+    const [notiTl, setNotiTl] = useState('');
+    const [regId, setRegId] = useState('');
+    const [regDt, setRegDt] = useState('');
+    const [content, setContent] = useState('');
+    
     let navigate = useNavigate();
+    const goToPrev = () => { navigate('/notice'); }
+    const goToModf = () => { navigate('/noticeModf/' + paramObj['notiId']); }
 
-    const goToPrev = () => {
-        navigate('/notice');
-    }
-    const notiId = '1';
-
-    // 공지사항 DB 데이터 불러오기
     useEffect(()=> {
         const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList/{notiId}';
-        axios.get(`${apiUrl}`, {params: {notiId: '1'}})
+
+        client.get('getNoticeList/' + paramObj['notiId'])
         .then(response => {
-            console.log(response.data.Item);          
-          setData(response.data.Item);
+            setNotiTl(response.data.Item.NOTI_TL.S);
+            setRegId(response.data.Item.REG_ID.S);
+            setRegDt(response.data.Item.REG_DT.S);
+            setContent(response.data.Item.NOTI_CT.S);
         })
         .catch(error => {
             console.error(error);
         });
     }, []);
-    console.log("1111");
-    console.log(data);
+
     return (
         <div>
-            <div>
-                공지사항 제목
+            <div className="detail-area">
+                
+                <div>
+                    <h2>{notiTl}</h2>
+                </div>
+                <div className="regInfo-box">
+                    <CalendarMonth fontSize="small" />{regDt} <Person fontSize="small"  sx={{marginLeft: "1%" }} /> {regId} 
+                </div>
+                <div className="notiCt-box">
+                    {content}
+                </div>
             </div>
-            <div>
-                작성자 작성일
+            <div className="btn-area">
+                <Button variant="contained" 
+                    sx={{width: "100px",  marginRight: "1%" }}
+                    onClick={goToModf}
+                >
+                    수정
+                </Button>
+                <Button variant="contained" 
+                    sx={{width: "100px",  marginRight: "1%" }}
+                    onClick={goToPrev}
+                >
+                    목록
+                </Button>
             </div>
-            <div>
-                내용
-            </div>
-           
         </div>
 
     );
 }
 
 function Dtl(props){
-
-    // 네비게이트 코드를 어떻게해야 간단하게 바꿀 수 있을까?
-    let navigate = useNavigate();
-    const goToPrev = () => {
-        navigate('/notice');
-    }
+    
     return(
         <Box
             component="main"
@@ -78,18 +98,10 @@ function Dtl(props){
             <Toolbar />
             <Typography variant="h6" noWrap component="div"
                 sx={headingTextStyle}>
-                공지사항 정보
+                공지사항
             </Typography>
             <br />
             <Content />
-            <div className="btn-area">
-                <Button variant="contained" className='prevButton'
-                    sx={{ marginTop: '3%' }}
-                    onClick={goToPrev}
-                >
-                    목록
-                </Button>
-            </div>
         </Box>
     )
 }

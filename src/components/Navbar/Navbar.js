@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -16,6 +18,13 @@ const logout = () => {
 
 const Navbar = () => {
     const user = localStorage.getItem('user')
+
+    // 상위 제목을 페이지 별로 바꾸기 위해 테스트
+    const [mainTl, setMainTl] = useState('');
+    const NavigationBar = (text) => {
+        setMainTl(text);
+        console.log(text);
+    }
     return (
         <AppBar
             style={{ background: 'white' }}
@@ -23,9 +32,9 @@ const Navbar = () => {
             color="transparent"
             sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
         >
-            <Toolbar>
+            <Toolbar propFunction={NavigationBar}>
                 <Typography noWrap component="div" variant="h6">
-                    <span><b>Superfinder</b></span>
+                    <span><b>{mainTl}</b></span>
                 </Typography>
                 <Typography noWrap component="div" variant="h7" marginLeft='80%'>
                     <span>{user}</span>

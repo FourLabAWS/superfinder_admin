@@ -12,9 +12,9 @@ import Management from "../pages/Management";
 import Notice from "../pages/notice/Notice";
 import NoticeReg from "../pages/notice/NoticeReg";
 import NoticeDtl from "../pages/notice/NoticeDtl";
+import NoticeModf from "../pages/notice/NoticeModf";
 
-
-import UserAdmin from "../components/Container/userAdmin/UserAdmin";
+import UserAdmin from "../pages/user/UserAdmin";
 
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
@@ -61,17 +61,16 @@ const routes = [
       path: "/noticeDtl/:notiId",
       component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
     },
-    // { // 공지사항 수정
-    //   id: 8,
-    //   path: "/noticeModf",
-    //   component: (<PrivateRoute> <NoticeModf /> </PrivateRoute>)
-    // },
-    // { // 공지사항 삭제
-    //   id: 9,
-    //   path: "/noticeDet",
-    //   component: (<PrivateRoute> <NoticeDet /> </PrivateRoute>)
-    // },
-
+    {
+      id: 9,
+      path: "/noticeModf/:notiId",
+      component: (<PrivateRoute> <NoticeModf /> </PrivateRoute>)
+    },
+    {
+      id: 98,
+      path: '/AddNoti',
+      component: <PrivateRoute> <NoticeReg /> </PrivateRoute>
+    },
     {
         id: 99,
         path: '/board',

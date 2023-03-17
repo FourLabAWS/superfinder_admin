@@ -10,38 +10,31 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 
-
+import { client } from '../../../routes/routes';
 import "../../Table/styles.css";
 
+
 function GetNotiList(props) {
-    const apiUrl = 'https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getNoticeList';
-
-    const [rows, setRows] = useState();
+    const rows = props.data;   
     const [selectedRows, setSelectedRows] = React.useState([]);
-    const movePage = useNavigate();
-
+    const movePage = useNavigate(); 
     
-    let [list, setList] = useState([]);  // 공지사항 데이터를 담을 곳
-
     const getBackgroundColor = (color, mode) => mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
-    // 제목 클릭 시, 상세페이지로 이동
     function routeChange(notiTl) {
       let path = `/noticeDtl/` + notiTl;
       movePage(path);
     }
 
-    // 보여줄 칼럼 정의
     const columns = [
-      {field: "notiId"  , headerName: "번호", width: 80},
+      {field: "notiId"  , headerName: "번호", width: 80, hide: true},
       {field: "notiTpSe", headerName: "구분", width: 100},
       {field: "notiTl", headerName: "제목", width: 600,
         renderCell: (params) => {
           const onClick = (e)=>{
             e.stopPropagation();
-            const api = params.api; // api를 왜 조회할까?
-            const thisRow = {};     // thisRow는 왜 작성할까? thisRow["id"]는 무슨 의미일까
-
+            const api = params.api;
+            const thisRow = {};
             api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
@@ -52,7 +45,7 @@ function GetNotiList(props) {
             return routeChange(thisRow["notiId"]);
 
           }
-          // params.row["notiTl"] 으로 작성해야 제목에 notiTL의 값이 출력된다.
+
           return <Button onClick={onClick}>{params.row["notiTl"]}</Button>;
         }
       },
@@ -61,38 +54,30 @@ function GetNotiList(props) {
       {field: "regDt", headerName: "등록일자", width: 120},
     ];
 
-    // 공지사항 DB 데이터 불러오기
-    useEffect(()=> {
-        axios.get(`${apiUrl}`).then(response => {
 
-          let item = [];  
-          let items = response.data.Items;
+    const deleteItem = () => {
 
-          setRows(items.length);
-            
-          items.map(function(a, itemNm) {
-              item.push({
-                id : itemNm,
-                notiId : items[itemNm].NOTI_ID.S, // 공지사항ID
-                notiTpSe : items[itemNm].NOTI_TP_SE.S, // 분류(긴급/일반)
-                notiTl : items[itemNm].NOTI_TL.S, // 제목
-                useYn : items[itemNm].USE_YN.S, // 사용여부
-                atchDocId : items[itemNm].ATCH_DOC_ID.S, // 첨부파일ID
-                regDt : items[itemNm].REG_DT.S, // 등록일
-                regId : items[itemNm].REG_ID.S, // 등록자
-              })
-          })
-          setList(item);
+      if (selectedRows.length === 0) {
+        alert("삭제할 공지사항을 선택해주세요.");
+        return;
+      }
+
+      selectedRows.map((item) => {
+        client.delete("DelNoti/" + item["notiId"])
+        .then((response) => {
+          window.location.reload(false);
+          return response;
         })
         .catch(error => {
-            console.error(error);
+          console.error(error);
         });
-    }, []);
+      });
+    };
 
   return (
     <div>
         <Typography variant="h7" noWrap component="div" sx={{fontWeight: 550}}>
-            목록 (총 건수 : {rows} 건)
+            목록 (총 건수 : {rows.length} 건)
         </Typography>
         <Divider sx={{ padding: 1, border: "none" }} />
         <Box
@@ -109,7 +94,7 @@ function GetNotiList(props) {
           }}
         >       
           <DataGrid
-            rows={list}
+            rows={rows}
             columns={columns}
             paginationMode="server"
             keepNonExistentRowsSelected
@@ -137,12 +122,18 @@ function GetNotiList(props) {
         <Divider sx={{ padding: 1, border: "none" }} />
         <div className="btn-area">
           <Button variant="contained" 
-            sx={{width: "100px", fontSize: 12}}
+            sx={{width: "100px",  marginRight: "1%" }}
             onClick={()=> {
               movePage('/noticeReg');
             }}
           >
             추가
+          </Button>
+          <Button variant="contained" 
+            sx={{width: "100px",  marginRight: "1%" }}
+            onClick={deleteItem}
+          >
+            삭제
           </Button>
         </div>
     </div>
