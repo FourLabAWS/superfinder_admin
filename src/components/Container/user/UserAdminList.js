@@ -90,8 +90,6 @@ function GetUserAdminList(props) {
         .delete("delAdmin/" + item["admnrId"])
         .then((response) => {
           alert("삭제되었습니다.");
-          //1. 모달을 닫는다.
-          //2. 리로드 한다.
           window.location.reload(false);
           return response;
         })
@@ -141,7 +139,7 @@ function GetUserAdminList(props) {
           onSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
             const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
-
+            console.log(selectedRows);
             setSelectedRows(selectedRows);
           }}
         />
