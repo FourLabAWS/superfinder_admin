@@ -15,6 +15,7 @@ import "../../Table/styles.css";
 
 
 function GetNotiList(props) {
+
     const rows = props.data;   
     const [selectedRows, setSelectedRows] = React.useState([]);
     const movePage = useNavigate(); 
