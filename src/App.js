@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
@@ -34,7 +34,7 @@ function App() {
   //console.log('logged in ', isLogged);
   
   setUpTiming();
-  
+
   return (
       <Box sx={{ display: 'flex' }}>
       {isLogged != null && <Navbar />}
