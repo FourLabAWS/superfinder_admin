@@ -59,7 +59,7 @@ export default function Notice() {
     client
       .get("getadmin", {
         params: {
-          text: params["text"],
+          contains: params["text"], // 이름이 포함된 사용자 검색
         },
       })
       .then((response) => {

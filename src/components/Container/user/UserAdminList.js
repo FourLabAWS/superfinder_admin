@@ -98,16 +98,20 @@ function GetUserAdminList(props) {
     }
 
     selectedRows.map((item) => {
-      client
-        .delete("delAdmin/" + item["admnrId"])
-        .then((response) => {
-          alert("삭제되었습니다.");
-          window.location.reload(false);
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (item["admnrId"].indexOf("sadmin") >= 0) {
+        alert("삭제 불가한 아이디입니다.");
+      } else {
+        client
+          .delete("delAdmin/" + item["admnrId"])
+          .then((response) => {
+            alert("삭제되었습니다.");
+            window.location.reload(false);
+            return response;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     });
   };
 
