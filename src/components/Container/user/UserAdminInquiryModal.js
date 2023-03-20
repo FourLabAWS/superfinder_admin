@@ -40,8 +40,13 @@ const UserAdminInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
       return;
     }
 
+    if (!window.confirm("선택한 사용자를 수정하겠습니까?")) {
+      return;
+    }
+
     try {
       await updateAdminAccount(formData);
+      alert("수정되었습니다.");
       onClose();
       window.location.reload(false);
     } catch (error) {
@@ -82,11 +87,13 @@ const UserAdminInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
                 type="text"
                 id="id"
                 name="admnrId"
-                label="아이디"
                 fullWidth
                 value={formData.admnrId}
+                onChange={handleFormChange}
                 required
-                readOnly
+                inputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -99,6 +106,9 @@ const UserAdminInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
                 value={formData.admnrPw}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -108,8 +118,12 @@ const UserAdminInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
                 name="admnrPwConfirm"
                 label="비밀번호 확인"
                 fullWidth
+                value={formData.admnrPwConfirm}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -122,6 +136,9 @@ const UserAdminInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
                 value={formData.admnrNm}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -134,6 +151,9 @@ const UserAdminInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
                 value={formData.admnrEmail}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
           </Grid>
@@ -147,7 +167,13 @@ const UserAdminInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
         >
           수정
         </Button>
-        <Button onClick={onClose}>닫기</Button>
+        <Button
+          variant="contained"
+          onClick={onClose}
+          sx={{ width: "100px", marginRight: "1%" }}
+        >
+          닫기
+        </Button>
       </DialogActions>
     </Dialog>
   );
