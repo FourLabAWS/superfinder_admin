@@ -4,7 +4,7 @@ import PrivateRoute from "../components/Routes/PrivateRoute";
 
 import Board from "../pages/Board";
 
-import Login from '../pages/Login';
+import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import DataTable from "../pages/DataTable";
 import Management from "../pages/Management";
@@ -17,65 +17,131 @@ import NoticeModf from "../pages/notice/NoticeModf";
 import UserAdmin from "../pages/user/UserAdmin";
 
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
-const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
-const client = axios.create({baseURL: BASE_URL});
+const BASE_URL =
+  "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
+const client = axios.create({ baseURL: BASE_URL });
 
 const routes = [
-    {
-      id: 1,
-      path: '/',
-      component: <PrivateRoute> <Dashboard /> </PrivateRoute>
-    },
-    {
-      id: 2,
-      path: '/management/:id',
-      component: <PrivateRoute> <Management /> </PrivateRoute>
-    },
-    {
-      id: 3,
-      path: '/analysis',
-      component: <PrivateRoute> <DataTable /> </PrivateRoute>
-    },
-    {
-      id: 4,
-      path: '/login',
-      component: <PublicRoute> <Login /> </PublicRoute>
-    },
-    {
-      id: 5,
-      path: "/notice",
-      component: (<PrivateRoute> <Notice /> </PrivateRoute>)
-    },
-    {
-      id: 6,
-      path: "/noticeReg",
-      component: (<PrivateRoute> <NoticeReg /> </PrivateRoute>)
-    },
-    {
-      id: 7,
-      path: "/userAdmin",
-      component: (<PrivateRoute> <UserAdmin /> </PrivateRoute>)
-    },
-    {
-      id: 8,
-      path: "/noticeDtl/:notiId",
-      component: (<PrivateRoute> <NoticeDtl /> </PrivateRoute>)
-    },
-    {
-      id: 9,
-      path: "/noticeModf/:notiId",
-      component: (<PrivateRoute> <NoticeModf /> </PrivateRoute>)
-    },
-    {
-      id: 98,
-      path: '/AddNoti',
-      component: <PrivateRoute> <NoticeReg /> </PrivateRoute>
-    },
-    {
-        id: 99,
-        path: '/board',
-        component: <PrivateRoute> <Board /> </PrivateRoute>
-    }
-]
+  {
+    id: 1,
+    path: "/",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <Dashboard />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 2,
+    path: "/management/:id",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <Management />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 3,
+    path: "/analysis",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <DataTable />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 4,
+    path: "/login",
+    component: (
+      <PublicRoute>
+        {" "}
+        <Login />{" "}
+      </PublicRoute>
+    ),
+  },
+  {
+    id: 5,
+    path: "/notice",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <Notice />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 6,
+    path: "/noticeReg",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeReg />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 7,
+    path: "/userAdmin",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <UserAdmin />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 8,
+    path: "/noticeDtl/:notiId",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeDtl />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 9,
+    path: "/noticeModf/:notiId",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeModf />{" "}
+      </PrivateRoute>
+    ),
+  },
+  /*  {
+    id: 10,
+    path: "/UserAdminEdit/:admnrId",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <UserAdminEdit />{" "}
+      </PrivateRoute>
+    ),
+  },*/
+  {
+    id: 98,
+    path: "/AddNoti",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeReg />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 99,
+    path: "/board",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <Board />{" "}
+      </PrivateRoute>
+    ),
+  },
+];
 
 export { routes, client };

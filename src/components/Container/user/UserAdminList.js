@@ -13,6 +13,7 @@ import { client } from "../../../routes/routes";
 
 import UserAdminRegModal from "./UserAdminRegModal";
 import UserAdminInquiryModal from "./UserAdminInquiryModal";
+
 import "../../Table/styles.css";
 
 function GetUserAdminList(props) {
@@ -20,6 +21,7 @@ function GetUserAdminList(props) {
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [openCreateAdminModal, setOpenCreateAdminModal] = useState(false);
   const [openInquiryAdminModal, setOpenInquiryAdminModal] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
 
   const getBackgroundColor = (color, mode) =>
@@ -72,6 +74,16 @@ function GetUserAdminList(props) {
 
   const userInquiryCloseModal = () => {
     setOpenInquiryAdminModal(false);
+  };
+
+  const handleEditModalOpen = (selectedRows) => {
+    selectedRows(selectedRows);
+    setOpenInquiryAdminModal(false);
+    setEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false);
   };
 
   //사용자 삭제
@@ -167,6 +179,7 @@ function GetUserAdminList(props) {
         modalObj={openInquiryAdminModal}
         onClose={userInquiryCloseModal}
         selectedUser={selectedRows}
+        onEdit={handleEditModalOpen}
       />
     </div>
   );
