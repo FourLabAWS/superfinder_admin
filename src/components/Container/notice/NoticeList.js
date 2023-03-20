@@ -61,6 +61,10 @@ function GetNotiList(props) {
       if (selectedRows.length === 0) {
         alert("삭제할 공지사항을 선택해주세요.");
         return;
+      } else {
+        if(window.confirm('삭제하시면 복구할 수 없습니다. \n정말로 삭제하시겠습니까?')==false){
+          return false;
+        }
       }
 
       selectedRows.map((item) => {
@@ -69,6 +73,7 @@ function GetNotiList(props) {
           window.location.reload(false);
           return response;
         })
+
         .catch(error => {
           console.error(error);
         });
