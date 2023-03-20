@@ -14,7 +14,7 @@ moment.tz.setDefault('Asia/Seoul')
 const history = createBrowserHistory();
 
 function setUpTiming() {
-  var timeOutInterval = 120;
+  var timeOutInterval = 3600;
   var now = new Date().getTime();
   var setupTime = localStorage.getItem('setupTime');
   if (setupTime == null) {
