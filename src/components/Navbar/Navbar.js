@@ -28,7 +28,7 @@ const Navbar = () => {
         >
             <Toolbar>
                 <Typography noWrap component="div" variant="h6">
-                    <span><b>superfinder</b></span>
+                    <span><b>super finder</b></span>
                 </Typography>
                 <Typography noWrap component="div" variant="h7" marginLeft='80%'>
                     <span>{name}</span>

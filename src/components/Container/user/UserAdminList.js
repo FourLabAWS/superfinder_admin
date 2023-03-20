@@ -37,8 +37,8 @@ function GetUserAdminList(props) {
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
-          const api = params.api; // api를 왜 조회할까?
-          const thisRow = {}; // thisRow는 왜 작성할까? thisRow["id"]는 무슨 의미일까
+          const api = params.api;
+          const thisRow = {};
 
           api
             .getAllColumns()
@@ -53,9 +53,9 @@ function GetUserAdminList(props) {
       },
     },
     { field: "admnrEmail", headerName: "이메일", width: 200 },
-    //{field: "useYn", headerName: "사용여부", width: 100},
-    //{field: "regId", headerName: "등록자", width: 100},
-    //{field: "regDt", headerName: "등록일자", width: 120},
+    { field: "ADMNR_REGDT", headerName: "사용여부", width: 100 },
+    { field: "ADMNR_USEYN", headerName: "등록자", width: 100 },
+    { field: "ADMNR_REGID", headerName: "등록일자", width: 120 },
   ];
 
   //사용자 모달
@@ -145,32 +145,43 @@ function GetUserAdminList(props) {
           experimentalFeatures={{ newEditingApi: true }}
           initialState={{
             sorting: {
-              sortModel: [{ field: "regDt", sort: "desc" }],
+              sortModel: [{ field: "admnrRegDt", sort: "desc" }],
             },
           }}
           onSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
-            const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
-            console.log(selectedRows);
-            setSelectedRows(selectedRows);
+            const selectedRows = rows
+              .map((row) => {
+                return {
+                  ...row,
+                  useYn: row.admnrUseYn,
+                  regId: row.admnrRegId,
+                  regDt: row.admnrRegDt,
+                };
+              })
+              .filter((row) => selectedIDs.has(row.id));
+
+            setSelectedRows(selectedRows.length === 0 ? [] : selectedRows);
           }}
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-      <Button
-        variant="contained"
-        sx={{ width: "100px", fontSize: 12 }}
-        onClick={userAddModal}
-      >
-        추가
-      </Button>
-      <Button
-        variant="contained"
-        sx={{ width: "100px", marginLeft: "1%" }}
-        onClick={deleteUser}
-      >
-        삭제
-      </Button>
+      <div className="btn-area">
+        <Button
+          variant="contained"
+          sx={{ width: "100px", fontSize: 12 }}
+          onClick={userAddModal}
+        >
+          추가
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={deleteUser}
+        >
+          삭제
+        </Button>
+      </div>
       <UserAdminRegModal
         modalObj={openCreateAdminModal}
         onClose={userAddCloseModal}

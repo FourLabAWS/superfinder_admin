@@ -36,7 +36,7 @@ function App() {
   setUpTiming();
 
   return (
-      <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }}>
       {isLogged != null && <Navbar />}
       <BrowserRouter>
         {isLogged != null && <Sidebar />}
@@ -44,8 +44,8 @@ function App() {
           {routes.map(route => {
             return (
               <Route key={route.id} path={route.path} element={route.component}></Route>
-            )
-          })}
+              )
+            })}
         </Routes>
       </BrowserRouter>
     </Box>
