@@ -35,6 +35,8 @@ function App() {
   
   setUpTiming();
 
+  
+
   return (
       <Box sx={{ display: 'flex' }}>
       {isLogged != null && <Navbar />}

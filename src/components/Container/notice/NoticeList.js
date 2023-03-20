@@ -69,6 +69,7 @@ function GetNotiList(props) {
           window.location.reload(false);
           return response;
         })
+
         .catch(error => {
           console.error(error);
         });
