@@ -16,7 +16,7 @@ const logout = () => {
     window.location.reload(false);
 }
 
-const Navbar = (props) => {
+const Navbar = () => {
     const name = localStorage.getItem('name');
 
     return (
@@ -28,7 +28,7 @@ const Navbar = (props) => {
         >
             <Toolbar>
                 <Typography noWrap component="div" variant="h6">
-                    <span><b>{props.category}</b></span>
+                    <span><b>super finder</b></span>
                 </Typography>
                 <Typography noWrap component="div" variant="h7" marginLeft='80%'>
                     <span>{name}</span>

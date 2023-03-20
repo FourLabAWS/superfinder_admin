@@ -35,19 +35,17 @@ function App() {
   
   setUpTiming();
 
-  const [category, setCatetory] = useState('원본데이터');
-
   return (
-      <Box sx={{ display: 'flex' }}>
-      {isLogged != null && <Navbar category={category} />}
+    <Box sx={{ display: 'flex' }}>
+      {isLogged != null && <Navbar />}
       <BrowserRouter>
-        {isLogged != null && <Sidebar category={category} />}
+        {isLogged != null && <Sidebar />}
         <Routes history={history}>
           {routes.map(route => {
             return (
               <Route key={route.id} path={route.path} element={route.component}></Route>
-            )
-          })}
+              )
+            })}
         </Routes>
       </BrowserRouter>
     </Box>
