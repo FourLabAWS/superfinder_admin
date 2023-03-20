@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
@@ -48,7 +48,7 @@ const Sidebar = () => {
             <br />
             <List>
                 {SideBarItems.map((menu) => (
-                    <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
+                    <ListItem key={menu.id} disablePadding component={Link} to={menu.link} >
                         <ListItemButton>
                             <ListItemIcon>
                                 {menu.icon}

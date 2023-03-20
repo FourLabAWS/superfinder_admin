@@ -38,18 +38,19 @@ export default function Container() {
   const handleLogin = (Id, pass) => {
     client.get('getadmin/' + ID)
       .then(response => {
-        if (response.data.Item != null){
-          if (Id === response.data.Item.ADMNR_ID.S && pass === response.data.Item.ADMNR_PW.S) {
-            alert('로그인에 성공했습니다.');
+        let resData = response.data.Item;
+        if (resData != null){
+          if (Id === resData.ADMNR_ID.S && pass === resData.ADMNR_PW.S) {
             localStorage.setItem("authenticated", true);
             localStorage.setItem("user", Id);
+            localStorage.setItem("name", resData.ADMNR_NM.S);
             navigate("/");
             window.location.reload(false);
           } else {
             alert('아이디/패스워드를 확인해주세요.');
           }
         } else {
-          alert('일치하는 아이디가 없습니다.');
+          alert('아이디/패스워드를 확인해주세요.');
         }
       })
       .catch(error => {
