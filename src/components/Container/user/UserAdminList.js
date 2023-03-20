@@ -53,9 +53,9 @@ function GetUserAdminList(props) {
       },
     },
     { field: "admnrEmail", headerName: "이메일", width: 200 },
-    { field: "ADMNR_REGDT", headerName: "사용여부", width: 100 },
-    { field: "ADMNR_USEYN", headerName: "등록자", width: 100 },
-    { field: "ADMNR_REGID", headerName: "등록일자", width: 120 },
+    { field: "useYn", headerName: "사용여부", width: 100 },
+    { field: "regDt", headerName: "등록일자", width: 100 },
+    { field: "regId", headerName: "등록자", width: 120 },
   ];
 
   //사용자 모달
@@ -166,10 +166,10 @@ function GetUserAdminList(props) {
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-      <div className="btn-area">
+      <div id="buttonArea">
         <Button
           variant="contained"
-          sx={{ width: "100px", fontSize: 12 }}
+          sx={{ width: "100px", marginLeft: "1%" }}
           onClick={userAddModal}
         >
           추가

@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 
 import "../../Table/styles.css";
 import "./UserAdmin.css";
@@ -95,7 +96,7 @@ function UserAdminRegModal(obj) {
         <Typography variant="h6" gutterBottom>
           {title}
         </Typography>
-        <form onSubmit={doSave}>
+        <form>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -107,6 +108,9 @@ function UserAdminRegModal(obj) {
                 value={formData.admnrId}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -119,6 +123,9 @@ function UserAdminRegModal(obj) {
                 value={formData.admnrPw}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -131,6 +138,9 @@ function UserAdminRegModal(obj) {
                 value={formData.admnrPwConfirm}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -143,6 +153,9 @@ function UserAdminRegModal(obj) {
                 value={formData.admnrNm}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -155,19 +168,24 @@ function UserAdminRegModal(obj) {
                 value={formData.admnrEmail}
                 onChange={handleFormChange}
                 required
+                sx={{
+                  height: "50px",
+                }}
               />
             </Grid>
           </Grid>
-          <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-            저장
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ mt: 2, mr: 1 }}
-            onClick={obj.onClose}
-          >
-            취소
-          </Button>
+          <div className="btn-area">
+            <Button onClick={doSave} variant="contained" sx={{ mt: 2, mr: 1 }}>
+              저장
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ mt: 2, mr: 1 }}
+              onClick={obj.onClose}
+            >
+              취소
+            </Button>
+          </div>
         </form>
       </Box>
     </Modal>
