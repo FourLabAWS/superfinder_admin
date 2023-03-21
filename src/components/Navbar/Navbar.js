@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -15,7 +17,8 @@ const logout = () => {
 }
 
 const Navbar = () => {
-    const user = localStorage.getItem('user')
+    const name = localStorage.getItem('name');
+
     return (
         <AppBar
             style={{ background: 'white' }}
@@ -25,12 +28,11 @@ const Navbar = () => {
         >
             <Toolbar>
                 <Typography noWrap component="div" variant="h6">
-                    <span><b>Superfinder</b></span>
+                    <span><b>super finder</b></span>
                 </Typography>
                 <Typography noWrap component="div" variant="h7" marginLeft='80%'>
-                    <span>{user}</span>
+                    <span>{name}</span>
                     <Button startIcon={<LogoutIcon />} onClick={logout} sx={{ color: 'black' }}></Button>
-
                 </Typography>
             </Toolbar>
             <Divider />

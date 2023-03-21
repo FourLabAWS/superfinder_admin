@@ -1,17 +1,25 @@
-import Dashboard from "../pages/Dashboard";
-import DataTable from "../pages/DataTable";
-import Management from "../pages/Management";
-import Login from "../pages/Login";
 import axios from "axios";
 import PublicRoute from "../components/Routes/PublicRoute";
 import PrivateRoute from "../components/Routes/PrivateRoute";
-import Notice from "../pages/Notice";
 
+import Board from "../pages/Board";
+
+import Login from "../pages/Login";
+import Dashboard from "../pages/Dashboard";
+import DataTable from "../pages/DataTable";
+import Management from "../pages/Management";
+
+import Notice from "../pages/notice/Notice";
+import NoticeReg from "../pages/notice/NoticeReg";
+import NoticeDtl from "../pages/notice/NoticeDtl";
+import NoticeModf from "../pages/notice/NoticeModf";
+
+import UserAdmin from "../pages/user/UserAdmin";
+
+//const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const BASE_URL =
-  "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
-const client = axios.create({
-  baseURL: BASE_URL,
-});
+  "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
+const client = axios.create({ baseURL: BASE_URL });
 
 const routes = [
   {
@@ -58,10 +66,80 @@ const routes = [
     id: 5,
     path: "/notice",
     component: (
-      <PublicRoute>
+      <PrivateRoute>
         {" "}
         <Notice />{" "}
-      </PublicRoute>
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 6,
+    path: "/noticeReg",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeReg />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 7,
+    path: "/userAdmin",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <UserAdmin />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 8,
+    path: "/noticeDtl/:notiId",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeDtl />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 9,
+    path: "/noticeModf/:notiId",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeModf />{" "}
+      </PrivateRoute>
+    ),
+  },
+  /*  {
+    id: 10,
+    path: "/UserAdminEdit/:admnrId",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <UserAdminEdit />{" "}
+      </PrivateRoute>
+    ),
+  },*/
+  {
+    id: 98,
+    path: "/AddNoti",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <NoticeReg />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 99,
+    path: "/board",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <Board />{" "}
+      </PrivateRoute>
     ),
   },
 ];

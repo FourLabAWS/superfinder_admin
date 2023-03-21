@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
@@ -14,7 +14,7 @@ moment.tz.setDefault('Asia/Seoul')
 const history = createBrowserHistory();
 
 function setUpTiming() {
-  var timeOutInterval = 120;
+  var timeOutInterval = 3600;
   var now = new Date().getTime();
   var setupTime = localStorage.getItem('setupTime');
   if (setupTime == null) {
@@ -31,8 +31,8 @@ function setUpTiming() {
 
 function App() {
   const isLogged = localStorage.getItem('authenticated');
-  console.log('logged in ', isLogged);
-
+  //console.log('logged in ', isLogged);
+  
   setUpTiming();
 
   return (
@@ -44,13 +44,12 @@ function App() {
           {routes.map(route => {
             return (
               <Route key={route.id} path={route.path} element={route.component}></Route>
-            )
-          })}
+              )
+            })}
         </Routes>
       </BrowserRouter>
     </Box>
   );
-
 }
 
 export default App;

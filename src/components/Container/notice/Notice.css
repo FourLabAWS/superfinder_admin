@@ -1,0 +1,93 @@
+.notice-form {
+  max-width: 600px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+  display: block;
+  width: 100%;
+  /*padding: 0.5rem; ADMNR input 조절하기 위해 주석 처리 했습니다.*/
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 120px;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #0062cc;
+}
+
+select {
+  display: block;
+  width: 120px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #fff;
+  background-image: linear-gradient(to bottom, #fff 50%, #f9f9f9 100%);
+  background-repeat: no-repeat;
+  background-size: 2.5rem 1.5rem;
+  background-position: center right 0.5rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #007bff;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.btn-area {
+  text-align: end;
+}
+
+/* NoticeDtl */
+.detail-area {
+  padding: 20px;
+  /* border : 1px solid whitesmoke;
+    background-color: whitesmoke; */
+}
+.regInfo-box {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  color: gray;
+}
+.notiCt-box {
+  min-height: 380px;
+  padding: 10px 10px;
+}
