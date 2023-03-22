@@ -180,6 +180,8 @@ export default function FilterTable() {
       </FormGroup>
 
       <Toolbar />
+
+      {/* 데이터그리드 */}
       <DataTable data={rows} />
     </div>
   );
