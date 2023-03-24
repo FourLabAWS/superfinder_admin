@@ -132,6 +132,7 @@ export default function Container() {
                   </InputAdornment>
                 }
                 placeholder="사용자 ID를 입력하십시오"
+                style={{ cursor: 'pointer'}}
               />
             </Grid>
 
@@ -164,6 +165,7 @@ export default function Container() {
                 }
                 placeholder="비밀번호를 입력하세요"
                 onKeyPress={onCheckEnter}
+                style={{ cursor: 'pointer'}}
               />
             </Grid>
 

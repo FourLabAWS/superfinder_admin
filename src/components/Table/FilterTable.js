@@ -23,7 +23,9 @@ const titleStyle = {
 const btnStyle = {
   // width: "50%",
   // marginLeft: '50%',
-  fontSize: 12,
+  fontSize: 16,
+  position: "absolute",
+  right: 0,
   height: "100%",
   wordBreak: "keep-all",
 };
@@ -105,7 +107,11 @@ export default function FilterTable() {
           variant="outlined"
           p={"20px"}
         >
-          <Grid container fullWidth>
+          <Grid
+            container
+            className={"3"}
+            style={{ paddingRight: "0", position: "relative" }}
+          >
             {/* */}
             <Grid item xs={10}>
               {/* 1st line _검색어 */}
@@ -165,7 +171,7 @@ export default function FilterTable() {
             </Grid>
 
             {/* 검색버튼 */}
-            <Grid item width={"82px"}>
+            <Grid item maxWidth={""}>
               <Button
                 variant="contained"
                 sx={btnStyle}
