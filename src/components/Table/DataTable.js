@@ -12,6 +12,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "./styles.css";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
+import { ImageModal } from "../Popup";
+import { Modal } from "@mui/material";
+import { ImageTablePopup } from "../Popup/ModalContents";
 // import JSZipUtils from "jszip-utils";
 
 const headingTextStyle = {
@@ -21,12 +24,62 @@ const headingTextStyle = {
 export default function DataTable(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
+  //
   let navigate = useNavigate();
 
-  function routeChange(data) {
-    let path = `/management/` + data;
-    navigate(path);
+  // 모달 start
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const modalStyle = {
+    position: "absolute",
+
+    //
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+
+    minWidth: "60vw",
+    maxWidth: "80vw",
+    maxHeight: "70vh",
+
+    overflow: "overlay",
+
+    bgcolor: "background.paper",
+    //   border: "2px solid #000",
+    borderRadius: "10px",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [id, setId] = React.useState(0);
+  const [deviceId, setDeviceId] = React.useState("");
+  const [regDate, setRegDate] = React.useState();
+  const [size, setSize] = React.useState();
+
+  function GridSelected(data) {
+    console.log("test", data);
+
+    setId(data["id"]);
+    setDeviceId(data["device_id"]);
+    setRegDate(data["date"]);
+    setSize(data["flag_size"]);
+
+    setOpen(true);
   }
+
+  // 모달 end
+
+  //
+  // function routeChange(data) {
+  //   let path = `/management/` + data;
+  //   console.log("testing", data);
+  //   navigate(path);
+  //   setOpen(true);
+  // }
 
   const deleteItem = () => {
     selectedRows.map((item) => {
@@ -41,12 +94,12 @@ export default function DataTable(props) {
     {
       field: "id",
       headerName: "번호",
-      // width: 90,
+      width: 90,
     },
     {
       field: "fileName",
       headerName: "파일명",
-      //   width: ,
+      width: 400,
 
       renderCell: (params) => {
         const onClick = (e) => {
@@ -61,30 +114,36 @@ export default function DataTable(props) {
             .forEach(
               (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
             );
-          return routeChange(thisRow["id"]);
+          return GridSelected(thisRow);
         };
-        return <Button onClick={onClick}>{params.row["fileName"]}</Button>;
+        return (
+          <ImageModal
+            btnTxt={params.row["fileName"]}
+            onClick={onClick}
+          ></ImageModal>
+        );
+        // <Butzton onClick={onClick}>{params.row["fileName"]}</Butzton>;
       },
     },
     {
       field: "status",
       headerName: "상태",
-      //   width: 110,
+      width: 120,
     },
     {
       field: "date",
       headerName: "등록일자",
-      //   width: 140,
+      width: 140,
     },
     {
       field: "device_id",
       headerName: "디바이스 ID",
-      //   width: 200,
+      width: 200,
     },
     {
       field: "flag_size",
       headerName: "깃발 크기",
-      //   width: 200,
+      width: 200,
     },
   ];
 
@@ -112,13 +171,60 @@ export default function DataTable(props) {
 
   return (
     <div>
-      <Typography variant="h7" noWrap component="div" sx={headingTextStyle}>
-        이미지리스트 (총 건수 : {rows.length} 건)
-      </Typography>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="h7" noWrap component="div" sx={headingTextStyle}>
+          이미지리스트 (총 건수 : {rows.length} 건)
+        </Typography>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "start",
+
+            width: "auto",
+
+            gap: "10px",
+          }}
+        >
+          <Button
+            variant="contained"
+            className="downloadButton"
+            startIcon={<DownloadIcon />}
+            onClick={downloadImage}
+            style={{
+              wordBreak: "keep-all",
+            }}
+          >
+            다운로드
+          </Button>
+          <Button
+            variant="contained"
+            className="selectBtn"
+            sx={{ marginLeft: "2%" }}
+            startIcon={<DeleteIcon />}
+            onClick={deleteItem}
+            style={{
+              wordBreak: "keep-all",
+            }}
+          >
+            삭제
+          </Button>
+        </div>
+      </div>
+
       <Divider sx={{ padding: 2, border: "none" }} />
       <Box
         sx={{
-          height: 860,
+          height: 600,
           width: "100%",
           "& .super-app-theme--unsuccess": {
             bgcolor: (theme) =>
@@ -132,12 +238,15 @@ export default function DataTable(props) {
         <DataGrid
           rows={rows}
           columns={columns}
-          paginationMode="server"
+          //ssr로 변경 필요..
+          // paginationMode="server"
           keepNonExistentRowsSelected
           pageSize={15}
+          //
           rowHeight={50}
-          rowsPerPageOptions={[15]}
+          rowsPerPageOptions={[5]}
           rowSelectionModel={15}
+          //
           getRowClassName={(params) => `super-app-theme--${params.row.status}`}
           checkboxSelection
           disableSelectionOnClick
@@ -154,25 +263,19 @@ export default function DataTable(props) {
             setSelectedRows(selectedRows);
           }}
         />
+        {/* 팝업 페이지 */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <ImageTablePopup id={id} deviceId={deviceId} />
+          </Box>
+        </Modal>
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-      <Button
-        variant="contained"
-        className="downloadButton"
-        startIcon={<DownloadIcon />}
-        onClick={downloadImage}
-      >
-        다운로드
-      </Button>
-      <Button
-        variant="contained"
-        className="selectBtn"
-        sx={{ marginLeft: "2%" }}
-        startIcon={<DeleteIcon />}
-        onClick={deleteItem}
-      >
-        삭제
-      </Button>
     </div>
   );
 }
