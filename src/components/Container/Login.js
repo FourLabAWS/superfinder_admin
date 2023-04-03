@@ -14,9 +14,8 @@ import IconButton from "@mui/material/IconButton";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import LockIcon from "@mui/icons-material/Lock";
 
-import { client } from '../../routes/routes';
+import { client } from "../../routes/routes";
 import "./styles.css";
-
 
 const btnStyle = {
   width: "100%",
@@ -36,10 +35,11 @@ export default function Container() {
   };
 
   const handleLogin = (Id, pass) => {
-    client.get('getadmin/' + ID)
-      .then(response => {
+    client
+      .get("getadmin/" + ID)
+      .then((response) => {
         let resData = response.data.Item;
-        if (resData != null){
+        if (resData != null) {
           if (Id === resData.ADMNR_ID.S && pass === resData.ADMNR_PW.S) {
             localStorage.setItem("authenticated", true);
             localStorage.setItem("user", Id);
@@ -47,18 +47,18 @@ export default function Container() {
             navigate("/");
             window.location.reload(false);
           } else {
-            alert('아이디/패스워드를 확인해주세요.');
+            alert("아이디/패스워드를 확인해주세요.");
           }
         } else {
-          alert('아이디/패스워드를 확인해주세요.');
+          alert("아이디/패스워드를 확인해주세요.");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
+      });
   };
   const onCheckEnter = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleLogin(ID, passwd);
     }
   };
@@ -132,6 +132,7 @@ export default function Container() {
                   </InputAdornment>
                 }
                 placeholder="사용자 ID를 입력하십시오"
+                style={{ cursor: 'pointer'}}
               />
             </Grid>
 
@@ -164,6 +165,7 @@ export default function Container() {
                 }
                 placeholder="비밀번호를 입력하세요"
                 onKeyPress={onCheckEnter}
+                style={{ cursor: 'pointer'}}
               />
             </Grid>
 

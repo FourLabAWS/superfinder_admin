@@ -1,11 +1,11 @@
 .searchButton {
-  margin: 2%;
-  margin-left: 40%;
-  width: 200px;
+  /* margin: 2%;
+  margin-left: 40%; */
+  /* width: 200px; */
 }
 
 .description {
-  margin-left: -10%;
+  /* margin-left: -10%; */
   list-style: none;
   line-height: 2;
   font-size: 11px;
@@ -13,7 +13,7 @@
 
 .title {
   text-align: center;
-  padding: 1%;
+  /* padding: 1%; */
 }
 
 .select {

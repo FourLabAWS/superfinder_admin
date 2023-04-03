@@ -21,6 +21,7 @@
     "aws-amplify": "^5.0.18",
     "aws-sdk": "^2.1333.0",
     "axios": "^1.2.1",
+    "boto3": "^0.0.1",
     "connect-dynamodb": "^2.0.6",
     "dayjs": "^1.11.6",
     "devextreme": "^22.2.4",
@@ -69,7 +70,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"http://localhost:3000",
+  "proxy": "http://localhost:3000",
   "devDependencies": {
     "@types/node": "^18.14.6"
   }
