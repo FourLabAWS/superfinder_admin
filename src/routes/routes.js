@@ -15,6 +15,8 @@ import NoticeDtl from "../pages/notice/NoticeDtl";
 import NoticeModf from "../pages/notice/NoticeModf";
 
 import UserAdmin from "../pages/user/UserAdmin";
+import Flag from "../pages/flag/flag";
+import FlagReg from "../pages/flag/flagReg";
 
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const BASE_URL =
@@ -122,6 +124,26 @@ const routes = [
       </PrivateRoute>
     ),
   },*/
+  {
+    id: 10,
+    path: "/flag",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <Flag />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 11,
+    path: "/flagReg",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <FlagReg />{" "}
+      </PrivateRoute>
+    ),
+  },
   {
     id: 98,
     path: "/AddNoti",
