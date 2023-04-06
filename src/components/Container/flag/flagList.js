@@ -42,7 +42,7 @@ function GetFlag(props) {
             );
           flagInquiryModal(thisRow);
         };
-        return <Button onClick={onClick}>{params.row["flagCd"]}</Button>;
+        return <Button onClick={onClick}>{params.row["plcId"]}</Button>;
       },
     },
     { field: "hzLnth", headerName: "가로 길이", width: 200 },
