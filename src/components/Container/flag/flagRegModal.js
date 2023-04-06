@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 import Modal from "@mui/material/Modal";
@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 
+import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
 import { v4 as uuidv4 } from "uuid";
 import "../../Table/styles.css";
 import "./flag.css";
@@ -25,6 +26,44 @@ function FlagRegModal(obj) {
     hzLnth: "",
     vrLnth: "",
   });
+  const [placeData, setPlaceData] = useState(null);
+  const autocomplete = useRef(null);
+  const apiKey = "AIzaSyBFRWvAechU0Ztnm5KDWl1FwAUt6as_3fQ";
+  const onLoad = (autocomplete) => {
+    console.log("autocomplete:", autocomplete);
+  };
+
+  const libraries = ["places"];
+  const onPlaceChanged = () => {
+    if (autocomplete !== null) {
+      console.log(autocomplete.getPlace());
+    } else {
+      console.log("Autocomplete is not loaded yet!");
+    }
+  };
+
+  useEffect(() => {
+    if (formData.plcId) {
+      axios
+        .get(
+          `/maps/api/place/findplacefromtext/json?input=${formData.plcId}&inputtype=textquery&fields=name,formatted_address,geometry&key=${apiKey}`
+        )
+
+        .then((response) => {
+          if (response.data.status === "OK") {
+            setPlaceData(response.data.candidates[0]);
+          } else {
+            setPlaceData(null);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setPlaceData(null);
+        });
+    } else {
+      setPlaceData(null);
+    }
+  }, [formData.plcId]);
 
   const [unit, setUnit] = useState("cm");
 
@@ -126,7 +165,6 @@ function FlagRegModal(obj) {
     }
     return rtnData;
   };
-
   return (
     <Modal open={modalObj}>
       <Box
@@ -156,19 +194,33 @@ function FlagRegModal(obj) {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                type="text"
-                id="plcId"
-                name="plcId"
-                label="장소 아이디"
-                fullWidth
-                value={formData.plcId}
-                onChange={handleFormChange}
-                required
-                sx={{
-                  height: "50px",
-                }}
-              />
+              <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
+                <Autocomplete
+                  ref={autocomplete}
+                  onLoad={onLoad}
+                  onPlaceChanged={onPlaceChanged}
+                >
+                  <TextField
+                    type="text"
+                    id="plcId"
+                    name="plcId"
+                    label="장소 아이디"
+                    fullWidth
+                    value={formData.plcId}
+                    onChange={handleFormChange}
+                    required
+                    sx={{
+                      height: "50px",
+                      my: 2,
+                    }}
+                  />
+                </Autocomplete>
+              </LoadScript>
+              {placeData && (
+                <Typography variant="body2" gutterBottom>
+                  {placeData.name}, {placeData.formatted_address}
+                </Typography>
+              )}
             </Grid>
             <Grid
               item
