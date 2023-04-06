@@ -34,8 +34,8 @@ export default function Notice() {
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,
-            plcId: items[itemNm].PLC_ID.S, // 장소 아이디
             flagCd: items[itemNm].FLAG_CD.S, // 깃발 코드
+            plcId: items[itemNm].PLC_ID.S, // 장소 아이디
             hzLnth: items[itemNm].HZ_LNTH.S, // 가로 길이
             vrLnth: items[itemNm].VR_LNTH.S, // 세로 길이
             regDt: items[itemNm].REG_DT.S, // 등록일
