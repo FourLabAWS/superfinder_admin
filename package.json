@@ -8,11 +8,13 @@
     "@devexpress/dx-react-chart-material-ui": "^4.0.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.10.15",
-    "@mui/material": "^5.10.15",
+    "@mui/material": "^5.11.16",
     "@mui/styled-engine-sc": "^5.10.14",
     "@mui/x-data-grid": "^5.17.14",
     "@mui/x-date-pickers": "^5.0.9",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@react-google-maps/api": "^2.18.1",
     "@remix-run/node": "^1.9.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -37,8 +39,10 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
+    "react-google-places-autocomplete": "2.3.2",
     "react-hook-form": "^7.43.5",
     "react-modal": "^3.16.1",
+    "react-native-google-places-autocomplete": "^2.5.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1",
     "serve": "^14.2.0",
@@ -74,6 +78,7 @@
   },
   "proxy": "https://maps.googleapis.com",
   "devDependencies": {
+    "@types/googlemaps": "^3.43.3",
     "@types/node": "^18.14.6"
   }
 }

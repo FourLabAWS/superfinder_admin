@@ -12,6 +12,7 @@ import { client } from "../../../routes/routes";
 import FlagRegModal from "./flagRegModal";
 import FlagInquiryModal from "./flagInquiryModal";
 import "../../Table/styles.css";
+import "./flag.css";
 
 function GetFlag(props) {
   const rows = props.data;
@@ -24,10 +25,9 @@ function GetFlag(props) {
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
   // 보여줄 칼럼 정의
   const columns = [
-    { field: "flagCd", headerName: "깃발 코드", width: 150 },
     {
-      field: "plcId",
-      headerName: "장소 아이디",
+      field: "plcNm",
+      headerName: "골프장",
       width: 200,
       renderCell: (params) => {
         const onClick = (e) => {
@@ -42,14 +42,19 @@ function GetFlag(props) {
             );
           flagInquiryModal(thisRow);
         };
-        return <Button onClick={onClick}>{params.row["plcId"]}</Button>;
+        return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
-    { field: "hzLnth", headerName: "가로 길이", width: 200 },
-    { field: "vrLnth", headerName: "세로 길이", width: 200 },
+    { field: "hzLnth", headerName: "가로 길이", width: 100 },
+    { field: "vrLnth", headerName: "세로 길이", width: 100 },
+    { field: "unitNm", headerName: "단위", width: 100 },
+    { field: "regId", headerName: "등록자", width: 100 },
     { field: "regDt", headerName: "등록일자", width: 100 },
-    { field: "regId", headerName: "등록자", width: 120 },
+    { field: "regSe", headerName: "등록환경", width: 100 },
+    { field: "modId", headerName: "수정자", width: 100, hide: true },
+    { field: "modDt", headerName: "수정일자", width: 100, hide: true },
   ];
+
   //사용자 모달
   const flagAddModal = () => {
     setOpenCreateFlagModal(true);
@@ -157,7 +162,7 @@ function GetFlag(props) {
           sx={{ width: "100px", marginLeft: "1%" }}
           onClick={flagAddModal}
         >
-          추가
+          등록
         </Button>
         <Button
           variant="contained"
