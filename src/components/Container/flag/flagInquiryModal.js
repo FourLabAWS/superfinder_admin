@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import "../../Table/styles.css";
+import "./flag.css";
 
 const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
   const [formData, setFormData] = useState({
@@ -19,6 +20,8 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
     hzLnth: "",
     vrLnth: "",
   });
+
+  const [changeUnit, setChangeUnit] = useState("cm");
 
   useEffect(() => {
     setFormData(selectedFlag);
@@ -29,6 +32,100 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
       ...formData,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const [unit, setUnit] = useState("cm");
+
+  const handleUnitChange = (event) => {
+    const newUnit = event.target.value;
+    const { hzLnth, vrLnth } = formData;
+
+    let newHzLnth, newVrLnth;
+
+    if (unit === "cm" && newUnit === "inch") {
+      newHzLnth = Math.round((hzLnth / 2.54) * 10) / 10;
+      newVrLnth = Math.round((vrLnth / 2.54) * 10) / 10;
+    } else if (unit === "inch" && newUnit === "cm") {
+      newHzLnth = Math.round(hzLnth * 2.54);
+      newVrLnth = Math.round(vrLnth * 2.54);
+    } else {
+      newHzLnth = hzLnth;
+      newVrLnth = vrLnth;
+    }
+
+    setFormData({
+      ...formData,
+      hzLnth: newHzLnth,
+      vrLnth: newVrLnth,
+    });
+
+    setUnit(newUnit);
+    setChangeUnit(newUnit);
+  };
+
+  const [error, setError] = useState({
+    hzLnth: false,
+    vrLnth: false,
+  });
+
+  const MAX_CM_HZ = "60";
+  const MIN_CM_HZ = "38";
+  const MAX_INCH_HZ = "24";
+  const MIN_INCH_HZ = "15";
+  const MAX_CM_VR = "45";
+  const MIN_CM_VR = "27";
+  const MAX_INCH_VR = "18";
+  const MIN_INCH_VR = "10";
+  const DEFAULT_HZ_LNTH = "38";
+  const DEFAULT_VR_LNTH = "27";
+
+  const handleNumberInputChange = (event) => {
+    const { name, value } = event.target;
+
+    const min =
+      changeUnit === "cm"
+        ? name === "hzLnth"
+          ? MIN_CM_HZ
+          : MIN_CM_VR
+        : name === "hzLnth"
+        ? MIN_INCH_HZ
+        : MIN_INCH_VR;
+    const max =
+      changeUnit === "cm"
+        ? name === "hzLnth"
+          ? MAX_CM_HZ
+          : MAX_CM_VR
+        : name === "hzLnth"
+        ? MAX_INCH_HZ
+        : MAX_INCH_VR;
+
+    let newValue = value;
+    if (value === "") {
+      newValue = name === "hzLnth" ? DEFAULT_HZ_LNTH : DEFAULT_VR_LNTH;
+    } else if (value.length > 3) {
+      newValue = value.substring(0, 3);
+    }
+
+    if (name === "hzLnth") {
+      setFormData({ ...formData, hzLnth: newValue });
+    } else {
+      setFormData({ ...formData, vrLnth: newValue });
+    }
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    if (
+      /^\d*$/.test(value) &&
+      parseFloat(value) >= parseFloat(min) &&
+      parseFloat(value) <= parseFloat(max)
+    ) {
+      setError({ ...error, [name]: false });
+    } else {
+      setError({ ...error, [name]: true });
+    }
   };
 
   const doSave = async (event) => {
@@ -76,21 +173,7 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
       <DialogContent>
         <form onSubmit={doSave}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                type="text"
-                id="flagCd"
-                name="flagCd"
-                label="깃발코드"
-                fullWidth
-                value={formData.flagCd}
-                onChange={handleFormChange}
-                required
-                inputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Grid>
+            <Grid item xs={12}></Grid>
             <Grid item xs={12}>
               <TextField
                 type="text"
@@ -105,12 +188,12 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 type="text"
                 id="hzLnth"
                 name="hzLnth"
-                label="가로 길이"
+                label={`가로 (${unit})`}
                 fullWidth
                 value={formData.hzLnth}
                 onChange={handleFormChange}
@@ -120,12 +203,12 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 type="text"
                 id="vrLnth"
                 name="vrLnth"
-                label="세로 길이"
+                label={`세로 (${unit})`}
                 fullWidth
                 value={formData.vrLnth}
                 onChange={handleFormChange}

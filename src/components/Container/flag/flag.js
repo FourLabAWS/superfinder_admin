@@ -34,15 +34,20 @@ export default function Notice() {
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,
-            flagCd: items[itemNm].FLAG_CD.S, // 깃발 코드
-            plcId: items[itemNm].PLC_ID.S, // 장소 아이디
-            hzLnth: items[itemNm].HZ_LNTH.S, // 가로 길이
-            vrLnth: items[itemNm].VR_LNTH.S, // 세로 길이
-            regDt: items[itemNm].REG_DT.S, // 등록일
-            regId: items[itemNm].REG_ID.S, // 등록자
+            flagCd: items[itemNm].FLAG_CD.S,
+            plcId: items[itemNm].PLC_ID.S,
+            plcNm: items[itemNm].PLC_NM.S,
+            unitNm: items[itemNm].UNIT_NM.S,
+            hzLnth: items[itemNm].HZ_LNTH.S,
+            vrLnth: items[itemNm].VR_LNTH.S,
+            regId: items[itemNm].REG_ID.S,
+            regDt: items[itemNm].REG_DT.S,
+            regSe: items[itemNm].REG_SE.S,
+            modId: items[itemNm].MOD_ID.S,
+            modDt: items[itemNm].MOD_DT.S,
+            modSe: items[itemNm].MOD_SE.S,
           });
         });
-
         setList(item);
       })
       .catch((error) => {
@@ -68,12 +73,18 @@ export default function Notice() {
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,
-            plcId: items[itemNm].PLC_ID.S, // 장소 아이디
-            flagCd: items[itemNm].FLAG_CD.S, // 깃발 코드
-            hzLnth: items[itemNm].HZ_LNTH.S, // 가로 길이
-            vrLnth: items[itemNm].VR_LNTH.S, // 세로 길이
-            regDt: items[itemNm].REG_DT.S, // 등록일
-            regId: items[itemNm].REG_ID.S, // 등록자
+            flagCd: items[itemNm].FLAG_CD.S,
+            plcId: items[itemNm].PLC_ID.S,
+            plcNm: items[itemNm].PLC_NM.S,
+            unitNm: items[itemNm].UNIT_NM.S,
+            hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
+            vrLnth: parseInt(items[itemNm].VR_LNTH.S),
+            regId: items[itemNm].REG_ID.S,
+            regDt: items[itemNm].REG_DT.S,
+            regSe: items[itemNm].REG_SE.S,
+            modId: items[itemNm].MOD_ID.S,
+            modDt: items[itemNm].MOD_DT.S,
+            modSe: items[itemNm].MOD_SE.S,
           });
         });
 

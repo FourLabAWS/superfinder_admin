@@ -1,170 +1,120 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-
-import { GoogleMap, LoadScript, Autocomplete } from "@react-google-maps/api";
-import { v4 as uuidv4 } from "uuid";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import "../../Table/styles.css";
 import "./flag.css";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 
+// 함수 시작
 function FlagRegModal(obj) {
   const modalObj = obj.modalObj;
-  const userInfo = obj.data;
-  const [title, setTitle] = useState("깃발 등록");
-  const [openCreateFlagModal, setOpenCreateFlagModal] = useState(false);
   const [formData, setFormData] = useState({
-    flagCd: uuidv4(),
-    plcId: "",
-    hzLnth: "",
-    vrLnth: "",
+    PLC_ID: "",
+    PLC_NM: "",
+    UNIT_NM: "cm",
+    HZ_LNTH: "38",
+    VR_LNTH: "27",
+    REG_SE: "A",
   });
-  const [placeData, setPlaceData] = useState(null);
-  const autocomplete = useRef(null);
-  const apiKey = "AIzaSyBFRWvAechU0Ztnm5KDWl1FwAUt6as_3fQ";
-  const onLoad = (autocomplete) => {
-    console.log("autocomplete:", autocomplete);
+
+  // CM, INCH 담을 useState
+  const [unit, setUnit] = useState("cm");
+  const [disabled, setDisabled] = useState(false); // 저장 비활성화 버튼
+
+  const minSize = {
+    cm: { hz: "38", vr: "27" },
+    inch: { hz: "14", vr: "10" },
   };
 
-  const libraries = ["places"];
-  const onPlaceChanged = () => {
-    if (autocomplete !== null) {
-      console.log(autocomplete.getPlace());
+  const maxSize = {
+    cm: { hz: 60, vr: 50 },
+    inch: { hz: 23, vr: 19 },
+  };
+
+  // 단위 변환
+  const handleUnitChange = (event) => {
+    setUnit(event.target.value);
+    setFormData({
+      ...formData,
+      UNIT_NM: event.target.value,
+    });
+
+    if (event.target.value === "cm") {
+      setFormData({
+        ...formData,
+        UNIT_NM: "cm",
+        HZ_LNTH: minSize.cm.hz,
+        VR_LNTH: minSize.cm.vr,
+      });
     } else {
-      console.log("Autocomplete is not loaded yet!");
+      setFormData({
+        ...formData,
+        UNIT_NM: "inch",
+        HZ_LNTH: minSize.inch.hz,
+        VR_LNTH: minSize.inch.vr,
+      });
     }
   };
 
   useEffect(() => {
-    if (formData.plcId) {
-      axios
-        .get(
-          `/maps/api/place/findplacefromtext/json?input=${formData.plcId}&inputtype=textquery&fields=name,formatted_address,geometry&key=${apiKey}`
-        )
+    const checkSize =
+      formData.HZ_LNTH >= minSize[unit].hz &&
+      formData.HZ_LNTH <= maxSize[unit].hz &&
+      formData.VR_LNTH >= minSize[unit].vr &&
+      formData.VR_LNTH <= maxSize[unit].vr;
 
-        .then((response) => {
-          if (response.data.status === "OK") {
-            setPlaceData(response.data.candidates[0]);
-          } else {
-            setPlaceData(null);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          setPlaceData(null);
-        });
-    } else {
-      setPlaceData(null);
+    setDisabled(!checkSize);
+  }, [formData, unit]);
+
+  // 구글 장소 자동 완성 기능
+  const apiKey = "AIzaSyBFRWvAechU0Ztnm5KDWl1FwAUt6as_3fQ";
+  const autoCompleteRef = useRef(null);
+
+  const handlePlaceSelect = (plcObj) => {
+    //console.log(plcObj);
+    let plcNm = plcObj.description;
+    if (plcObj.structured_formatting) {
+      plcNm = plcObj.structured_formatting.main_text;
     }
-  }, [formData.plcId]);
-
-  const [unit, setUnit] = useState("cm");
-
-  const toggleUnit = () => {
-    if (unit === "cm") {
-      setFormData({
-        ...formData,
-        hzLnth: (formData.hzLnth * 0.3937007874).toFixed(2),
-        vrLnth: (formData.vrLnth * 0.3937007874).toFixed(2),
-      });
-      setUnit("in");
-    } else {
-      setFormData({
-        ...formData,
-        hzLnth: (formData.hzLnth / 0.3937007874).toFixed(2),
-        vrLnth: (formData.vrLnth / 0.3937007874).toFixed(2),
-      });
-      setUnit("cm");
-    }
-  };
-
-  const handleOpenCreateFlagModal = () => {
-    setOpenCreateFlagModal(true);
-  };
-
-  const handleCloseCreateFlagModal = () => {
-    setOpenCreateFlagModal(false);
-  };
-
-  const handleFormChange = (event) => {
-    if (/^\d*$/.test(event.target.value)) {
-      setFormData({
-        ...formData,
-        [event.target.name]: event.target.value,
-      });
-    }
-  };
-
-  const [error, setError] = useState({
-    hzLnth: false,
-    vrLnth: false,
-  });
-
-  const handleNumberInputChange = (event) => {
-    const { name, value, min, max } = event.target;
-
     setFormData({
       ...formData,
-      [name]: value,
+      PLC_ID: plcObj.place_id,
+      PLC_NM: plcNm,
     });
-
-    if (
-      /^\d*$/.test(value) &&
-      parseInt(value) >= min &&
-      parseInt(value) <= max
-    ) {
-      setError({ ...error, [name]: false });
-    } else {
-      setError({ ...error, [name]: true });
-    }
   };
 
-  const doSave = (event) => {
+  // 깃발 등록
+  const doSave = async (event) => {
     event.preventDefault();
-
-    const updatedFormData = {
-      ...formData,
-    };
-
-    if (!updatedFormData.flagCd) {
-      updatedFormData.flagCd = uuidv4();
+    if (!window.confirm("깃발을 등록하겠습니까?")) {
+      return;
     }
-
-    createFlag(updatedFormData)
-      .then(() => {
-        handleCloseCreateFlagModal();
-        obj.onClose();
-        window.location.reload(false);
-        console.log(updatedFormData);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const createFlag = async (updatedFormData) => {
-    let rtnData = null;
     const postUrl =
       "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagReg";
     try {
-      const response = await axios.post(postUrl, updatedFormData, {
+      await axios.post(postUrl, formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      rtnData = response.data;
+      obj.onClose();
+      window.location.reload(false);
     } catch (error) {
       console.error(error);
     }
-    return rtnData;
   };
+
+  // 모달
   return (
     <Modal open={modalObj}>
       <Box
@@ -181,97 +131,154 @@ function FlagRegModal(obj) {
         }}
       >
         <Typography variant="h6" gutterBottom>
-          {title}
+          깃발 등록
         </Typography>
         <form>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <input
-                type="hidden"
-                id="flagCd"
-                name="flagCd"
-                value={formData.flagCd}
+              <GooglePlacesAutocomplete
+                apiKey={apiKey}
+                autocompletionRequest={{
+                  types: ["establishment"],
+                  keyword: "golf course",
+                  componentRestrictions: { country: "kr" },
+                }}
+                inputClassName="MuiInputBase-input MuiInput-input"
+                inputStyle={{
+                  height: "50px",
+                  borderRadius: "4px",
+                  boxShadow: "none",
+                  fontSize: "1rem",
+                  padding: "10px 12px",
+                  border: "1px solid #ccc",
+                  marginBottom: "8px", // 검색창과 가로 길이 입력창 사이의 간격 조정
+                }}
+                renderOption={(option) => (
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant="body1">
+                      {option.structured_formatting.main_text}
+                    </Typography>
+                  </Box>
+                )}
+                renderSuggestions={(
+                  active,
+                  suggestions,
+                  onSelectSuggestion
+                ) => (
+                  <div
+                    style={{
+                      position: "absolute",
+                      zIndex: 100,
+                      top: "110px", // 검색창 하단으로 이동
+                      left: 0,
+                      width: "100%",
+                      backgroundColor: "#fff",
+                      maxHeight: "200px",
+                      overflowY: "auto",
+                    }}
+                  >
+                    {suggestions.map((suggestion) => (
+                      <div
+                        key={suggestion.place_id}
+                        onClick={(event) =>
+                          onSelectSuggestion(suggestion, event)
+                        }
+                        style={{
+                          padding: "10px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Typography variant="body1">
+                          {suggestion.structured_formatting.main_text}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          {suggestion.structured_formatting.secondary_text}
+                        </Typography>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                ref={autoCompleteRef}
+                onSelect={handlePlaceSelect}
+                placeholder="골프장을 입력하세요"
               />
             </Grid>
-            <Grid item xs={12}>
-              <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
-                <Autocomplete
-                  ref={autocomplete}
-                  onLoad={onLoad}
-                  onPlaceChanged={onPlaceChanged}
+            <Grid item container xs={6} alignItems="flex-end">
+              <TextField
+                id="HZ_LNTH"
+                name="HZ_LNTH"
+                label={`가로 (${unit})`}
+                type="number"
+                fullWidth
+                value={formData.HZ_LNTH}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    HZ_LNTH: e.target.value,
+                  })
+                }
+                error={
+                  formData.HZ_LNTH < minSize[unit].hz ||
+                  formData.HZ_LNTH > maxSize[unit].hz
+                }
+                helperText={
+                  formData.HZ_LNTH < minSize[unit].hz ||
+                  formData.HZ_LNTH > maxSize[unit].hz
+                    ? `가로 ${minSize[unit].hz} - ${maxSize[unit].hz}`
+                    : ""
+                }
+                sx={{
+                  height: "50px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6} alignItems="flex-end">
+              <TextField
+                id="VR_LNTH"
+                name="VR_LNTH"
+                label={`세로 (${unit})`}
+                type="number"
+                fullWidth
+                value={formData.VR_LNTH}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    VR_LNTH: e.target.value,
+                  })
+                }
+                error={
+                  formData.VR_LNTH < minSize[unit].vr ||
+                  formData.VR_LNTH > maxSize[unit].vr
+                }
+                helperText={
+                  formData.VR_LNTH < minSize[unit].vr ||
+                  formData.VR_LNTH > maxSize[unit].vr
+                    ? `세로 ${minSize[unit].vr} - ${maxSize[unit].vr}`
+                    : ""
+                }
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} container>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  row
+                  aria-label="unit"
+                  name="row-radio-buttons-group"
+                  value={unit}
+                  onChange={handleUnitChange}
                 >
-                  <TextField
-                    type="text"
-                    id="plcId"
-                    name="plcId"
-                    label="장소 아이디"
-                    fullWidth
-                    value={formData.plcId}
-                    onChange={handleFormChange}
-                    required
-                    sx={{
-                      height: "50px",
-                      my: 2,
-                    }}
+                  <FormControlLabel value="cm" control={<Radio />} label="cm" />
+                  <FormControlLabel
+                    value="inch"
+                    control={<Radio />}
+                    label="inch"
                   />
-                </Autocomplete>
-              </LoadScript>
-              {placeData && (
-                <Typography variant="body2" gutterBottom>
-                  {placeData.name}, {placeData.formatted_address}
-                </Typography>
-              )}
-            </Grid>
-            <Grid
-              item
-              container
-              xs={12}
-              spacing={2}
-              sx={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <Grid item xs={6}>
-                <TextField
-                  id="hzLnth"
-                  name="hzLnth"
-                  label={`가로 (${unit})`}
-                  type="number"
-                  fullWidth
-                  value={formData.hzLnth}
-                  onChange={handleNumberInputChange}
-                  required
-                  error={error.hzLnth}
-                  helperText={error.hzLnth ? "올바른 값을 입력해주세요" : ""}
-                  inputProps={{ min: 38, max: 60, step: 1 }}
-                  sx={{
-                    height: "50px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  id="vrLnth"
-                  name="vrLnth"
-                  label={`세로 (${unit})`}
-                  type="number"
-                  fullWidth
-                  value={formData.vrLnth}
-                  onChange={handleNumberInputChange}
-                  required
-                  error={error.vrLnth}
-                  helperText={error.vrLnth ? "올바른 값을 입력해주세요" : ""}
-                  inputProps={{ min: 27, max: 45, step: 1 }}
-                  sx={{
-                    height: "50px",
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} sx={{ my: 2 }}>
-            <Grid item xs={12} sx={{ textAlign: "center" }}>
-              <Button variant="outlined" onClick={toggleUnit}>
-                Toggle to {unit === "cm" ? "inches" : "centimeters"}
-              </Button>
+                </RadioGroup>
+              </FormControl>
             </Grid>
           </Grid>
           <div className="btn-area">
@@ -279,7 +286,7 @@ function FlagRegModal(obj) {
               onClick={doSave}
               variant="contained"
               sx={{ mt: 2, mr: 1 }}
-              disabled={error.hzLnth || error.vrLnth || !formData.plcId}
+              disabled={disabled}
             >
               저장
             </Button>
@@ -288,7 +295,7 @@ function FlagRegModal(obj) {
               sx={{ mt: 2, mr: 1 }}
               onClick={obj.onClose}
             >
-              취소
+              닫기
             </Button>
           </div>
         </form>
@@ -296,5 +303,4 @@ function FlagRegModal(obj) {
     </Modal>
   );
 }
-
 export default FlagRegModal;
