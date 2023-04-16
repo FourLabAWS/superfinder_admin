@@ -90,7 +90,7 @@ function GetFlag(props) {
       client
         .delete("delFlag/", {
           params: {
-            id: item["flagCd"],
+            id: item["plcId"],
           },
         })
         .then((response) => {

@@ -24,6 +24,7 @@ function FlagRegModal(obj) {
     UNIT_NM: "cm",
     HZ_LNTH: "38",
     VR_LNTH: "27",
+    REG_ID: "sadmin",
     REG_SE: "A",
   });
 
