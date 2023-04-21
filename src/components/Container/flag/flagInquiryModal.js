@@ -5,136 +5,85 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 import "../../Table/styles.css";
 import "./flag.css";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 
-const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
+// 함수 시작
+const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
   const [formData, setFormData] = useState({
-    flagCd: "",
     plcId: "",
+    plcNm: "",
     hzLnth: "",
     vrLnth: "",
   });
 
-  const [changeUnit, setChangeUnit] = useState("cm");
-
   useEffect(() => {
-    setFormData(selectedFlag);
+    setFormData({
+      ...selectedFlag,
+    });
   }, [selectedFlag]);
 
-  const handleFormChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
+  // CM, INCH 담을 useState
   const [unit, setUnit] = useState("cm");
+  const [disabled, setDisabled] = useState(false); // 저장 비활성화 버튼
 
+  const minSize = {
+    cm: { hz: "38", vr: "27" },
+    inch: { hz: "14", vr: "10" },
+  };
+
+  const maxSize = {
+    cm: { hz: 60, vr: 50 },
+    inch: { hz: 23, vr: 19 },
+  };
+
+  // 단위 변환
   const handleUnitChange = (event) => {
-    const newUnit = event.target.value;
-    const { hzLnth, vrLnth } = formData;
-
-    let newHzLnth, newVrLnth;
-
-    if (unit === "cm" && newUnit === "inch") {
-      newHzLnth = Math.round((hzLnth / 2.54) * 10) / 10;
-      newVrLnth = Math.round((vrLnth / 2.54) * 10) / 10;
-    } else if (unit === "inch" && newUnit === "cm") {
-      newHzLnth = Math.round(hzLnth * 2.54);
-      newVrLnth = Math.round(vrLnth * 2.54);
-    } else {
-      newHzLnth = hzLnth;
-      newVrLnth = vrLnth;
-    }
-
+    setUnit(event.target.value);
     setFormData({
       ...formData,
-      hzLnth: newHzLnth,
-      vrLnth: newVrLnth,
+      UNIT_NM: event.target.value,
     });
 
-    setUnit(newUnit);
-    setChangeUnit(newUnit);
+    if (event.target.value === "cm") {
+      setFormData({
+        ...formData,
+        UNIT_NM: "cm",
+        hzLnth: selectedFlag.hzLnth || minSize.cm.hz,
+        vrLnth: selectedFlag.vrLnth || minSize.cm.vr,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        UNIT_NM: "inch",
+        hzLnth: selectedFlag.hzLnth || minSize.inch.hz,
+        vrLnth: selectedFlag.vrLnth || minSize.inch.vr,
+      });
+    }
   };
 
-  const [error, setError] = useState({
-    hzLnth: false,
-    vrLnth: false,
-  });
+  useEffect(() => {
+    const checkSize =
+      formData.hzLnth >= minSize[unit].hz &&
+      formData.hzLnth <= maxSize[unit].hz &&
+      formData.vrLnth >= minSize[unit].vr &&
+      formData.vrLnth <= maxSize[unit].vr;
 
-  const MAX_CM_HZ = "60";
-  const MIN_CM_HZ = "38";
-  const MAX_INCH_HZ = "24";
-  const MIN_INCH_HZ = "15";
-  const MAX_CM_VR = "45";
-  const MIN_CM_VR = "27";
-  const MAX_INCH_VR = "18";
-  const MIN_INCH_VR = "10";
-  const DEFAULT_HZ_LNTH = "38";
-  const DEFAULT_VR_LNTH = "27";
-
-  const handleNumberInputChange = (event) => {
-    const { name, value } = event.target;
-
-    const min =
-      changeUnit === "cm"
-        ? name === "hzLnth"
-          ? MIN_CM_HZ
-          : MIN_CM_VR
-        : name === "hzLnth"
-        ? MIN_INCH_HZ
-        : MIN_INCH_VR;
-    const max =
-      changeUnit === "cm"
-        ? name === "hzLnth"
-          ? MAX_CM_HZ
-          : MAX_CM_VR
-        : name === "hzLnth"
-        ? MAX_INCH_HZ
-        : MAX_INCH_VR;
-
-    let newValue = value;
-    if (value === "") {
-      newValue = name === "hzLnth" ? DEFAULT_HZ_LNTH : DEFAULT_VR_LNTH;
-    } else if (value.length > 3) {
-      newValue = value.substring(0, 3);
-    }
-
-    if (name === "hzLnth") {
-      setFormData({ ...formData, hzLnth: newValue });
-    } else {
-      setFormData({ ...formData, vrLnth: newValue });
-    }
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    if (
-      /^\d*$/.test(value) &&
-      parseFloat(value) >= parseFloat(min) &&
-      parseFloat(value) <= parseFloat(max)
-    ) {
-      setError({ ...error, [name]: false });
-    } else {
-      setError({ ...error, [name]: true });
-    }
-  };
+    setDisabled(!checkSize);
+  }, [formData, unit]);
 
   const doSave = async (event) => {
     event.preventDefault();
-
     if (!window.confirm("선택한 깃발을 수정하겠습니까?")) {
       return;
     }
-
     try {
       await updateFlag(formData);
       alert("수정되었습니다.");
@@ -153,8 +102,10 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
         {
           flagCd: formData.flagCd,
           plcId: formData.plcId,
+          plcNm: formData.plcNm,
           hzLnth: formData.hzLnth,
           vrLnth: formData.vrLnth,
+          unitNm: formData.unitNm,
         },
         {
           headers: {
@@ -173,15 +124,17 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
       <DialogContent>
         <form onSubmit={doSave}>
           <Grid container spacing={2}>
-            <Grid item xs={12}></Grid>
+            <Grid item xs={12}>
+              <input value={formData.flagCd} type="hidden"></input>
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 type="text"
-                id="plcId"
-                name="plcId"
-                label="장소 아이디"
+                id="plcNm"
+                name="plcNm"
+                label="골프장"
                 fullWidth
-                value={formData.plcId}
+                value={formData.plcNm}
                 required
                 sx={{
                   height: "50px",
@@ -190,14 +143,28 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                type="text"
                 id="hzLnth"
                 name="hzLnth"
                 label={`가로 (${unit})`}
+                type="number"
                 fullWidth
                 value={formData.hzLnth}
-                onChange={handleFormChange}
-                required
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    hzLnth: e.target.value,
+                  })
+                }
+                error={
+                  formData.hzLnth < minSize[unit].hz ||
+                  formData.hzLnth > maxSize[unit].hz
+                }
+                helperText={
+                  formData.hzLnth < minSize[unit].hz ||
+                  formData.hzLnth > maxSize[unit].hz
+                    ? `가로 ${minSize[unit].hz} - ${maxSize[unit].hz}`
+                    : ""
+                }
                 sx={{
                   height: "50px",
                 }}
@@ -205,18 +172,81 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                type="text"
                 id="vrLnth"
                 name="vrLnth"
                 label={`세로 (${unit})`}
+                type="number"
                 fullWidth
                 value={formData.vrLnth}
-                onChange={handleFormChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    vrLnth: e.target.value,
+                  })
+                }
+                error={
+                  formData.vrLnth < minSize[unit].vr ||
+                  formData.vrLnth > maxSize[unit].vr
+                }
+                helperText={
+                  formData.vrLnth < minSize[unit].vr ||
+                  formData.vrLnth > maxSize[unit].vr
+                    ? `세로 ${minSize[unit].vr} - ${maxSize[unit].vr}`
+                    : ""
+                }
                 required
                 sx={{
                   height: "50px",
                 }}
               />
+            </Grid>
+            <Grid item xs={12} container>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  row
+                  aria-label="unit"
+                  name="row-radio-buttons-group"
+                  value={unit}
+                  onChange={handleUnitChange}
+                >
+                  <FormControlLabel value="cm" control={<Radio />} label="cm" />
+                  <FormControlLabel
+                    value="inch"
+                    control={<Radio />}
+                    label="inch"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6} container>
+              <TextField
+                id="modId"
+                label="등록자"
+                value={formData.regId}
+                readOnly
+              ></TextField>
+            </Grid>
+            <Grid item xs={6} container>
+              <TextField
+                id="modId"
+                label="등록일자"
+                value={formData.regDt}
+                readOnly
+              ></TextField>
+            </Grid>
+            <Grid item xs={6} container>
+              <TextField
+                id="modId"
+                label="수정자"
+                value={formData.modId}
+              ></TextField>
+            </Grid>
+            <Grid item xs={6} container>
+              <TextField
+                id="modId"
+                label="수정일자"
+                value={formData.modDt}
+              ></TextField>
             </Grid>
           </Grid>
         </form>
@@ -226,6 +256,7 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
           variant="contained"
           onClick={doSave}
           sx={{ width: "100px", marginRight: "1%" }}
+          disabled={disabled}
         >
           수정
         </Button>
@@ -240,5 +271,4 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag, onEdit }) => {
     </Dialog>
   );
 };
-
 export default FlagInquiryModal;
