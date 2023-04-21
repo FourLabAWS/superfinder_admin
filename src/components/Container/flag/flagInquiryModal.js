@@ -24,6 +24,12 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
     vrLnth: "",
   });
 
+  useEffect(() => {
+    setFormData({
+      ...selectedFlag,
+    });
+  }, [selectedFlag]);
+
   // CM, INCH 담을 useState
   const [unit, setUnit] = useState("cm");
   const [disabled, setDisabled] = useState(false); // 저장 비활성화 버튼
@@ -73,10 +79,6 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
     setDisabled(!checkSize);
   }, [formData, unit]);
 
-  useEffect(() => {
-    setFormData(selectedFlag);
-  }, [selectedFlag]);
-
   const doSave = async (event) => {
     event.preventDefault();
     if (!window.confirm("선택한 깃발을 수정하겠습니까?")) {
@@ -86,19 +88,20 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
       await updateFlag(formData);
       alert("수정되었습니다.");
       onClose();
-      //window.location.reload(false);
+      window.location.reload(false);
     } catch (error) {
       console.error(error);
     }
   };
 
   const updateFlag = async (formData) => {
-    console.log(formData);
-    const editUrl = `https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/editFlag/${formData.plcId}`;
+    const editUrl = `https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/editFlag/`;
     try {
       await axios.put(
         editUrl,
         {
+          flagCd: formData.flagCd,
+          plcId: formData.plcId,
           plcNm: formData.plcNm,
           hzLnth: formData.hzLnth,
           vrLnth: formData.vrLnth,
@@ -121,7 +124,9 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
       <DialogContent>
         <form onSubmit={doSave}>
           <Grid container spacing={2}>
-            <Grid item xs={12}></Grid>
+            <Grid item xs={12}>
+              <input value={formData.flagCd} type="hidden"></input>
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 type="text"

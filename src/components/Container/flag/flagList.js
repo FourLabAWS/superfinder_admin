@@ -45,6 +45,7 @@ function GetFlag(props) {
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
+    { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
@@ -90,7 +91,7 @@ function GetFlag(props) {
       client
         .delete("delFlag/", {
           params: {
-            id: item["plcId"],
+            id: item["flagCd"],
           },
         })
         .then((response) => {
@@ -103,6 +104,7 @@ function GetFlag(props) {
         });
     });
   };
+
   return (
     <div>
       <Typography variant="h7" noWrap component="div" sx={{ fontWeight: 550 }}>
