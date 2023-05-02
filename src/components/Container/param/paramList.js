@@ -9,24 +9,24 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
-import FlagRegModal from "./flagRegModal";
-import FlagInquiryModal from "./flagInquiryModal";
+import ParamRegModal from "./paramRegModal";
+//import ParamInquiryModal from "./paramInquiryModal";
 import "../../Table/styles.css";
-import "./flag.css";
+import "./param.css";
 
-function GetFlag(props) {
+function GetParam(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const [openCreateFlagModal, setOpenCreateFlagModal] = useState(false);
-  const [openInquiryFlagModal, setOpenInquiryFlagModal] = useState(false);
+  const [openCreateParamModal, setOpenCreateParamModal] = useState(false);
+  //const [openInquiryParamModal, setOpenInquiryParamModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
   const getBackgroundColor = (color, mode) => (mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6));
   // 보여줄 칼럼 정의
   const columns = [
     {
-      field: "plcNm",
-      headerName: "골프장",
+      field: "paramNm",
+      headerName: "파라미터",
       width: 200,
       renderCell: (params) => {
         const onClick = (e) => {
@@ -37,58 +37,60 @@ function GetFlag(props) {
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
             .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
-          flagInquiryModal(thisRow);
+          //paramInquiryModal(thisRow);
         };
-        return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
+        return <Button onClick={onClick}>{params.row["paramNm"]}</Button>;
       },
     },
-    { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
-    { field: "hzLnth", headerName: "가로 길이", width: 100 },
-    { field: "vrLnth", headerName: "세로 길이", width: 100 },
-    { field: "unitNm", headerName: "단위", width: 100 },
+    { field: "paramVal", headerName: "파라미터 값", width: 100 },
     { field: "regId", headerName: "등록자", width: 100 },
     { field: "regDt", headerName: "등록일자", width: 100 },
-    { field: "regSe", headerName: "등록환경", width: 100 },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
+    { field: "pixel", headerName: "픽셀", width: 100 },
+    { field: "dpi", headerName: "도트 퍼 인치", width: 100 },
+    { field: "flagDownRate", headerName: "깃발 비율", width: 100 },
+    { field: "customMaxRate", headerName: "커스텀 최대 비율", width: 100 },
+    { field: "customMinRate", headerName: "커스텀 최소 비율", width: 100 },
   ];
 
-  //사용자 모달
-  const flagAddModal = () => {
-    setOpenCreateFlagModal(true);
+  //파라미터 모달
+  const paramAddModal = () => {
+    setOpenCreateParamModal(true);
   };
-  const flagAddCloseModal = () => {
-    setOpenCreateFlagModal(false);
+  const paramAddCloseModal = () => {
+    setOpenCreateParamModal(false);
   };
-  const flagInquiryModal = (selectedRows) => {
-    setSelectedRows(selectedRows);
-    setOpenInquiryFlagModal(true);
-  };
-  const flagInquiryCloseModal = () => {
-    setOpenInquiryFlagModal(false);
-  };
-  const handleEditModalOpen = (selectedRows) => {
-    selectedRows(selectedRows);
-    setOpenInquiryFlagModal(false);
-    setEditModalOpen(true);
-  };
-  const handleEditModalClose = () => {
-    setEditModalOpen(false);
-  };
-  // 깃발 삭제
-  const deleteFlag = () => {
+  // const paramInquiryModal = (selectedRows) => {
+  //   setSelectedRows(selectedRows);
+  //   setOpenInquiryParamModal(true);
+  // };
+  // const paramInquiryCloseModal = () => {
+  //   setOpenInquiryParamModal(false);
+  // };
+  // const handleEditModalOpen = (selectedRows) => {
+  //   selectedRows(selectedRows);
+  //   setOpenInquiryParamModal(false);
+  //   setEditModalOpen(true);
+  // };
+  // const handleEditModalClose = () => {
+  //   setEditModalOpen(false);
+  // };
+
+  // 파라미터 삭제
+  const deleteParam = () => {
     if (selectedRows.length === 0) {
-      alert("삭제할 깃발을 선택해주세요.");
+      alert("삭제할 파라미터를 선택해주세요.");
       return;
     }
-    if (!window.confirm("선택한 깃발을 삭제하겠습니까?")) {
+    if (!window.confirm("선택한 파라미터를 삭제하겠습니까?")) {
       return;
     }
     selectedRows.map((item) => {
       client
-        .delete("delFlag/", {
+        .delete("delParam/", {
           params: {
-            id: item["flagCd"],
+            id: item["paramNm"],
           },
         })
         .then((response) => {
@@ -132,7 +134,7 @@ function GetFlag(props) {
           experimentalFeatures={{ newEditingApi: true }}
           initialState={{
             sorting: {
-              sortModel: [{ field: "flagRegDt", sort: "desc" }],
+              sortModel: [{ field: "paramRegDt", sort: "desc" }],
             },
           }}
           onSelectionModelChange={(ids) => {
@@ -152,16 +154,21 @@ function GetFlag(props) {
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
       <div id="buttonArea">
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={flagAddModal}>
+        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={paramAddModal}>
           등록
         </Button>
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={deleteFlag}>
+        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={deleteParam}>
           삭제
         </Button>
       </div>
-      <FlagRegModal modalObj={openCreateFlagModal} onClose={flagAddCloseModal} />
-      <FlagInquiryModal modalObj={openInquiryFlagModal} onClose={flagInquiryCloseModal} selectedFlag={selectedRows} onEdit={handleEditModalOpen} />
+      <ParamRegModal modalObj={openCreateParamModal} onClose={paramAddCloseModal} />
+      {/* <ParamInquiryModal
+        modalObj={openInquiryParamModal}
+        onClose={paramInquiryCloseModal}
+        selectedParam={selectedRows}
+        onEdit={handleEditModalOpen}
+      /> */}
     </div>
   );
 }
-export default GetFlag;
+export default GetParam;
