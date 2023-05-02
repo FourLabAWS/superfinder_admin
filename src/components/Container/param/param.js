@@ -12,21 +12,21 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
-import GetFlag from "./flagList";
+import GetParam from "./paramList";
 
 import { client } from "../../../routes/routes";
 
 import "../../Table/styles.css";
 
-export default function Flag() {
+export default function Param() {
   const [text, setText] = useState("");
   const [list, setList] = useState([]);
   const [params, pushParams] = useState({});
 
-  // 맨처음 깃발을 불러온다.
+  // 맨처음 파라미터를 불러온다.
   useEffect(() => {
     client
-      .get("getFlag")
+      .get("getParam")
       .then((response) => {
         let item = [];
         let items = response.data.Items || []; // 응답이 없는 경우에는 빈 배열로 초기화
@@ -34,18 +34,17 @@ export default function Flag() {
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,
-            flagCd: items[itemNm].FLAG_CD.S,
-            plcId: items[itemNm].PLC_ID.S,
-            plcNm: items[itemNm].PLC_NM.S,
-            unitNm: items[itemNm].UNIT_NM.S,
-            hzLnth: items[itemNm].HZ_LNTH.S,
-            vrLnth: items[itemNm].VR_LNTH.S,
+            paramNm: items[itemNm].PARAM_NM.S,
+            paramVal: items[itemNm].PARAM_VAL.S,
             regId: items[itemNm].REG_ID.S,
             regDt: items[itemNm].REG_DT.S,
-            regSe: items[itemNm].REG_SE.S,
             modId: items[itemNm].MOD_ID.S,
             modDt: items[itemNm].MOD_DT.S,
-            modSe: items[itemNm].MOD_SE.S,
+            pixel: items[itemNm].PIXEL.S,
+            dpi: items[itemNm].DPI.S,
+            flagDownRate: items[itemNm].FLAG_DOWN_RATE.S,
+            customMaxRate: items[itemNm].CUSTOM_MAX_RATE.S,
+            customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
           });
         });
         setList(item);
@@ -55,16 +54,16 @@ export default function Flag() {
       });
   }, []);
 
-  // 깃발을 검색한다.
+  // 파라미터를 검색한다.
   const doSearch = () => {
     pushParams({
       text: text,
     });
 
     client
-      .get("getFlag", {
+      .get("getParam", {
         params: {
-          contains: params["text"], // 이름이 포함된 깃발 검색
+          contains: params["text"],
         },
       })
       .then((response) => {
@@ -73,18 +72,17 @@ export default function Flag() {
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,
-            flagCd: items[itemNm].FLAG_CD.S,
-            plcId: items[itemNm].PLC_ID.S,
-            plcNm: items[itemNm].PLC_NM.S,
-            unitNm: items[itemNm].UNIT_NM.S,
-            hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
-            vrLnth: parseInt(items[itemNm].VR_LNTH.S),
+            paramNm: items[itemNm].PARAM_NM.S,
+            paramVal: items[itemNm].PARAM_VAL.S,
             regId: items[itemNm].REG_ID.S,
             regDt: items[itemNm].REG_DT.S,
-            regSe: items[itemNm].REG_SE.S,
             modId: items[itemNm].MOD_ID.S,
             modDt: items[itemNm].MOD_DT.S,
-            modSe: items[itemNm].MOD_SE.S,
+            pixel: items[itemNm].PIXEL.S,
+            dpi: items[itemNm].DPI.S,
+            flagDownRate: items[itemNm].FLAG_DOWN_RATE.S,
+            customMaxRate: items[itemNm].CUSTOM_MAX_RATE.S,
+            customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
           });
         });
 
@@ -97,7 +95,7 @@ export default function Flag() {
       <br />
       <Toolbar />
       <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 550 }}>
-        깃발 관리
+        파라미터 관리
       </Typography>
       <br />
       <div>
@@ -108,7 +106,7 @@ export default function Flag() {
                 <Grid container spacing={1}>
                   <Grid item xs={2} backgroundColor="#1976d2" color="#fff" marginTop={1} width="10%">
                     <Box component="div" align="center">
-                      깃발 코드
+                      파라미터
                     </Box>
                   </Grid>
                   <Grid item xs={5}>
@@ -120,7 +118,7 @@ export default function Flag() {
                       variant="outlined"
                       size="small"
                       fullWidth
-                      placeholder="깃발 코드를 입력하세요"
+                      placeholder="파라미터를 입력하세요"
                     />
                   </Grid>
                 </Grid>
@@ -146,7 +144,7 @@ export default function Flag() {
           </Grid>
         </FormGroup>
         <Divider sx={{ padding: 2, border: "none" }} />
-        <GetFlag data={list} />
+        <GetParam data={list} />
       </div>
     </Box>
   );

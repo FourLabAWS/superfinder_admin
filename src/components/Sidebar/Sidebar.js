@@ -45,6 +45,12 @@ const SideBarItems = [
     link: "/flag",
     icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
   },
+  {
+    id: 11,
+    name: "파라미터 관리",
+    link: "/param",
+    icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+  },
   //{ id: 99, name: '게시판', link: '/board', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
 ];
 
@@ -63,15 +69,7 @@ const Sidebar = () => {
       anchor="left"
     >
       <Toolbar sx={{ background: "white" }}>
-        <Typography
-          variant="h6"
-          fontWeight={600}
-          marginLeft="26%"
-          component={Link}
-          to="/"
-          color="black"
-          sx={{ textDecoration: "none" }}
-        >
+        <Typography variant="h6" fontWeight={600} marginLeft="26%" component={Link} to="/" color="black" sx={{ textDecoration: "none" }}>
           ADMIN
         </Typography>
       </Toolbar>
@@ -80,12 +78,7 @@ const Sidebar = () => {
       <br />
       <List>
         {SideBarItems.map((menu) => (
-          <ListItem
-            key={menu.id}
-            disablePadding
-            component={Link}
-            to={menu.link}
-          >
+          <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
             <ListItemButton>
               <ListItemIcon>{menu.icon}</ListItemIcon>
               <ListItemText

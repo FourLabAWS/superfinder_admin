@@ -16,11 +16,10 @@ import NoticeModf from "../pages/notice/NoticeModf";
 
 import UserAdmin from "../pages/user/UserAdmin";
 import Flag from "../pages/flag/flag";
-import FlagReg from "../pages/flag/flagReg";
+import Param from "../pages/param/param";
 
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
-const BASE_URL =
-  "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
+const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const client = axios.create({ baseURL: BASE_URL });
 
 const routes = [
@@ -136,11 +135,11 @@ const routes = [
   },
   {
     id: 11,
-    path: "/flagReg",
+    path: "/param",
     component: (
       <PrivateRoute>
         {" "}
-        <FlagReg />{" "}
+        <Param />{" "}
       </PrivateRoute>
     ),
   },
