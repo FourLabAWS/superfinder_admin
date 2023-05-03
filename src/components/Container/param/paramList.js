@@ -111,6 +111,34 @@ function GetParam(props, onClose, selectedParam) {
     }
   };
 
+  const doUnuse = async (event) => {
+    event.preventDefault();
+    if (!window.confirm("선택한 파라미터를 미사용하겠습니까?")) {
+      return;
+    }
+    try {
+      await updateUseYnToN(formData);
+      alert("선택한 파라미터를 미사용합니다.");
+      window.location.reload(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateUseYnToN = async () => {
+    const editUrl = `https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/UseYnParam/`;
+    try {
+      const data = {
+        paramNm: selectedRows[0].paramNm,
+        useYn: "N",
+      };
+      console.log(data);
+      await axios.put(editUrl, data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const updateUseYn = async (event) => {
     const editUrl = `https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/UseYnParam/`;
     try {
@@ -204,6 +232,9 @@ function GetParam(props, onClose, selectedParam) {
       <div id="buttonArea">
         <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={doSave}>
           사용
+        </Button>
+        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={doUnuse}>
+          미사용
         </Button>
         <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={paramAddModal}>
           등록
