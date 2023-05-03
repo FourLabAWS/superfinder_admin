@@ -41,13 +41,7 @@ function App() {
         {isLogged != null && <Sidebar />}
         <Routes history={history}>
           {routes.map((route) => {
-            return (
-              <Route
-                key={route.id}
-                path={route.path}
-                element={route.component}
-              ></Route>
-            );
+            return <Route key={route.id} path={route.path} element={route.component}></Route>;
           })}
         </Routes>
       </BrowserRouter>

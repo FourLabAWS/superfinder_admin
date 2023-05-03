@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import axios from "axios";
 
 import GetParam from "./paramList";
 
@@ -22,6 +23,7 @@ export default function Param() {
   const [text, setText] = useState("");
   const [list, setList] = useState([]);
   const [params, pushParams] = useState({});
+  const [usedList, setUsedList] = useState([]);
 
   // 맨처음 파라미터를 불러온다.
   useEffect(() => {
@@ -45,8 +47,13 @@ export default function Param() {
             flagDownRate: items[itemNm].FLAG_DOWN_RATE.S,
             customMaxRate: items[itemNm].CUSTOM_MAX_RATE.S,
             customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
+            useYn: items[itemNm].USE_YN.S,
           });
         });
+        // 사용 중인 파라미터만 추출하여 저장
+        const used = item.filter((p) => p.useYn === "Y");
+        setUsedList(used);
+
         setList(item);
       })
       .catch((error) => {
@@ -85,9 +92,20 @@ export default function Param() {
             customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
           });
         });
-
         setList(item);
       });
+  };
+
+  const getParamDtlEndpoint = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getParamDtl";
+  const handleDetail = async (paramNm) => {
+    console.log(paramNm);
+    try {
+      const response = await axios.get(`${getParamDtlEndpoint}?PARAM_NM=${paramNm}`);
+      console.log(response.data);
+      // 처리할 로직 추가
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -144,6 +162,21 @@ export default function Param() {
         </FormGroup>
         <Divider sx={{ padding: 2, border: "none" }} />
         <GetParam data={list} />
+      </div>
+      <div>
+        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 550 }}>
+          사용 파라미터 목록
+        </Typography>
+        {usedList.map((item) => (
+          <div key={item.id}>
+            <Typography variant="body1">
+              {item.paramNm}
+              <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={() => handleDetail(item.paramNm)}>
+                상세보기
+              </Button>
+            </Typography>
+          </div>
+        ))}
       </div>
     </Box>
   );

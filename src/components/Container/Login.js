@@ -80,12 +80,7 @@ export default function Container() {
           m={"0"}
           pt={"60px"}
         >
-          <Grid
-            container
-            direction={"column"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
+          <Grid container direction={"column"} justifyContent={"center"} alignItems={"center"}>
             <Box width={"222px"} height={"60px"}>
               <img className="logo" src="Ci_4-lab_com.gif" />
             </Box>
@@ -106,16 +101,7 @@ export default function Container() {
 
           {/* <br /> */}
 
-          <Grid
-            container
-            direction={"column"}
-            justifyContent={"center"}
-            spacing={0}
-            width={"40vw"}
-            minWidth={"280px"}
-            maxWidth={"400px"}
-            sx={{}}
-          >
+          <Grid container direction={"column"} justifyContent={"center"} spacing={0} width={"40vw"} minWidth={"280px"} maxWidth={"400px"} sx={{}}>
             {/* id input */}
             <Grid container spacing={0}>
               <OutlinedInput
@@ -132,7 +118,7 @@ export default function Container() {
                   </InputAdornment>
                 }
                 placeholder="사용자 ID를 입력하십시오"
-                style={{ cursor: 'pointer'}}
+                style={{ cursor: "pointer" }}
               />
             </Grid>
 
@@ -165,18 +151,13 @@ export default function Container() {
                 }
                 placeholder="비밀번호를 입력하세요"
                 onKeyPress={onCheckEnter}
-                style={{ cursor: 'pointer'}}
+                style={{ cursor: "pointer" }}
               />
             </Grid>
 
             {/* login btn */}
             <Grid container spacing={0} sx={{ marginTop: "2%" }}>
-              <Button
-                variant="contained"
-                size="large"
-                sx={btnStyle}
-                onClick={(event) => handleLogin(ID, passwd)}
-              >
+              <Button variant="contained" size="large" sx={btnStyle} onClick={(event) => handleLogin(ID, passwd)}>
                 로그인
               </Button>
             </Grid>
