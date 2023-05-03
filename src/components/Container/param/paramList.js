@@ -104,8 +104,8 @@ function GetParam(props, onClose, selectedParam) {
     }
     try {
       await updateUseYn(formData);
-      alert("수정되었습니다.");
-      //window.location.reload(false);
+      alert("선택한 파라미터를 사용합니다.");
+      window.location.reload(false);
     } catch (error) {
       console.error(error);
     }

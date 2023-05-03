@@ -98,11 +98,9 @@ export default function Param() {
 
   const getParamDtlEndpoint = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getParamDtl";
   const handleDetail = async (paramNm) => {
-    console.log(paramNm);
     try {
       const response = await axios.get(`${getParamDtlEndpoint}?PARAM_NM=${paramNm}`);
       console.log(response.data);
-      // 처리할 로직 추가
     } catch (error) {
       console.error(error);
     }
