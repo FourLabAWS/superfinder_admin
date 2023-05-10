@@ -17,7 +17,7 @@ import "./event.css";
 function GetEvnt(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const [openCreateEvntModal, setOpenCreateEvntModal] = useState(false);
+  const [openSendEvntModal, setOpenSendEvntModal] = useState(false);
   const [openInquiryEvntModal, setOpenInquiryEvntModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
@@ -56,11 +56,11 @@ function GetEvnt(props) {
   ];
 
   //사용자 모달
-  const evntAddModal = () => {
-    setOpenCreateEvntModal(true);
+  const evntSendModal = () => {
+    setOpenSendEvntModal(true);
   };
-  const evntAddCloseModal = () => {
-    setOpenCreateEvntModal(false);
+  const evntSendCloseModal = () => {
+    setOpenSendEvntModal(false);
   };
   const evntInquiryModal = (selectedRows) => {
     setSelectedRows(selectedRows);
@@ -110,7 +110,7 @@ function GetEvnt(props) {
         <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={evntAddModal}
+          onClick={evntSendModal}
         >
           등록
         </Button>

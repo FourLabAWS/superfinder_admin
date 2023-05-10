@@ -9,8 +9,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
-//import BookMarkRegModal from "./evntRegModal";
-//import BookMarkInquiryModal from "./evntInquiryModal";
+//import BookMarkRegModal from "./bookMarkRegModal";
+//import BookMarkInquiryModal from "./bookMarkInquiryModal";
 import "../../Table/styles.css";
 import "./bookmark.css";
 
@@ -38,7 +38,7 @@ function GetBookMark(props) {
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
             .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
-          //evntInquiryModal(thisRow);
+          //bookMarkInquiryModal(thisRow);
         };
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
@@ -55,17 +55,17 @@ function GetBookMark(props) {
   ];
 
   //사용자 모달
-  const evntAddModal = () => {
+  const bookMarkAddModal = () => {
     setOpenCreateBookMarkModal(true);
   };
-  const evntAddCloseModal = () => {
+  const bookMarkAddCloseModal = () => {
     setOpenCreateBookMarkModal(false);
   };
-  const evntInquiryModal = (selectedRows) => {
+  const bookMarkInquiryModal = (selectedRows) => {
     setSelectedRows(selectedRows);
     setOpenInquiryBookMarkModal(true);
   };
-  const evntInquiryCloseModal = () => {
+  const bookMarkInquiryCloseModal = () => {
     setOpenInquiryBookMarkModal(false);
   };
   const handleEditModalOpen = (selectedRows) => {
@@ -89,7 +89,7 @@ function GetBookMark(props) {
       client
         .delete("delBookMark/", {
           params: {
-            id: item["evntCd"],
+            id: item["bookMarkCd"],
           },
         })
         .then((response) => {
@@ -109,7 +109,7 @@ function GetBookMark(props) {
         <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={evntAddModal}
+          onClick={bookMarkAddModal}
         >
           등록
         </Button>
@@ -150,7 +150,7 @@ function GetBookMark(props) {
           experimentalFeatures={{ newEditingApi: true }}
           initialState={{
             sorting: {
-              sortModel: [{ field: "evntRegDt", sort: "desc" }],
+              sortModel: [{ field: "bookMarkRegDt", sort: "desc" }],
             },
           }}
           onSelectionModelChange={(ids) => {
@@ -170,10 +170,10 @@ function GetBookMark(props) {
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
 
-      {/* <BookMarkRegModal modalObj={openCreateBookMarkModal} onClose={evntAddCloseModal} />
+      {/* <BookMarkRegModal modalObj={openCreateBookMarkModal} onClose={bookMarkAddCloseModal} />
       <BookMarkInquiryModal
         modalObj={openInquiryBookMarkModal}
-        onClose={evntInquiryCloseModal}
+        onClose={bookMarkInquiryCloseModal}
         selectedBookMark={selectedRows}
         onEdit={handleEditModalOpen}
       /> */}
