@@ -78,9 +78,7 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
       <DialogContent>
         <form onSubmit={doSave}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <input value={formData.paramCd} type="hidden"></input>
-            </Grid>
+            <Grid item xs={12}></Grid>
             <Grid item xs={6}>
               <TextField
                 type="text"
@@ -98,28 +96,72 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
             <Grid item xs={6}>
               <TextField
                 type="text"
-                id="paramVal"
-                name="paramVal"
-                label="파라미터 값"
+                id="pixel"
+                name="pixel"
+                label="픽셀"
                 fullWidth
-                value={formData.paramVal}
+                value={formData.pixel}
                 required
                 sx={{
                   height: "50px",
                 }}
               />
             </Grid>
-            <Grid item xs={6} container>
-              <TextField id="modId" label="등록자" value={formData.regId} readOnly></TextField>
+            <Grid item xs={6}>
+              <TextField
+                type="text"
+                id="dpi"
+                name="dpi"
+                label="도트 퍼 인치"
+                fullWidth
+                value={formData.dpi}
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
             </Grid>
-            <Grid item xs={6} container>
-              <TextField id="modId" label="등록일자" value={formData.regDt} readOnly></TextField>
+            <Grid item xs={6}>
+              <TextField
+                type="text"
+                id="flagDownRate"
+                name="flagDownRate"
+                label="깃발 최소 비율"
+                fullWidth
+                value={formData.flagDownRate}
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
             </Grid>
-            <Grid item xs={6} container>
-              <TextField id="modId" label="수정자" value={formData.modId}></TextField>
+            <Grid item xs={6}>
+              <TextField
+                type="text"
+                id="customMaxRate"
+                name="customMaxRate"
+                label="깃발 보정 최대치"
+                fullWidth
+                value={formData.customMaxRate}
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
             </Grid>
-            <Grid item xs={6} container>
-              <TextField id="modId" label="수정일자" value={formData.modDt}></TextField>
+            <Grid item xs={6}>
+              <TextField
+                type="text"
+                id="customMinRate"
+                name="customMinRate"
+                label="깃발 보정 최소치"
+                fullWidth
+                value={formData.customMinRate}
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
             </Grid>
           </Grid>
         </form>

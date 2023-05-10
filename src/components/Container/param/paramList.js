@@ -102,6 +102,14 @@ function GetParam(props, onClose, selectedParam) {
     if (!window.confirm("선택한 파라미터를 사용하겠습니까?")) {
       return;
     }
+    if (selectedRows.length === 0) {
+      alert("사용할 파라미터를 선택해주세요.");
+      return;
+    }
+    if (selectedRows.length > 1) {
+      alert("하나의 파라미터만 선택해주세요.");
+      return;
+    }
     try {
       await updateUseYn(formData);
       alert("선택한 파라미터를 사용합니다.");
