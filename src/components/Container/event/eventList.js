@@ -48,7 +48,7 @@ function GetEvnt(props) {
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regNick", headerName: "카카오 아이디", width: 120 },
+    { field: "regNick", headerName: "카카오ID", width: 120 },
     { field: "regDt", headerName: "등록일자", width: 200 },
     { field: "regSe", headerName: "등록환경", width: 100, hide: true },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
@@ -112,7 +112,7 @@ function GetEvnt(props) {
           sx={{ width: "100px", marginLeft: "1%" }}
           onClick={evntSendModal}
         >
-          등록
+          깃발 등록
         </Button>
         <Button
           variant="contained"

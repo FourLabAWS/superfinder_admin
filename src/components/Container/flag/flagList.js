@@ -82,19 +82,17 @@ function GetFlag(props) {
       alert("삭제할 깃발을 선택해주세요.");
       return;
     }
+
     if (!window.confirm("선택한 깃발을 삭제하겠습니까?")) {
       return;
     }
+
     selectedRows.map((item) => {
       client
-        .delete("delFlag/", {
-          params: {
-            id: item["flagCd"],
-          },
-        })
+        .delete("delFlag/" + item["FlagCd"])
         .then((response) => {
           alert("삭제되었습니다.");
-          window.location.reload(false);
+          //window.location.reload(false);
           return response;
         })
         .catch((error) => {
