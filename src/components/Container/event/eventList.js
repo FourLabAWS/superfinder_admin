@@ -28,7 +28,7 @@ function GetEvnt(props) {
     {
       field: "plcNm",
       headerName: "골프장",
-      width: 200,
+      width: 300,
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
@@ -48,8 +48,8 @@ function GetEvnt(props) {
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regNick", headerName: "카카오ID", width: 120 },
-    { field: "regDt", headerName: "등록일자", width: 200 },
+    { field: "regNick", headerName: "카카오ID", width: 200 },
+    { field: "regDt", headerName: "등록일시", width: 200 },
     { field: "regSe", headerName: "등록환경", width: 100, hide: true },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },

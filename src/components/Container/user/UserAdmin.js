@@ -82,10 +82,7 @@ export default function Notice() {
   };
 
   return (
-    <Box
-      component="main"
-      sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}
-    >
+    <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}>
       <br />
       <Toolbar />
       <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 550 }}>
@@ -94,19 +91,13 @@ export default function Notice() {
       <br />
       <div>
         <FormGroup sx={{ width: "100%" }}>
-          <Grid
-            container
-            spacing={0}
-            component={Paper}
-            padding={2}
-            variant="outlined"
-          >
+          <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
             <Grid container spacing={1}>
               <Grid item xs={10}>
                 <Grid container spacing={1}>
                   <Grid
                     item
-                    xs={2}
+                    xs={1}
                     backgroundColor="#1976d2"
                     color="#fff"
                     marginTop={1}

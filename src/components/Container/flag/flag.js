@@ -106,7 +106,14 @@ export default function Flag() {
             <Grid container spacing={1}>
               <Grid item xs={10}>
                 <Grid container spacing={1}>
-                  <Grid item xs={2} backgroundColor="#1976d2" color="#fff" marginTop={1} width="10%">
+                  <Grid
+                    item
+                    xs={1}
+                    backgroundColor="#1976d2"
+                    color="#fff"
+                    marginTop={1}
+                    width="10%"
+                  >
                     <Box component="div" align="center">
                       깃발 코드
                     </Box>

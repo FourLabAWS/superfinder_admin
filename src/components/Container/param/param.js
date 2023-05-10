@@ -123,7 +123,7 @@ export default function Param() {
                 <Grid container spacing={1}>
                   <Grid
                     item
-                    xs={2}
+                    xs={1}
                     backgroundColor="#1976d2"
                     color="#fff"
                     marginTop={1}

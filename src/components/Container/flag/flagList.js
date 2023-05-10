@@ -25,6 +25,7 @@ function GetFlag(props) {
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
   // 보여줄 칼럼 정의
   const columns = [
+    { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
     {
       field: "plcNm",
       headerName: "골프장",
@@ -43,7 +44,6 @@ function GetFlag(props) {
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
-    { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
