@@ -9,16 +9,16 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
-//import EvntRegModal from "./evntRegModal";
-//import EvntInquiryModal from "./evntInquiryModal";
+//import BookMarkRegModal from "./evntRegModal";
+//import BookMarkInquiryModal from "./evntInquiryModal";
 import "../../Table/styles.css";
-import "./event.css";
+import "./bookmark.css";
 
-function GetEvnt(props) {
+function GetBookMark(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const [openCreateEvntModal, setOpenCreateEvntModal] = useState(false);
-  const [openInquiryEvntModal, setOpenInquiryEvntModal] = useState(false);
+  const [openCreateBookMarkModal, setOpenCreateBookMarkModal] = useState(false);
+  const [openInquiryBookMarkModal, setOpenInquiryBookMarkModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
   const getBackgroundColor = (color, mode) =>
@@ -44,11 +44,10 @@ function GetEvnt(props) {
       },
     },
     { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
-    { field: "plcId", headerName: "장소 아이디", width: 100, hide: true },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regNick", headerName: "카카오 아이디", width: 120 },
+    { field: "regNick", headerName: "등록자", width: 120 },
     { field: "regDt", headerName: "등록일자", width: 200 },
     { field: "regSe", headerName: "등록환경", width: 100, hide: true },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
@@ -57,28 +56,28 @@ function GetEvnt(props) {
 
   //사용자 모달
   const evntAddModal = () => {
-    setOpenCreateEvntModal(true);
+    setOpenCreateBookMarkModal(true);
   };
   const evntAddCloseModal = () => {
-    setOpenCreateEvntModal(false);
+    setOpenCreateBookMarkModal(false);
   };
   const evntInquiryModal = (selectedRows) => {
     setSelectedRows(selectedRows);
-    setOpenInquiryEvntModal(true);
+    setOpenInquiryBookMarkModal(true);
   };
   const evntInquiryCloseModal = () => {
-    setOpenInquiryEvntModal(false);
+    setOpenInquiryBookMarkModal(false);
   };
   const handleEditModalOpen = (selectedRows) => {
     selectedRows(selectedRows);
-    setOpenInquiryEvntModal(false);
+    setOpenInquiryBookMarkModal(false);
     setEditModalOpen(true);
   };
   const handleEditModalClose = () => {
     setEditModalOpen(false);
   };
   // 깃발 삭제
-  const deleteEvnt = () => {
+  const deleteBookMark = () => {
     if (selectedRows.length === 0) {
       alert("삭제할 깃발을 선택해주세요.");
       return;
@@ -88,7 +87,7 @@ function GetEvnt(props) {
     }
     selectedRows.map((item) => {
       client
-        .delete("delEvnt/", {
+        .delete("delBookMark/", {
           params: {
             id: item["evntCd"],
           },
@@ -106,22 +105,6 @@ function GetEvnt(props) {
 
   return (
     <div>
-      <div id="buttonArea">
-        <Button
-          variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={evntAddModal}
-        >
-          등록
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={deleteEvnt}
-        >
-          삭제
-        </Button>
-      </div>
       <Typography variant="h7" noWrap component="div" sx={{ fontWeight: 550 }}>
         목록 (총 건수 : {rows.length} 건)
       </Typography>
@@ -170,15 +153,30 @@ function GetEvnt(props) {
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-
-      {/* <EvntRegModal modalObj={openCreateEvntModal} onClose={evntAddCloseModal} />
-      <EvntInquiryModal
-        modalObj={openInquiryEvntModal}
+      <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={evntAddModal}
+        >
+          등록
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={deleteBookMark}
+        >
+          삭제
+        </Button>
+      </div>
+      {/* <BookMarkRegModal modalObj={openCreateBookMarkModal} onClose={evntAddCloseModal} />
+      <BookMarkInquiryModal
+        modalObj={openInquiryBookMarkModal}
         onClose={evntInquiryCloseModal}
-        selectedEvnt={selectedRows}
+        selectedBookMark={selectedRows}
         onEdit={handleEditModalOpen}
       /> */}
     </div>
   );
 }
-export default GetEvnt;
+export default GetBookMark;

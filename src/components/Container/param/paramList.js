@@ -21,7 +21,8 @@ function GetParam(props, onClose, selectedParam) {
   const [openInquiryParamModal, setOpenInquiryParamModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false); // 모달 창 열림 여부 상태
-  const getBackgroundColor = (color, mode) => (mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6));
+  const getBackgroundColor = (color, mode) =>
+    mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
   const [formData, setFormData] = useState({
     paramNm: "",
@@ -190,6 +191,36 @@ function GetParam(props, onClose, selectedParam) {
 
   return (
     <div>
+      <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={doSave}
+        >
+          사용
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={doUnuse}
+        >
+          미사용
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={paramAddModal}
+        >
+          등록
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={deleteParam}
+        >
+          삭제
+        </Button>
+      </div>
       <Typography variant="h7" noWrap component="div" sx={{ fontWeight: 550 }}>
         목록 (총 건수 : {rows.length} 건)
       </Typography>
@@ -199,7 +230,8 @@ function GetParam(props, onClose, selectedParam) {
           width: "100%",
           height: 560,
           "& .super-app-theme--unsuccess": {
-            bgcolor: (theme) => getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+            bgcolor: (theme) =>
+              getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
           },
         }}
       >
@@ -237,20 +269,7 @@ function GetParam(props, onClose, selectedParam) {
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-      <div id="buttonArea">
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={doSave}>
-          사용
-        </Button>
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={doUnuse}>
-          미사용
-        </Button>
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={paramAddModal}>
-          등록
-        </Button>
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={deleteParam}>
-          삭제
-        </Button>
-      </div>
+
       <ParamRegModal modalObj={openCreateParamModal} onClose={paramAddCloseModal} />
       <ParamInquiryModal
         modalObj={openInquiryParamModal}

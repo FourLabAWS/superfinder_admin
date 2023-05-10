@@ -12,13 +12,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
-import GetEvent from "./eventList";
+import GetBookMark from "./bookmarkList";
 
 import { client } from "../../../routes/routes";
 
 import "../../Table/styles.css";
 
-export default function Evnt() {
+export default function BookMark() {
   const [text, setText] = useState("");
   const [list, setList] = useState([]);
   const [params, pushParams] = useState({});
@@ -26,7 +26,7 @@ export default function Evnt() {
   // 맨처음 깃발을 불러온다.
   useEffect(() => {
     client
-      .get("getEvnt")
+      .get("getBookMark")
       .then((response) => {
         let item = [];
         let items = response.data.Items || []; // 응답이 없는 경우에는 빈 배열로 초기화
@@ -60,7 +60,7 @@ export default function Evnt() {
     });
 
     client
-      .get("getEvnt", {
+      .get("getBookMark", {
         params: {
           contains: params["text"], // 이름이 포함된 깃발 검색
         },
@@ -113,19 +113,19 @@ export default function Evnt() {
                     width="10%"
                   >
                     <Box component="div" align="center">
-                      등록자
+                      깃발 코드
                     </Box>
                   </Grid>
                   <Grid item xs={5}>
                     <TextField
                       sx={{ width: "70%" }}
                       value={text}
-                      onChange={(evnt) => setText(evnt.target.value)}
+                      onChange={(bookmark) => setText(bookmark.target.value)}
                       id="outlined-basic"
                       variant="outlined"
                       size="small"
                       fullWidth
-                      placeholder="등록자를 입력하세요"
+                      placeholder="이벤트를 입력하세요"
                     />
                   </Grid>
                 </Grid>
@@ -151,7 +151,7 @@ export default function Evnt() {
           </Grid>
         </FormGroup>
         <Divider sx={{ padding: 2, border: "none" }} />
-        <GetEvent data={list} />
+        <GetBookMark data={list} />
       </div>
     </Box>
   );

@@ -155,6 +155,16 @@ const routes = [
     ),
   },
   {
+    id: 13,
+    path: "/bookmark",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <Event />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
     id: 98,
     path: "/AddNoti",
     component: (

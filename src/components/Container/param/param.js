@@ -96,7 +96,8 @@ export default function Param() {
       });
   };
 
-  const getParamDtlEndpoint = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getParamDtl";
+  const getParamDtlEndpoint =
+    "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getParamDtl";
   const handleDetail = async (paramNm) => {
     try {
       const response = await axios.get(`${getParamDtlEndpoint}?PARAM_NM=${paramNm}`);
@@ -120,7 +121,14 @@ export default function Param() {
             <Grid container spacing={1}>
               <Grid item xs={10}>
                 <Grid container spacing={1}>
-                  <Grid item xs={2} backgroundColor="#1976d2" color="#fff" marginTop={1} width="10%">
+                  <Grid
+                    item
+                    xs={2}
+                    backgroundColor="#1976d2"
+                    color="#fff"
+                    marginTop={1}
+                    width="10%"
+                  >
                     <Box component="div" align="center">
                       파라미터
                     </Box>
@@ -161,7 +169,7 @@ export default function Param() {
         <Divider sx={{ padding: 2, border: "none" }} />
         <GetParam data={list} />
       </div>
-      <div>
+      {/* <div>
         <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 550 }}>
           사용 파라미터 목록
         </Typography>
@@ -175,7 +183,7 @@ export default function Param() {
             </Typography>
           </div>
         ))}
-      </div>
+      </div> */}
     </Box>
   );
 }

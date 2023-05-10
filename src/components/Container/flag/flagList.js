@@ -21,7 +21,8 @@ function GetFlag(props) {
   const [openInquiryFlagModal, setOpenInquiryFlagModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
-  const getBackgroundColor = (color, mode) => (mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6));
+  const getBackgroundColor = (color, mode) =>
+    mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
   // 보여줄 칼럼 정의
   const columns = [
     {
@@ -104,6 +105,22 @@ function GetFlag(props) {
 
   return (
     <div>
+      <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={flagAddModal}
+        >
+          등록
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={deleteFlag}
+        >
+          삭제
+        </Button>
+      </div>
       <Typography variant="h7" noWrap component="div" sx={{ fontWeight: 550 }}>
         목록 (총 건수 : {rows.length} 건)
       </Typography>
@@ -113,7 +130,8 @@ function GetFlag(props) {
           width: "100%",
           height: 560,
           "& .super-app-theme--unsuccess": {
-            bgcolor: (theme) => getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+            bgcolor: (theme) =>
+              getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
           },
         }}
       >
@@ -151,16 +169,14 @@ function GetFlag(props) {
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-      <div id="buttonArea">
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={flagAddModal}>
-          등록
-        </Button>
-        <Button variant="contained" sx={{ width: "100px", marginLeft: "1%" }} onClick={deleteFlag}>
-          삭제
-        </Button>
-      </div>
+
       <FlagRegModal modalObj={openCreateFlagModal} onClose={flagAddCloseModal} />
-      <FlagInquiryModal modalObj={openInquiryFlagModal} onClose={flagInquiryCloseModal} selectedFlag={selectedRows} onEdit={handleEditModalOpen} />
+      <FlagInquiryModal
+        modalObj={openInquiryFlagModal}
+        onClose={flagInquiryCloseModal}
+        selectedFlag={selectedRows}
+        onEdit={handleEditModalOpen}
+      />
     </div>
   );
 }
