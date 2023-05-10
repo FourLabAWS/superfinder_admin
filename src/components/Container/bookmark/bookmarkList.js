@@ -105,6 +105,22 @@ function GetBookMark(props) {
 
   return (
     <div>
+      <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={evntAddModal}
+        >
+          등록
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={deleteBookMark}
+        >
+          삭제
+        </Button>
+      </div>
       <Typography variant="h7" noWrap component="div" sx={{ fontWeight: 550 }}>
         목록 (총 건수 : {rows.length} 건)
       </Typography>
@@ -153,22 +169,7 @@ function GetBookMark(props) {
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-      <div id="buttonArea">
-        <Button
-          variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={evntAddModal}
-        >
-          등록
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={deleteBookMark}
-        >
-          삭제
-        </Button>
-      </div>
+
       {/* <BookMarkRegModal modalObj={openCreateBookMarkModal} onClose={evntAddCloseModal} />
       <BookMarkInquiryModal
         modalObj={openInquiryBookMarkModal}

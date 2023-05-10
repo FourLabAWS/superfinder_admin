@@ -95,7 +95,7 @@ export default function BookMark() {
       <br />
       <Toolbar />
       <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 550 }}>
-        이벤트 관리
+        즐겨찾기 관리
       </Typography>
       <br />
       <div>
@@ -113,7 +113,7 @@ export default function BookMark() {
                     width="10%"
                   >
                     <Box component="div" align="center">
-                      깃발 코드
+                      등록자
                     </Box>
                   </Grid>
                   <Grid item xs={5}>
@@ -125,7 +125,7 @@ export default function BookMark() {
                       variant="outlined"
                       size="small"
                       fullWidth
-                      placeholder="이벤트를 입력하세요"
+                      placeholder="등록자를 입력하세요"
                     />
                   </Grid>
                 </Grid>
