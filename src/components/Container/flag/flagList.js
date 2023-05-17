@@ -89,10 +89,11 @@ function GetFlag(props) {
 
     selectedRows.map((item) => {
       client
-        .delete("delFlag/" + item["FlagCd"])
+        .delete("delFlag/" + item["flagCd"])
         .then((response) => {
+          console.log(item.flagCd);
           alert("삭제되었습니다.");
-          //window.location.reload(false);
+          window.location.reload(false);
           return response;
         })
         .catch((error) => {

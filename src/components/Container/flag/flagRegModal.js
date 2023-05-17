@@ -161,11 +161,7 @@ function FlagRegModal(obj) {
                     </Typography>
                   </Box>
                 )}
-                renderSuggestions={(
-                  active,
-                  suggestions,
-                  onSelectSuggestion
-                ) => (
+                renderSuggestions={(active, suggestions, onSelectSuggestion) => (
                   <div
                     style={{
                       position: "absolute",
@@ -181,9 +177,7 @@ function FlagRegModal(obj) {
                     {suggestions.map((suggestion) => (
                       <div
                         key={suggestion.place_id}
-                        onClick={(event) =>
-                          onSelectSuggestion(suggestion, event)
-                        }
+                        onClick={(event) => onSelectSuggestion(suggestion, event)}
                         style={{
                           padding: "10px",
                           cursor: "pointer",
@@ -273,11 +267,7 @@ function FlagRegModal(obj) {
                   onChange={handleUnitChange}
                 >
                   <FormControlLabel value="cm" control={<Radio />} label="cm" />
-                  <FormControlLabel
-                    value="inch"
-                    control={<Radio />}
-                    label="inch"
-                  />
+                  <FormControlLabel value="inch" control={<Radio />} label="inch" />
                 </RadioGroup>
               </FormControl>
             </Grid>
@@ -291,11 +281,7 @@ function FlagRegModal(obj) {
             >
               저장
             </Button>
-            <Button
-              variant="contained"
-              sx={{ mt: 2, mr: 1 }}
-              onClick={obj.onClose}
-            >
+            <Button variant="contained" sx={{ mt: 2, mr: 1 }} onClick={obj.onClose}>
               닫기
             </Button>
           </div>

@@ -115,7 +115,7 @@ export default function Flag() {
                     width="10%"
                   >
                     <Box component="div" align="center">
-                      깃발 코드
+                      골프장
                     </Box>
                   </Grid>
                   <Grid item xs={5}>
@@ -127,7 +127,7 @@ export default function Flag() {
                       variant="outlined"
                       size="small"
                       fullWidth
-                      placeholder="깃발 코드를 입력하세요"
+                      placeholder="골프장을 입력하세요"
                     />
                   </Grid>
                 </Grid>

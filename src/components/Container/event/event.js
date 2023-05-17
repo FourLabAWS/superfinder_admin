@@ -23,6 +23,8 @@ export default function Evnt() {
   const [list, setList] = useState([]);
   const [params, pushParams] = useState({});
 
+  let moment = require("moment-timezone");
+
   // 맨처음 깃발을 불러온다.
   useEffect(() => {
     client
@@ -32,18 +34,29 @@ export default function Evnt() {
         let items = response.data.Items || []; // 응답이 없는 경우에는 빈 배열로 초기화
         console.log(item);
         items.map(function (a, itemNm) {
+          let utcDate = new Date(items[itemNm].REG_DT.S);
+          utcDate.setHours(utcDate.getHours() + 9); // 9시간 더하기
+
+          let year = utcDate.getFullYear();
+          let month = ("0" + (utcDate.getMonth() + 1)).slice(-2);
+          let date = ("0" + utcDate.getDate()).slice(-2);
+          let hours = ("0" + utcDate.getHours()).slice(-2);
+          let minutes = ("0" + utcDate.getMinutes()).slice(-2);
+          let seconds = ("0" + utcDate.getSeconds()).slice(-2);
+
+          let seoulTime = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+
           item.push({
             id: itemNm,
             flagCd: items[itemNm].FLAG_CD.S,
             plcId: items[itemNm].PLC_ID.S,
             plcNm: items[itemNm].PLC_NM.S,
-            unitNm: items[itemNm].UNIT_NM.S,
             hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
             vrLnth: parseInt(items[itemNm].VR_LNTH.S),
-            regNick: items[itemNm].REG_NICK.S,
-            regDt: items[itemNm].REG_DT.S,
-            modId: items[itemNm].MOD_ID.S,
-            modDt: items[itemNm].MOD_DT.S,
+            phoneNum: items[itemNm].PHONE_NUM.S,
+            regDt: seoulTime,
+            useYn: items[itemNm].USE_YN.S,
+            csntYn: items[itemNm].CSNT_YN.S,
           });
         });
         setList(item);

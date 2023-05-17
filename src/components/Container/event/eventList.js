@@ -9,10 +9,32 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
+
 //import EvntRegModal from "./evntRegModal";
 //import EvntInquiryModal from "./evntInquiryModal";
 import "../../Table/styles.css";
 import "./event.css";
+
+const today = new Date();
+
+function exportToExcel(rows, columns) {
+  const ws = XLSX.utils.json_to_sheet(rows, {
+    header: columns.map((column) => column.field),
+  });
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
+  const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  const file = new Blob([excelBuffer], { type: fileType });
+  saveAs(file, fileName);
+}
 
 function GetEvnt(props) {
   const rows = props.data;
@@ -47,8 +69,7 @@ function GetEvnt(props) {
     { field: "plcId", headerName: "장소 아이디", width: 100, hide: true },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
-    { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regNick", headerName: "카카오ID", width: 200 },
+    { field: "phoneNum", headerName: "전화번호", width: 200 },
     { field: "regDt", headerName: "등록일시", width: 200 },
     { field: "regSe", headerName: "등록환경", width: 100, hide: true },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
@@ -77,6 +98,38 @@ function GetEvnt(props) {
   const handleEditModalClose = () => {
     setEditModalOpen(false);
   };
+
+  const [formData, setFormData] = useState({
+    PLC_ID: "",
+    PLC_NM: "",
+    UNIT_NM: "cm",
+    HZ_LNTH: "",
+    VR_LNTH: "",
+    REG_ID: "sadmin",
+    REG_SE: "A",
+  });
+
+  // 깃발 등록
+  const doSave = async (event) => {
+    console.log(formData);
+    event.preventDefault();
+    if (!window.confirm("깃발을 등록하겠습니까?")) {
+      return;
+    }
+    const postUrl =
+      "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagEvntReg";
+    try {
+      await axios.post(postUrl, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      window.location.reload(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // 깃발 삭제
   const deleteEvnt = () => {
     if (selectedRows.length === 0) {
@@ -109,8 +162,15 @@ function GetEvnt(props) {
       <div id="buttonArea">
         <Button
           variant="contained"
+          sx={{ width: "125px", marginLeft: "1%" }}
+          onClick={() => exportToExcel(rows, columns)}
+        >
+          엑셀 다운로드
+        </Button>
+        <Button
+          variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={evntSendModal}
+          onClick={doSave}
         >
           깃발 등록
         </Button>
