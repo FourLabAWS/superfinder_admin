@@ -20,8 +20,16 @@ import "./event.css";
 const today = new Date();
 
 function exportToExcel(rows, columns) {
-  const ws = XLSX.utils.json_to_sheet(rows, {
-    header: columns.map((column) => column.field),
+  let newRows = rows.map((row) => {
+    let newRow = {};
+    columns.forEach((column) => {
+      newRow[column.headerName] = row[column.field];
+    });
+    return newRow;
+  });
+
+  const ws = XLSX.utils.json_to_sheet(newRows, {
+    header: columns.map((column) => column.headerName),
   });
 
   const wb = XLSX.utils.book_new();
