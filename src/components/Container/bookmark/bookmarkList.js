@@ -9,8 +9,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
-//import BookMarkRegModal from "./bookMarkRegModal";
-//import BookMarkInquiryModal from "./bookMarkInquiryModal";
+import BookMarkRegModal from "./bookmarkRegModal";
+import BookMarkInquiryModal from "./bookmarkInquiryModal";
 import "../../Table/styles.css";
 import "./bookmark.css";
 
@@ -25,6 +25,8 @@ function GetBookMark(props) {
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
   // 보여줄 칼럼 정의
   const columns = [
+    { field: "flagCd", headerName: "깃발 코드", width: 100 },
+    { field: "plcId", headerName: "장소 코드", width: 100 },
     {
       field: "plcNm",
       headerName: "골프장",
@@ -38,18 +40,19 @@ function GetBookMark(props) {
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
             .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
-          //bookMarkInquiryModal(thisRow);
+          bookMarkInquiryModal(thisRow);
         };
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
-    { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
+    { field: "plcLat", headerName: "경도", width: 150 },
+    { field: "plcLng", headerName: "위도", width: 150 },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regNick", headerName: "등록자", width: 120 },
-    { field: "regDt", headerName: "등록일자", width: 200 },
-    { field: "regSe", headerName: "등록환경", width: 100, hide: true },
+    { field: "regId", headerName: "등록자", width: 100 },
+    { field: "regDt", headerName: "등록일시", width: 200 },
+    { field: "regSe", headerName: "등록환경", width: 100 },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
   ];
@@ -87,11 +90,7 @@ function GetBookMark(props) {
     }
     selectedRows.map((item) => {
       client
-        .delete("delBookMark/", {
-          params: {
-            id: item["bookMarkCd"],
-          },
-        })
+        .delete("delBookMark/" + item["flagCd"])
         .then((response) => {
           alert("삭제되었습니다.");
           window.location.reload(false);
@@ -169,14 +168,16 @@ function GetBookMark(props) {
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-
-      {/* <BookMarkRegModal modalObj={openCreateBookMarkModal} onClose={bookMarkAddCloseModal} />
+      <BookMarkRegModal
+        modalObj={openCreateBookMarkModal}
+        onClose={bookMarkAddCloseModal}
+      />
       <BookMarkInquiryModal
         modalObj={openInquiryBookMarkModal}
         onClose={bookMarkInquiryCloseModal}
         selectedBookMark={selectedRows}
         onEdit={handleEditModalOpen}
-      /> */}
+      />
     </div>
   );
 }

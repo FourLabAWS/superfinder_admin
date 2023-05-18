@@ -30,16 +30,18 @@ export default function Flag() {
       .then((response) => {
         let item = [];
         let items = response.data.Items || []; // 응답이 없는 경우에는 빈 배열로 초기화
-
+        console.log(items);
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,
             flagCd: items[itemNm].FLAG_CD.S,
             plcId: items[itemNm].PLC_ID.S,
             plcNm: items[itemNm].PLC_NM.S,
+            plcLat: items[itemNm].PLC_LAT?.S,
+            plcLng: items[itemNm].PLC_LNG?.S,
             unitNm: items[itemNm].UNIT_NM.S,
-            hzLnth: items[itemNm].HZ_LNTH.S,
-            vrLnth: items[itemNm].VR_LNTH.S,
+            hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
+            vrLnth: parseInt(items[itemNm].VR_LNTH.S),
             regId: items[itemNm].REG_ID.S,
             regDt: items[itemNm].REG_DT.S,
             regSe: items[itemNm].REG_SE.S,
@@ -76,6 +78,8 @@ export default function Flag() {
             flagCd: items[itemNm].FLAG_CD.S,
             plcId: items[itemNm].PLC_ID.S,
             plcNm: items[itemNm].PLC_NM.S,
+            plcLat: items[itemNm].PLC_LAT.S,
+            plclng: items[itemNm].PLC_LNG.S,
             unitNm: items[itemNm].UNIT_NM.S,
             hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
             vrLnth: parseInt(items[itemNm].VR_LNTH.S),

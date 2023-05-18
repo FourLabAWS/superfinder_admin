@@ -9,14 +9,14 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import "../../Table/styles.css";
-import "./flag.css";
+import "./bookmark.css";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
 // 함수 시작
-function FlagRegModal(obj) {
+function BookMarkRegModal(obj) {
   const modalObj = obj.modalObj;
   const [formData, setFormData] = useState({
     PLC_ID: "",
@@ -120,7 +120,7 @@ function FlagRegModal(obj) {
       return;
     }
     const postUrl =
-      "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagReg";
+      "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/bookMarkReg";
     try {
       await axios.post(postUrl, formData, {
         headers: {
@@ -151,7 +151,7 @@ function FlagRegModal(obj) {
         }}
       >
         <Typography variant="h6" gutterBottom>
-          깃발 등록
+          즐겨찾기 등록
         </Typography>
         <form>
           <Grid container spacing={2}>
@@ -309,4 +309,4 @@ function FlagRegModal(obj) {
     </Modal>
   );
 }
-export default FlagRegModal;
+export default BookMarkRegModal;

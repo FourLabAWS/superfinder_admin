@@ -119,20 +119,36 @@ function GetEvnt(props) {
 
   // 깃발 등록
   const doSave = async (event) => {
-    console.log(formData);
-    event.preventDefault();
+    if (selectedRows.length === 0) {
+      alert("등록할 깃발을 선택해주세요.");
+      return;
+    }
     if (!window.confirm("깃발을 등록하겠습니까?")) {
       return;
     }
+
+    const updatedFormData = {
+      ...formData,
+      PLC_ID: selectedRows[0].PLC_ID,
+      PLC_NM: selectedRows[0].PLC_NM,
+      UNIT_NM: selectedRows[0].UNIT_NM,
+      HZ_LNTH: selectedRows[0].HZ_LNTH,
+      VR_LNTH: selectedRows[0].VR_LNTH,
+      REG_ID: selectedRows[0].REG_ID,
+      REG_SE: selectedRows[0].REG_SE,
+    };
+
+    console.log(updatedFormData);
+
     const postUrl =
       "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagEvntReg";
     try {
-      await axios.post(postUrl, formData, {
+      await axios.post(postUrl, updatedFormData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      window.location.reload(false);
+      //window.location.reload(false);
     } catch (error) {
       console.error(error);
     }
