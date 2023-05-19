@@ -45,7 +45,11 @@ function exportToExcel(rows, columns) {
 }
 
 function GetEvnt(props) {
-  const rows = props.data;
+  const { data: rows } = props;
+  const [data, setData] = useState(rows);
+  useEffect(() => {
+    setData(rows);
+  }, [rows]);
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [openSendEvntModal, setOpenSendEvntModal] = useState(false);
   const [openInquiryEvntModal, setOpenInquiryEvntModal] = useState(false);
@@ -74,6 +78,8 @@ function GetEvnt(props) {
       },
     },
     { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
+    { field: "plcLat", headerName: "경도", width: 100 },
+    { field: "plcLng", headerName: "위도", width: 100 },
     { field: "plcId", headerName: "장소 아이디", width: 100, hide: true },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
@@ -107,18 +113,8 @@ function GetEvnt(props) {
     setEditModalOpen(false);
   };
 
-  const [formData, setFormData] = useState({
-    PLC_ID: "",
-    PLC_NM: "",
-    UNIT_NM: "cm",
-    HZ_LNTH: "",
-    VR_LNTH: "",
-    REG_ID: "sadmin",
-    REG_SE: "A",
-  });
-
   // 깃발 등록
-  const doSave = async (event) => {
+  const doSave = () => {
     if (selectedRows.length === 0) {
       alert("등록할 깃발을 선택해주세요.");
       return;
@@ -126,32 +122,27 @@ function GetEvnt(props) {
     if (!window.confirm("깃발을 등록하겠습니까?")) {
       return;
     }
-
-    const updatedFormData = {
-      ...formData,
-      PLC_ID: selectedRows[0].PLC_ID,
-      PLC_NM: selectedRows[0].PLC_NM,
-      UNIT_NM: selectedRows[0].UNIT_NM,
-      HZ_LNTH: selectedRows[0].HZ_LNTH,
-      VR_LNTH: selectedRows[0].VR_LNTH,
-      REG_ID: selectedRows[0].REG_ID,
-      REG_SE: selectedRows[0].REG_SE,
-    };
-
-    console.log(updatedFormData);
-
-    const postUrl =
-      "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagEvntReg";
-    try {
-      await axios.post(postUrl, updatedFormData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      //window.location.reload(false);
-    } catch (error) {
-      console.error(error);
-    }
+    selectedRows.map((item) => {
+      const postUrl =
+        "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagEvntReg";
+      axios
+        .post(postUrl, item, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          alert("등록되었습니다.");
+          if (item.regYn !== "Y") {
+            const newRows = data.filter((row) => row.flagCd !== item.flagCd);
+            setData(newRows);
+          }
+          return response;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
   };
 
   // 깃발 삭제
@@ -165,11 +156,7 @@ function GetEvnt(props) {
     }
     selectedRows.map((item) => {
       client
-        .delete("delEvnt/", {
-          params: {
-            id: item["evntCd"],
-          },
-        })
+        .delete("delEvnt/" + item["flagCd"])
         .then((response) => {
           alert("삭제되었습니다.");
           window.location.reload(false);
@@ -221,7 +208,7 @@ function GetEvnt(props) {
         }}
       >
         <DataGrid
-          rows={rows}
+          rows={data}
           columns={columns}
           paginationMode="server"
           keepNonExistentRowsSelected

@@ -30,7 +30,8 @@ function ParamRegModal(obj) {
     if (!window.confirm("파라미터를 등록하겠습니까?")) {
       return;
     }
-    const postUrl = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/paramReg";
+    const postUrl =
+      "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/paramReg";
     try {
       await axios.post(postUrl, formData, {
         headers: {

@@ -22,7 +22,6 @@ export default function Evnt() {
   const [text, setText] = useState("");
   const [list, setList] = useState([]);
   const [params, pushParams] = useState({});
-
   let moment = require("moment-timezone");
 
   // 맨처음 깃발을 불러온다.
@@ -32,8 +31,7 @@ export default function Evnt() {
       .then((response) => {
         let item = [];
         let items = response.data.Items || []; // 응답이 없는 경우에는 빈 배열로 초기화
-        console.log(item);
-        items.map(function (a, itemNm) {
+        items.forEach(function (a, itemNm) {
           let utcDate = new Date(items[itemNm].REG_DT.S);
           utcDate.setHours(utcDate.getHours() + 9); // 9시간 더하기
 
@@ -46,18 +44,24 @@ export default function Evnt() {
 
           let seoulTime = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 
-          item.push({
-            id: itemNm,
-            flagCd: items[itemNm].FLAG_CD.S,
-            plcId: items[itemNm].PLC_ID.S,
-            plcNm: items[itemNm].PLC_NM.S,
-            hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
-            vrLnth: parseInt(items[itemNm].VR_LNTH.S),
-            phoneNum: items[itemNm].PHONE_NUM.S,
-            regDt: seoulTime,
-            useYn: items[itemNm].USE_YN.S,
-            csntYn: items[itemNm].CSNT_YN.S,
-          });
+          let regYn = items[itemNm].REG_YN?.S;
+          if (regYn === "N" || regYn === "" || regYn === undefined) {
+            item.push({
+              id: itemNm,
+              flagCd: items[itemNm].FLAG_CD.S,
+              plcId: items[itemNm].PLC_ID.S,
+              plcNm: items[itemNm].PLC_NM.S,
+              plcLat: items[itemNm].PLC_LAT?.S,
+              plcLng: items[itemNm].PLC_LNG?.S,
+              hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
+              vrLnth: parseInt(items[itemNm].VR_LNTH.S),
+              phoneNum: items[itemNm].PHONE_NUM.S,
+              regDt: seoulTime,
+              regYn: regYn,
+              useYn: items[itemNm].USE_YN.S,
+              csntYn: items[itemNm].CSNT_YN.S,
+            });
+          }
         });
         setList(item);
       })
@@ -81,12 +85,15 @@ export default function Evnt() {
       .then((response) => {
         let item = [];
         let items = response.data.Items;
+
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,
             flagCd: items[itemNm].FLAG_CD.S,
             plcId: items[itemNm].PLC_ID.S,
             plcNm: items[itemNm].PLC_NM.S,
+            plcLat: items[itemNm].PLC_LAT?.S,
+            plcLng: items[itemNm].PLC_LNG?.S,
             unitNm: items[itemNm].UNIT_NM.S,
             hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
             vrLnth: parseInt(items[itemNm].VR_LNTH.S),
@@ -99,7 +106,7 @@ export default function Evnt() {
           });
         });
 
-        setList(item);
+        setList(items);
       });
   };
 

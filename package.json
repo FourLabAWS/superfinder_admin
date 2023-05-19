@@ -29,7 +29,7 @@
     "cors-anywhere": "^0.4.4",
     "dayjs": "^1.11.6",
     "devextreme": "^22.2.4",
-    "devextreme-react": "^22.2.4",
+    "devextreme-react": "^22.2.6",
     "file-saver": "^2.0.5",
     "history": "^5.3.0",
     "http-proxy-middleware": "^2.0.6",

@@ -27,6 +27,14 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
     customMinRate: "",
   });
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   useEffect(() => {
     setFormData({
       ...selectedParam,
@@ -35,7 +43,7 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
 
   const doSave = async (event) => {
     event.preventDefault();
-    if (!window.confirm("선택한 파라미터를 수정하겠습니까?")) {
+    if (!window.confirm("선택한 깃발을 수정하겠습니까?")) {
       return;
     }
     try {
@@ -55,11 +63,12 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
         editUrl,
         {
           paramNm: formData.paramNm,
-          plcId: formData.plcId,
-          plcNm: formData.plcNm,
-          hzLnth: formData.hzLnth,
-          vrLnth: formData.vrLnth,
-          unitNm: formData.unitNm,
+          paramVal: formData.paramVal,
+          pixel: formData.pixel,
+          dpi: formData.dpi,
+          flagDownRate: formData.flagDownRate,
+          customMaxRate: formData.customMaxRate,
+          customMinRate: formData.customMinRate,
         },
         {
           headers: {
@@ -101,6 +110,7 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
                 label="픽셀"
                 fullWidth
                 value={formData.pixel}
+                onChange={handleInputChange}
                 required
                 sx={{
                   height: "50px",
@@ -115,6 +125,7 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
                 label="도트 퍼 인치"
                 fullWidth
                 value={formData.dpi}
+                onChange={handleInputChange}
                 required
                 sx={{
                   height: "50px",
@@ -129,6 +140,7 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
                 label="깃발 최소 비율"
                 fullWidth
                 value={formData.flagDownRate}
+                onChange={handleInputChange}
                 required
                 sx={{
                   height: "50px",
@@ -143,6 +155,7 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
                 label="깃발 보정 최대치"
                 fullWidth
                 value={formData.customMaxRate}
+                onChange={handleInputChange}
                 required
                 sx={{
                   height: "50px",
@@ -157,6 +170,7 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
                 label="깃발 보정 최소치"
                 fullWidth
                 value={formData.customMinRate}
+                onChange={handleInputChange}
                 required
                 sx={{
                   height: "50px",
@@ -167,10 +181,18 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={doSave} sx={{ width: "100px", marginRight: "1%" }}>
+        <Button
+          variant="contained"
+          onClick={doSave}
+          sx={{ width: "100px", marginRight: "1%" }}
+        >
           수정
         </Button>
-        <Button variant="contained" onClick={onClose} sx={{ width: "100px", marginRight: "1%" }}>
+        <Button
+          variant="contained"
+          onClick={onClose}
+          sx={{ width: "100px", marginRight: "1%" }}
+        >
           닫기
         </Button>
       </DialogActions>

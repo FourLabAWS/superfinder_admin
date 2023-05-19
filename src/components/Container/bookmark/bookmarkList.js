@@ -105,13 +105,13 @@ function GetBookMark(props) {
   return (
     <div>
       <div id="buttonArea">
-        <Button
+        {/* <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}
           onClick={bookMarkAddModal}
         >
           등록
-        </Button>
+        </Button> */}
         <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}

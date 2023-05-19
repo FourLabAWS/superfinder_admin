@@ -7580,10 +7580,10 @@ devextreme-quill@1.5.20:
     parchment "2.0.0-dev.2"
     quill-delta "4.2.2"
 
-devextreme-react@^22.2.4:
-  version "22.2.4"
-  resolved "https://registry.npmjs.org/devextreme-react/-/devextreme-react-22.2.4.tgz"
-  integrity sha512-gav10S3lWp0DnJlBCdZSPwTitdnF4+v5/rK2wu6wSr4Dx5i8reFNJcvDcfGXs7SAC2mVOuzeJ8dKoUQeOp1qCQ==
+devextreme-react@^22.2.6:
+  version "22.2.6"
+  resolved "https://registry.yarnpkg.com/devextreme-react/-/devextreme-react-22.2.6.tgz#6d1f682420bf3b5c9b4f63e91dd43e576fbc2073"
+  integrity sha512-LS7Ic2tAZta2KM8PjygED5F5TfZmnt788WSxp7jkRS7hAqHlRPvfUbe0/2a9mx0A0A5bWwEYwDDLDM2q2OLn7w==
   dependencies:
     prop-types "^15.8.1"
 

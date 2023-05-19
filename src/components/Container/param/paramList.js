@@ -71,6 +71,7 @@ function GetParam(props, onClose, selectedParam) {
     { field: "customMinRate", headerName: "깃발 보정 최소치", width: 150 },
     { field: "regDt", headerName: "등록일시", width: 200 },
     { field: "regId", headerName: "등록자", width: 100 },
+    { field: "useYn", headerName: "사용여부", width: 100 },
   ];
 
   //파라미터 모달
@@ -101,6 +102,10 @@ function GetParam(props, onClose, selectedParam) {
   const doSave = async (event) => {
     event.preventDefault();
     if (!window.confirm("선택한 파라미터를 사용하겠습니까?")) {
+      return;
+    }
+    if (rows.some((row) => row.useYn === "Y")) {
+      alert("미사용 처리 후 사용해주세요.");
       return;
     }
     if (selectedRows.length === 0) {
@@ -141,7 +146,6 @@ function GetParam(props, onClose, selectedParam) {
         paramNm: selectedRows[0].paramNm,
         useYn: "N",
       };
-      console.log(data);
       await axios.put(editUrl, data);
     } catch (error) {
       console.error(error);
@@ -155,29 +159,26 @@ function GetParam(props, onClose, selectedParam) {
         paramNm: selectedRows[0].paramNm,
         useYn: "Y",
       };
-      console.log(data);
       await axios.put(editUrl, data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // 파라미터 삭제
+  // 깃발 삭제
   const deleteParam = () => {
     if (selectedRows.length === 0) {
-      alert("삭제할 파라미터를 선택해주세요.");
+      alert("삭제할 깃발을 선택해주세요.");
       return;
     }
-    if (!window.confirm("선택한 파라미터를 삭제하겠습니까?")) {
+
+    if (!window.confirm("선택한 깃발을 삭제하겠습니까?")) {
       return;
     }
+
     selectedRows.map((item) => {
       client
-        .delete("delParam/", {
-          params: {
-            id: item["paramNm"],
-          },
-        })
+        .delete("delParam/" + item["paramNm"])
         .then((response) => {
           alert("삭제되었습니다.");
           window.location.reload(false);

@@ -47,7 +47,7 @@ export default function Param() {
             flagDownRate: items[itemNm].FLAG_DOWN_RATE.S,
             customMaxRate: items[itemNm].CUSTOM_MAX_RATE.S,
             customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
-            useYn: items[itemNm].USE_YN.S,
+            useYn: items[itemNm].USE_YN?.S,
           });
         });
         // 사용 중인 파라미터만 추출하여 저장
