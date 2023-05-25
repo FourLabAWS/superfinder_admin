@@ -47,6 +47,8 @@ export default function Param() {
             flagDownRate: items[itemNm].FLAG_DOWN_RATE.S,
             customMaxRate: items[itemNm].CUSTOM_MAX_RATE.S,
             customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
+            flagHz: items[itemNm].FLAG_HZ?.S,
+            flagVr: items[itemNm].FLAG_VR?.S,
             useYn: items[itemNm].USE_YN?.S,
           });
         });

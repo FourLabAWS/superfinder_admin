@@ -22,6 +22,8 @@ function ParamRegModal(obj) {
     FLAG_DOWN_RATE: "",
     CUSTOM_MAX_RATE: "",
     CUSTOM_MIN_RATE: "",
+    FLAG_HZ: "",
+    FLAG_VR: "",
   });
 
   // 파라미터 등록
@@ -198,6 +200,46 @@ function ParamRegModal(obj) {
                   setFormData({
                     ...formData,
                     CUSTOM_MIN_RATE: e.target.value,
+                  })
+                }
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="FLAG_HZ"
+                name="FLAG_HZ"
+                label={"깃발 가로"}
+                type="text"
+                fullWidth
+                value={formData.FLAG_HZ}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    FLAG_HZ: e.target.value,
+                  })
+                }
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="FLAG_VR"
+                name="FLAG_VR"
+                label={"깃발 세로"}
+                type="text"
+                fullWidth
+                value={formData.FLAG_VR}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    FLAG_VR: e.target.value,
                   })
                 }
                 required

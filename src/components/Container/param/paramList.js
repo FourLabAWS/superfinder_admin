@@ -69,6 +69,8 @@ function GetParam(props, onClose, selectedParam) {
     { field: "flagDownRate", headerName: "깃발 최소 비율", width: 150 },
     { field: "customMaxRate", headerName: "깃발 보정 최대치", width: 150 },
     { field: "customMinRate", headerName: "깃발 보정 최소치", width: 150 },
+    { field: "flagHz", headerName: "깃발 가로", width: 100 },
+    { field: "flagVr", headerName: "깃발 세로", width: 100 },
     { field: "regDt", headerName: "등록일시", width: 200 },
     { field: "regId", headerName: "등록자", width: 100 },
     { field: "useYn", headerName: "사용여부", width: 100 },

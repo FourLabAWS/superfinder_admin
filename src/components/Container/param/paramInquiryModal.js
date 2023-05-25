@@ -25,6 +25,8 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
     flagDownRate: "",
     customMaxRate: "",
     customMinRate: "",
+    flagHz: "",
+    flagVr: "",
   });
 
   const handleInputChange = (event) => {
@@ -69,6 +71,8 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
           flagDownRate: formData.flagDownRate,
           customMaxRate: formData.customMaxRate,
           customMinRate: formData.customMinRate,
+          flagHz: formData.flagHz,
+          flagVr: formData.flagVr,
         },
         {
           headers: {
@@ -170,6 +174,36 @@ const ParamInquiryModal = ({ modalObj, onClose, selectedParam }) => {
                 label="깃발 보정 최소치"
                 fullWidth
                 value={formData.customMinRate}
+                onChange={handleInputChange}
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                type="text"
+                id="flagHz"
+                name="flagHz"
+                label="깃발 가로"
+                fullWidth
+                value={formData.flagHz}
+                onChange={handleInputChange}
+                required
+                sx={{
+                  height: "50px",
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                type="text"
+                id="flagVr"
+                name="flagVr"
+                label="깃발 세로"
+                fullWidth
+                value={formData.flagVr}
                 onChange={handleInputChange}
                 required
                 sx={{

@@ -97,7 +97,7 @@ export default function FilterTable() {
 
   return (
     <div>
-      <FormGroup sx={{ width: "100%" }}>
+      {/* <FormGroup sx={{ width: "100%" }}>
         <Grid
           container
           flexDirection={"row"}
@@ -112,48 +112,52 @@ export default function FilterTable() {
             className={"3"}
             style={{ paddingRight: "0", position: "relative" }}
           >
-            {/* */}
-            <Grid item xs={10}>
-              {/* 1st line _검색어 */}
+      <Grid item xs={10}>
+        {/* 1st line _검색어 
+        <Grid container spacing={1} flexDirection={"row"} alignItems={"center"}>
+          <Grid item xs={10}>
+            <Grid container spacing={1}>
               <Grid
-                container
-                spacing={1}
-                flexDirection={"row"}
-                alignItems={"center"}
+                item
+                xs={1}
+                backgroundColor="#1976d2"
+                color="#fff"
+                marginTop={1}
+                width="10%"
               >
-                <Grid item xs={2} color="#000">
-                  <Box component="div" style={titleStyle}>
-                    검색어
-                  </Box>
-                </Grid>
-                {/* 셀렉트 */}
+                <Box component="div" align="center">
+                  이미지
+                </Box>
+              </Grid>
+            </Grid>
+          </Grid>
+          {/* 셀렉트 
                 <Grid item xs={4}>
                   <SelectField setVal={setValue} />
                 </Grid>
-                {/* 인풋 */}
-                <Grid item xs={5} p={"0"}>
-                  <TextField
-                    sx={{ height: "40px" }}
-                    value={text}
-                    onChange={handleInput}
-                    id="outlined-basic"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    placeholder="Text input"
-                  />
-                </Grid>
-              </Grid>
-
-              <br />
-              {/* 2nd line _검색기간 */}
+          {/* 인풋 
+          <Grid item xs={5} p={"0"}>
+            <TextField
+              sx={{ height: "40px" }}
+              value={text}
+              onChange={handleInput}
+              id="outlined-basic"
+              variant="outlined"
+              size="small"
+              fullWidth
+              placeholder="이미지를 입력하세요"
+            />
+          </Grid>
+        </Grid>
+        <br />
+        {/* 2nd line _검색기간 
               <Grid container flexDirection={"row"} alignItems={"center"}>
                 <Grid item xs={2} color="#000">
                   <Box component="div" style={titleStyle}>
                     검색기간
                   </Box>
                 </Grid>
-                {/* 인풋1 */}
+                {/* 인풋1 
                 <Grid item xs={4}>
                   <DateInput setDate={setStartDate} />
                 </Grid>
@@ -163,20 +167,57 @@ export default function FilterTable() {
                     ~
                   </Box>
                 </Grid>
-                {/* 인풋2 */}
+                {/* 인풋2
                 <Grid item xs={4}>
                   <DateInput setDate={setEndDate} />
+                </Grid>
+              </Grid> 
+      </Grid> */}
+
+      <FormGroup sx={{ width: "100%" }}>
+        <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
+          <Grid container spacing={1}>
+            <Grid item xs={10}>
+              <Grid container spacing={1}>
+                <Grid
+                  item
+                  xs={1}
+                  backgroundColor="#1976d2"
+                  color="#fff"
+                  marginTop={1}
+                  width="10%"
+                >
+                  <Box component="div" align="center">
+                    이미지
+                  </Box>
+                </Grid>
+                <Grid item xs={5}>
+                  <TextField
+                    sx={{ width: "70%" }}
+                    value={text}
+                    onChange={(event) => setText(event.target.value)}
+                    id="outlined-basic"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    placeholder="이름을 입력하세요"
+                  />
                 </Grid>
               </Grid>
             </Grid>
 
-            {/* 검색버튼 */}
-            <Grid item maxWidth={""}>
+            <Grid item xs={2}>
               <Button
                 variant="contained"
-                sx={btnStyle}
+                size="large"
+                sx={{
+                  width: "50%",
+                  fontSize: 12,
+                  marginLeft: "50%",
+                  height: "100%",
+                }}
                 startIcon={<SearchIcon />}
-                onClick={handleFilter}
+                // onClick={doSearch}
               >
                 검색
               </Button>

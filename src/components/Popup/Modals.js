@@ -80,7 +80,6 @@ export const ImageModal = ({ ...props }) => {
   };
 
   // image dtl page
-  const inch = 0.4;
   const params = useParams();
   const [inchW, setWidth] = React.useState(0);
   const [inchH, setHeight] = React.useState(0);
@@ -112,16 +111,22 @@ export const ImageModal = ({ ...props }) => {
     });
   }, []);
 
+  const inch = 0.4; // Update the conversion rate
+
   React.useEffect(() => {
-    rowData["flagW"] !== undefined &&
-      setWidth(rowData["flagW"]["S"].split(" ")[0] * inch);
+    if (rowData["flagW"] !== undefined) {
+      const widthInInch = parseFloat(rowData["flagW"]["S"].split(" ")[0]) * inch;
+      const roundedWidth = Math.round(widthInInch);
+      setWidth(roundedWidth);
+    }
   }, [rowData]);
+
   React.useEffect(() => {
-    rowData["flagH"] !== undefined &&
-      setHeight(rowData["flagH"]["S"].split(" ")[0] * inch);
-  }, [rowData]);
-  React.useEffect(() => {
-    rowData["memo"] !== undefined && setMemo(rowData["memo"]["S"]);
+    if (rowData["flagH"] !== undefined) {
+      const heightInInch = parseFloat(rowData["flagH"]["S"].split(" ")[0]) * inch;
+      const roundedHeight = Math.round(heightInInch);
+      setHeight(roundedHeight);
+    }
   }, [rowData]);
 
   return (

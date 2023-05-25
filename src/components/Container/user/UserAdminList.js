@@ -43,9 +43,7 @@ function GetUserAdminList(props) {
           api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
-            .forEach(
-              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-            );
+            .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
 
           userInquiryModal(thisRow);
         };
@@ -117,6 +115,22 @@ function GetUserAdminList(props) {
 
   return (
     <div>
+      <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={userAddModal}
+        >
+          추가
+        </Button>
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={deleteUser}
+        >
+          삭제
+        </Button>
+      </div>
       <Typography variant="h7" noWrap component="div" sx={{ fontWeight: 550 }}>
         목록 (총 건수 : {rows.length} 건)
       </Typography>
@@ -127,10 +141,7 @@ function GetUserAdminList(props) {
           height: 560,
           "& .super-app-theme--unsuccess": {
             bgcolor: (theme) =>
-              getBackgroundColor(
-                theme.palette.warning.main,
-                theme.palette.mode
-              ),
+              getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
           },
         }}
       >
@@ -170,26 +181,8 @@ function GetUserAdminList(props) {
         />
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
-      <div id="buttonArea">
-        <Button
-          variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={userAddModal}
-        >
-          추가
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={deleteUser}
-        >
-          삭제
-        </Button>
-      </div>
-      <UserAdminRegModal
-        modalObj={openCreateAdminModal}
-        onClose={userAddCloseModal}
-      />
+
+      <UserAdminRegModal modalObj={openCreateAdminModal} onClose={userAddCloseModal} />
       <UserAdminInquiryModal
         modalObj={openInquiryAdminModal}
         onClose={userInquiryCloseModal}

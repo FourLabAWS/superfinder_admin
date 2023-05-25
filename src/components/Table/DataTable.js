@@ -111,16 +111,11 @@ export default function DataTable(props) {
           api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
-            .forEach(
-              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-            );
+            .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
           return GridSelected(thisRow);
         };
         return (
-          <ImageModal
-            btnTxt={params.row["fileName"]}
-            onClick={onClick}
-          ></ImageModal>
+          <ImageModal btnTxt={params.row["fileName"]} onClick={onClick}></ImageModal>
         );
         // <Butzton onClick={onClick}>{params.row["fileName"]}</Butzton>;
       },
@@ -131,11 +126,6 @@ export default function DataTable(props) {
       width: 120,
     },
     {
-      field: "date",
-      headerName: "등록일자",
-      width: 140,
-    },
-    {
       field: "device_id",
       headerName: "디바이스 ID",
       width: 200,
@@ -144,6 +134,16 @@ export default function DataTable(props) {
       field: "flag_size",
       headerName: "깃발 크기",
       width: 200,
+    },
+    {
+      field: "date",
+      headerName: "등록일자",
+      width: 140,
+    },
+    {
+      field: "img",
+      headerName: "이미지",
+      width: 140,
     },
   ];
 
@@ -182,7 +182,6 @@ export default function DataTable(props) {
         <Typography variant="h7" noWrap component="div" sx={headingTextStyle}>
           이미지리스트 (총 건수 : {rows.length} 건)
         </Typography>
-
         <div
           style={{
             display: "flex",
@@ -228,10 +227,7 @@ export default function DataTable(props) {
           width: "100%",
           "& .super-app-theme--unsuccess": {
             bgcolor: (theme) =>
-              getBackgroundColor(
-                theme.palette.warning.main,
-                theme.palette.mode
-              ),
+              getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
           },
         }}
       >
