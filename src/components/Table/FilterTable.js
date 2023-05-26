@@ -88,6 +88,7 @@ export default function FilterTable() {
             date: item["registered_date"]["S"],
             device_id: item["device_id"]["S"],
             flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
+            origin_path: item["converted_path"]["S"],
           });
         }
       });

@@ -23,6 +23,7 @@ const headingTextStyle = {
 
 export default function DataTable(props) {
   const rows = props.data;
+  console.log(rows);
   const [selectedRows, setSelectedRows] = React.useState([]);
   //
   let navigate = useNavigate();
@@ -59,6 +60,7 @@ export default function DataTable(props) {
   const [deviceId, setDeviceId] = React.useState("");
   const [regDate, setRegDate] = React.useState();
   const [size, setSize] = React.useState();
+  const [img, setImg] = React.useState();
 
   function GridSelected(data) {
     console.log("test", data);
@@ -67,7 +69,6 @@ export default function DataTable(props) {
     setDeviceId(data["device_id"]);
     setRegDate(data["date"]);
     setSize(data["flag_size"]);
-
     setOpen(true);
   }
 
@@ -92,9 +93,23 @@ export default function DataTable(props) {
 
   const columns = [
     {
+      field: "img",
+      headerName: "이미지",
+      width: 140,
+      renderCell: (params) => (
+        <img
+          src={`https://superfind.s3.ap-northeast-2.amazonaws.com/${params.row.origin_path}`}
+          alt="Row Image"
+          width="50"
+          height="50"
+        />
+      ),
+    },
+    {
       field: "id",
       headerName: "번호",
       width: 90,
+      hide: true,
     },
     {
       field: "fileName",
@@ -138,11 +153,6 @@ export default function DataTable(props) {
     {
       field: "date",
       headerName: "등록일자",
-      width: 140,
-    },
-    {
-      field: "img",
-      headerName: "이미지",
       width: 140,
     },
   ];

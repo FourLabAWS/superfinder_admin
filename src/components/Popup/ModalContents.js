@@ -26,9 +26,8 @@ export function ImageTablePopup({ ...props }) {
   const params = useParams();
   const [inchW, setWidth] = React.useState(0);
   const [inchH, setHeight] = React.useState(0);
-
   const [rowData, setData] = React.useState({});
-  //   const [memo, setMemo] = React.useState("");
+  // const [memo, setMemo] = React.useState("");
 
   console.log("params", params);
 
@@ -41,6 +40,20 @@ export function ImageTablePopup({ ...props }) {
 
   console.log("id", id);
   console.log("data", rowData);
+
+  React.useEffect(() => {
+    const flagHValue = rowData.flagH?.S;
+    const flagWValue = rowData.flagW?.S;
+    const numericHValue = parseFloat(flagHValue);
+    const numericWValue = parseFloat(flagWValue);
+    const numericHInInch = numericHValue * inch;
+    const numericWinInch = numericWValue * inch;
+
+    if (!isNaN(numericHInInch) && !isNaN(numericWinInch)) {
+      setWidth(numericWinInch);
+      setHeight(numericHInInch);
+    }
+  }, [rowData.flagH, rowData.flagW]);
 
   //   React.useEffect(() => {
   //     rowData["flagW"] !== undefined &&
@@ -59,13 +72,7 @@ export function ImageTablePopup({ ...props }) {
   return (
     <Paper elevation={0} square sx={{ fontSize: 14 }}>
       <FormGroup>
-        <Grid
-          container
-          spacing={0}
-          component={Paper}
-          padding={2}
-          variant="outlined"
-        >
+        <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
           {/* 이미지 정보 */}
           <Grid
             container
@@ -83,8 +90,7 @@ export function ImageTablePopup({ ...props }) {
               >
                 <Typography strong>디바이스 ID :</Typography>
                 <Typography>
-                  {rowData["device_id"] !== undefined &&
-                    rowData["device_id"]["S"]}
+                  {rowData["device_id"] !== undefined && rowData["device_id"]["S"]}
                   {deviceId}
                 </Typography>
               </div>
@@ -105,9 +111,9 @@ export function ImageTablePopup({ ...props }) {
             <Grid item xs={4}>
               <Typography>깃발 크기 :</Typography>
               <Typography>
-                {rowData["flagW"] !== undefined && rowData["flagW"]["S"]} x{" "}
-                {rowData["flagH"] !== undefined && rowData["flagH"]["S"]} ={" "}
-                {inchW} x {inchH} inch
+                {rowData["flagH"] !== undefined && rowData["flagH"]["S"]} x{" "}
+                {rowData["flagW"] !== undefined && rowData["flagW"]["S"]} = {inchH} x{" "}
+                {inchW} inch
               </Typography>
             </Grid>
           </Grid>
