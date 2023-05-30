@@ -89,6 +89,8 @@ export default function FilterTable() {
             device_id: item["device_id"]["S"],
             flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
             origin_path: item["converted_path"]["S"],
+            plc_lat: item.plc_lat?.S,
+            plc_lng: item.plc_lng?.S,
           });
         }
       });

@@ -136,6 +136,21 @@ export default function DataTable(props) {
       },
     },
     {
+      field: "flag_size",
+      headerName: "깃발 크기",
+      width: 200,
+    },
+    {
+      field: "plc_lat",
+      headerName: "위도",
+      width: 200,
+    },
+    {
+      field: "plc_lng",
+      headerName: "경도",
+      width: 200,
+    },
+    {
       field: "status",
       headerName: "상태",
       width: 120,
@@ -143,11 +158,6 @@ export default function DataTable(props) {
     {
       field: "device_id",
       headerName: "디바이스 ID",
-      width: 200,
-    },
-    {
-      field: "flag_size",
-      headerName: "깃발 크기",
       width: 200,
     },
     {
