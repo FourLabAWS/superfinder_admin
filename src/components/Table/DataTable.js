@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DownloadIcon from "@mui/icons-material/Download";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { client } from "../../routes/routes";
@@ -82,9 +83,44 @@ export default function DataTable(props) {
   //   setOpen(true);
   // }
 
+  // const [posts, setPosts] = React.useState([]);
+
+  // React.useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     console.log("새로고침 합니다");
+  //     client
+  //       .get("migrate_data_1")
+  //       .then((response) => {
+  //         let data = [];
+  //         response.data["Items"].map((item) => {
+  //           if (item["deleted"]["BOOL"] === false) {
+  //             data.push({
+  //               id: item["id"]["N"],
+  //               fileName: item["original_file"]["S"],
+  //               status: item["error_status"]["S"],
+  //               date: item["registered_date"]["S"],
+  //               device_id: item["device_id"]["S"],
+  //               flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
+  //               origin_path: item["converted_path"]["S"],
+  //               plc_lat: item.plc_lat?.S,
+  //               plc_lng: item.plc_lng?.S,
+  //             });
+  //           }
+  //         });
+  //         setPosts(data);
+  //         console.log("새로고침 했습니다");
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching data: ", error);
+  //       });
+  //   }, 5000);
+
+  //   return () => clearInterval(interval);
+  // }, []);
+
   const deleteItem = () => {
     selectedRows.map((item) => {
-      client.delete("delete/" + item["id"]).then((response) => {
+      client.delete("deleteItem/" + item["id"]).then((response) => {
         window.location.reload(false);
         return response;
       });
@@ -100,8 +136,8 @@ export default function DataTable(props) {
         <img
           src={`https://superfind.s3.ap-northeast-2.amazonaws.com/${params.row.origin_path}`}
           alt="Row Image"
-          width="50"
-          height="50"
+          width="80"
+          height="80"
         />
       ),
     },
@@ -216,6 +252,18 @@ export default function DataTable(props) {
         >
           <Button
             variant="contained"
+            className="selectBtn"
+            sx={{ marginRight: "3%" }}
+            startIcon={<RefreshIcon />}
+            onClick={"refreshItem"}
+            style={{
+              wordBreak: "keep-all",
+            }}
+          >
+            새로고침
+          </Button>
+          <Button
+            variant="contained"
             className="downloadButton"
             startIcon={<DownloadIcon />}
             onClick={downloadImage}
@@ -259,7 +307,7 @@ export default function DataTable(props) {
           keepNonExistentRowsSelected
           pageSize={50}
           //
-          rowHeight={70}
+          rowHeight={100}
           rowsPerPageOptions={[5]}
           rowSelectionModel={50}
           //
