@@ -81,19 +81,24 @@ export default function FilterTable() {
       let data = [];
       response.data["Items"].map((item) => {
         if (item["deleted"]["BOOL"] === false) {
+          const fileName = item["original_file"]["S"];
+          const splitName = fileName.split("_").reverse();
+          const flagSize = splitName[1].toUpperCase();
+          const [flagW, flagH] = flagSize.split("X");
           data.push({
             id: item["id"]["N"],
-            fileName: item["original_file"]["S"],
+            fileName: fileName,
             status: item["error_status"]["S"],
             date: item["registered_date"]["S"],
             device_id: item["device_id"]["S"],
-            flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
+            flag_size: flagW + " x " + flagH,
             origin_path: item["converted_path"]["S"],
-            plc_lat: item.plc_lat?.S,
-            plc_lng: item.plc_lng?.S,
+            plc_lat: item["plc_lat"]?.S || "35.2",
+            plc_lng: item["plc_lng"]?.S || "129.1598",
           });
         }
       });
+      console.log(data);
       setPosts(data);
     });
   }, []);

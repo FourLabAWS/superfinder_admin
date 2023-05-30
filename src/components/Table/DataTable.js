@@ -24,7 +24,6 @@ const headingTextStyle = {
 
 export default function DataTable(props) {
   const rows = props.data;
-  console.log(rows);
   const [selectedRows, setSelectedRows] = React.useState([]);
   //
   let navigate = useNavigate();
@@ -99,14 +98,26 @@ export default function DataTable(props) {
               device_id: item["device_id"]["S"],
               flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
               origin_path: item["converted_path"]["S"],
-              plc_lat: item.plc_lat?.S,
-              plc_lng: item.plc_lng?.S,
+              plc_lat: item["plc_lat"]?.S,
+              plc_lng: item["plc_lng"]?.S,
             });
           }
         });
         setPosts(data);
+        window.location.reload(false);
       });
     });
+  };
+
+  const openMapBtn = (params) => {
+    const lat = params.row.plc_lat; // 위도
+    const lng = params.row.plc_lng; // 경도
+
+    // 구글 맵의 좌표를 포맷에 맞게 설정
+    const url = `https://www.google.com/maps/?q=${lat},${lng}`;
+
+    // 새 창에서 URL 열기
+    window.open(url, "_blank");
   };
 
   const deleteItem = () => {
@@ -191,6 +202,25 @@ export default function DataTable(props) {
       field: "date",
       headerName: "등록일자",
       width: 140,
+    },
+    {
+      field: "google_map",
+      headerName: "지도",
+      width: 140,
+      renderCell: (params) => {
+        return (
+          <Button
+            variant="contained"
+            className="selectBtn"
+            onClick={() => openMapBtn(params)}
+            style={{
+              wordBreak: "keep-all",
+            }}
+          >
+            지도
+          </Button>
+        );
+      },
     },
   ];
 
