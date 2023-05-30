@@ -111,9 +111,9 @@ export function ImageTablePopup({ ...props }) {
             <Grid item xs={4}>
               <Typography>깃발 크기 :</Typography>
               <Typography>
-                {rowData["flagH"] !== undefined && rowData["flagH"]["S"]} x{" "}
-                {rowData["flagW"] !== undefined && rowData["flagW"]["S"]} = {inchH} x{" "}
-                {inchW} inch
+                {rowData["flagW"] !== undefined && rowData["flagW"]["S"]} x{" "}
+                {rowData["flagH"] !== undefined && rowData["flagH"]["S"]} = {inchW} x{" "}
+                {inchH} inch
               </Typography>
             </Grid>
           </Grid>

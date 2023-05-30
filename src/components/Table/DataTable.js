@@ -247,11 +247,11 @@ export default function DataTable(props) {
           //ssr로 변경 필요..
           // paginationMode="server"
           keepNonExistentRowsSelected
-          pageSize={15}
+          pageSize={50}
           //
-          rowHeight={50}
+          rowHeight={70}
           rowsPerPageOptions={[5]}
-          rowSelectionModel={15}
+          rowSelectionModel={50}
           //
           getRowClassName={(params) => `super-app-theme--${params.row.status}`}
           checkboxSelection
