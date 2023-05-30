@@ -191,7 +191,7 @@ export default function FilterTable() {
                   width="10%"
                 >
                   <Box component="div" align="center">
-                    이미지
+                    검색어
                   </Box>
                 </Grid>
                 <Grid item xs={5}>
@@ -203,7 +203,7 @@ export default function FilterTable() {
                     variant="outlined"
                     size="small"
                     fullWidth
-                    placeholder="이름을 입력하세요"
+                    placeholder="검색어를 입력하세요"
                   />
                 </Grid>
               </Grid>

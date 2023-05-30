@@ -83,40 +83,31 @@ export default function DataTable(props) {
   //   setOpen(true);
   // }
 
-  // const [posts, setPosts] = React.useState([]);
+  const [posts, setPosts] = React.useState([]);
 
-  // React.useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     console.log("새로고침 합니다");
-  //     client
-  //       .get("migrate_data_1")
-  //       .then((response) => {
-  //         let data = [];
-  //         response.data["Items"].map((item) => {
-  //           if (item["deleted"]["BOOL"] === false) {
-  //             data.push({
-  //               id: item["id"]["N"],
-  //               fileName: item["original_file"]["S"],
-  //               status: item["error_status"]["S"],
-  //               date: item["registered_date"]["S"],
-  //               device_id: item["device_id"]["S"],
-  //               flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
-  //               origin_path: item["converted_path"]["S"],
-  //               plc_lat: item.plc_lat?.S,
-  //               plc_lng: item.plc_lng?.S,
-  //             });
-  //           }
-  //         });
-  //         setPosts(data);
-  //         console.log("새로고침 했습니다");
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching data: ", error);
-  //       });
-  //   }, 5000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
+  const refreshItem = () => {
+    client.get("migrate_data").then(() => {
+      client.get("getdata").then((response) => {
+        let data = [];
+        response.data["Items"].map((item) => {
+          if (item["deleted"]["BOOL"] === false) {
+            data.push({
+              id: item["id"]["N"],
+              fileName: item["original_file"]["S"],
+              status: item["error_status"]["S"],
+              date: item["registered_date"]["S"],
+              device_id: item["device_id"]["S"],
+              flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
+              origin_path: item["converted_path"]["S"],
+              plc_lat: item.plc_lat?.S,
+              plc_lng: item.plc_lng?.S,
+            });
+          }
+        });
+        setPosts(data);
+      });
+    });
+  };
 
   const deleteItem = () => {
     selectedRows.map((item) => {
@@ -252,15 +243,15 @@ export default function DataTable(props) {
         >
           <Button
             variant="contained"
-            className="selectBtn"
+            className="refreshButton"
             sx={{ marginRight: "3%" }}
             startIcon={<RefreshIcon />}
-            onClick={"refreshItem"}
+            onClick={refreshItem}
             style={{
               wordBreak: "keep-all",
             }}
           >
-            새로고침
+            업데이트
           </Button>
           <Button
             variant="contained"
