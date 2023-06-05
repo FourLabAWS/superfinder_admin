@@ -60,14 +60,38 @@ export default function ImgBox(props) {
   return (
     <React.Fragment>
       <Grid container spacing={0}>
-        <Grid item xs={6} component={Paper} variant="outlined" borderRadius={0}>
+        <Grid
+          item
+          xs={6}
+          component={Paper}
+          variant="outlined"
+          borderRadius={0}
+          // style={{ width: "40%", height: "auto" }}
+        >
           <Grid sx={{ borderBottom: 1, borderColor: "#0000001f" }}>
             <div className="title">
               <strong>원본 이미지</strong>
             </div>
           </Grid>
-          <Grid container spacing={0} sx={{ padding: 2 }}>
-            <Grid onClick={handleOpenOne} component={Paper} elevation={3}>
+
+          <Grid
+            container
+            spacing={0}
+            sx={{
+              padding: 2,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Grid
+              onClick={handleOpenOne}
+              component={Paper}
+              elevation={3}
+              style={{
+                width: "40%",
+                height: "auto",
+              }}
+            >
               <img
                 className="imageBox"
                 src={`data:image/jpg;base64,${data["original_img"]}`}
@@ -84,16 +108,14 @@ export default function ImgBox(props) {
               <Box sx={style}>
                 <Paper elevation={0} className="imgdesc">
                   <Typography variant="h6">
-                    {data["original_file"] !== undefined &&
-                      data["original_file"]["S"]}
+                    {data["original_file"] !== undefined && data["original_file"]["S"]}
                   </Typography>
                   <br />
                   <List>
                     <ListItem>
                       <ListItemText primary="크기:" />
-                      {data["originW"] !== undefined &&
-                        data["originW"]["S"]} x{" "}
-                      {data["originH"] !== undefined && data["originH"]["S"]}
+                      {data["flagW"] !== undefined && data["flagW"]["S"]} x{" "}
+                      {data["flagH"] !== undefined && data["flagH"]["S"]}
                     </ListItem>
                     <ListItem>
                       <ListItemText primary="용량:" />
@@ -106,11 +128,7 @@ export default function ImgBox(props) {
                     variant="contained"
                     size="small"
                     onClick={(e) => {
-                      handleImage(
-                        e,
-                        data["original_path"],
-                        data["original_file"]
-                      );
+                      handleImage(e, data["original_path"], data["original_file"]);
                     }}
                   >
                     이미지 다운로드
@@ -127,8 +145,24 @@ export default function ImgBox(props) {
               <strong>변환 이미지</strong>
             </div>
           </Grid>
-          <Grid container spacing={0} sx={{ padding: 2 }}>
-            <Grid onClick={handleOpenTwo} component={Paper} elevation={3}>
+          <Grid
+            container
+            spacing={0}
+            sx={{ padding: 2, display: "flex", justifyContent: "center" }}
+          >
+            <Grid
+              onClick={handleOpenTwo}
+              component={Paper}
+              elevation={3}
+              style={{
+                width: "40%",
+                height: "auto",
+                maxHeight: "50vh",
+                // maxHeight: "calc(50vh - 150px)",
+                // backgroundSize: "contain",
+                // backgroundRepeat: "no-repeat",
+              }}
+            >
               <img
                 className="imageBox"
                 src={`data:image/jpg;base64,${data["converted_img"]}`}
@@ -145,8 +179,7 @@ export default function ImgBox(props) {
               <Box sx={style}>
                 <Paper elevation={0} square className="imgdesc">
                   <Typography variant="h6">
-                    {data["converted_file"] !== undefined &&
-                      data["converted_file"]["S"]}
+                    {data["converted_file"] !== undefined && data["converted_file"]["S"]}
                   </Typography>
                   <br />
                   <List>
@@ -166,11 +199,7 @@ export default function ImgBox(props) {
                     variant="contained"
                     size="small"
                     onClick={(e) => {
-                      handleImage(
-                        e,
-                        data["converted_path"],
-                        data["converted_file"]
-                      );
+                      handleImage(e, data["converted_path"], data["converted_file"]);
                     }}
                   >
                     이미지 다운로드

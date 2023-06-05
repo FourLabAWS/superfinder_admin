@@ -47,7 +47,7 @@ export default function DataTable(props) {
     maxWidth: "80vw",
     maxHeight: "70vh",
 
-    overflow: "overlay",
+    // overflow: "overlay",
 
     bgcolor: "background.paper",
     //   border: "2px solid #000",

@@ -12,15 +12,12 @@ const headingTextStyle = {
 
 export default function Container() {
   return (
-    <Box
-      component="main"
-      sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}
-    >
+    <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}>
       <br />
       <Toolbar />
 
       <Typography variant="h6" noWrap component="div" sx={headingTextStyle}>
-        이미지 검색
+        이미지 관리
       </Typography>
 
       <br />

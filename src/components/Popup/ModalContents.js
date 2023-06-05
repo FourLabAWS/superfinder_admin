@@ -123,8 +123,9 @@ export function ImageTablePopup({ ...props }) {
             container
             spacing={1}
             marginTop="1%"
-            padding="2%"
-            style={{ height: "50vh", overflow: "overlay" }}
+            boxSizing={"border-box"}
+            // padding="2%"
+            style={{ height: "50vh" }}
           >
             <Grid className="imagebox">
               <ImgBox data={rowData} />
