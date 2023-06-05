@@ -133,7 +133,7 @@ export default function DataTable(props) {
     {
       field: "img",
       headerName: "이미지",
-      width: 140,
+      width: 100,
       renderCell: (params) => (
         <img
           src={`https://superfind.s3.ap-northeast-2.amazonaws.com/${params.row.origin_path}`}
@@ -152,7 +152,7 @@ export default function DataTable(props) {
     {
       field: "fileName",
       headerName: "파일명",
-      width: 400,
+      width: 350,
 
       renderCell: (params) => {
         const onClick = (e) => {
@@ -176,17 +176,17 @@ export default function DataTable(props) {
     {
       field: "flag_size",
       headerName: "깃발 크기",
-      width: 200,
+      width: 100,
     },
     {
       field: "plc_lat",
       headerName: "위도",
-      width: 200,
+      width: 100,
     },
     {
       field: "plc_lng",
       headerName: "경도",
-      width: 200,
+      width: 100,
     },
     {
       field: "status",
@@ -196,17 +196,17 @@ export default function DataTable(props) {
     {
       field: "device_id",
       headerName: "디바이스 ID",
-      width: 200,
+      width: 150,
     },
     {
       field: "date",
       headerName: "등록일자",
-      width: 140,
+      width: 100,
     },
     {
       field: "google_map",
       headerName: "지도",
-      width: 140,
+      width: 80,
       renderCell: (params) => {
         return (
           <Button

@@ -108,7 +108,19 @@ export default function FilterTable() {
       <FormGroup sx={{ width: "100%" }}>
         <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
           <Grid container spacing={1}>
-            <Grid item xs={2}>
+            <Grid
+              item
+              xs={1}
+              backgroundColor="#1976d2"
+              color="#fff"
+              marginTop={1}
+              width="10%"
+            >
+              <Box component="div" align="center">
+                날짜
+              </Box>
+            </Grid>
+            <Grid item xs={1}>
               <DatePicker
                 placeholder="시작 일자"
                 value={startDate}
@@ -118,7 +130,7 @@ export default function FilterTable() {
                 renderInput={(params) => <TextField {...params} />}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <DatePicker
                 placeholder="종료 일자"
                 value={endDate}
@@ -136,7 +148,7 @@ export default function FilterTable() {
                 sx={{
                   width: "50%",
                   fontSize: 12,
-                  marginLeft: "50%",
+                  marginLeft: "55vw",
                   height: "100%",
                 }}
                 startIcon={<SearchIcon />}
