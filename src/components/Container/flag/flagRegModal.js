@@ -28,6 +28,7 @@ function FlagRegModal(obj) {
     VR_LNTH: "27",
     REG_ID: "sadmin",
     REG_SE: "A",
+    AUTH_YN: "N",
   });
 
   // CM, INCH 담을 useState

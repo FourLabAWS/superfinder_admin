@@ -122,27 +122,25 @@ function GetEvnt(props) {
     if (!window.confirm("깃발을 등록하겠습니까?")) {
       return;
     }
-    selectedRows.map((item) => {
-      const postUrl =
-        "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagEvntReg";
-      axios
-        .post(postUrl, item, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          alert("등록되었습니다.");
-          if (item.regYn !== "Y") {
-            const newRows = data.filter((row) => row.flagCd !== item.flagCd);
-            setData(newRows);
-          }
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    const postUrl =
+      "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/flagEvntReg";
+
+    const requests = selectedRows.map((item) => {
+      return axios.post(postUrl, item, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     });
+
+    Promise.all(requests)
+      .then(() => {
+        alert("등록되었습니다.");
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   // 깃발 삭제

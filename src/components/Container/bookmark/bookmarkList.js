@@ -80,26 +80,26 @@ function GetBookMark(props) {
     setEditModalOpen(false);
   };
   // 깃발 삭제
-  const deleteBookMark = () => {
+  const deleteBookMark = async () => {
     if (selectedRows.length === 0) {
-      alert("삭제할 깃발을 선택해주세요.");
+      alert("삭제할 즐겨찾기를 선택해주세요.");
       return;
     }
-    if (!window.confirm("선택한 깃발을 삭제하겠습니까?")) {
+    if (!window.confirm("선택한 즐겨찾기를 삭제하겠습니까?")) {
       return;
     }
-    selectedRows.map((item) => {
-      client
-        .delete("delBookMark/" + item["flagCd"])
-        .then((response) => {
-          alert("삭제되었습니다.");
-          window.location.reload(false);
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+
+    const requests = selectedRows.map((item) =>
+      client.delete("delBookMark/" + item["flagCd"])
+    );
+
+    try {
+      await Promise.all(requests);
+      alert("삭제되었습니다.");
+      window.location.reload(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

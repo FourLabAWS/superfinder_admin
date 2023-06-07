@@ -20,6 +20,18 @@ function GetFlag(props) {
   const [openCreateFlagModal, setOpenCreateFlagModal] = useState(false);
   const [openInquiryFlagModal, setOpenInquiryFlagModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+
+  const openMapBtn = (params) => {
+    const lat = params.row.plcLat; // 위도
+    const lng = params.row.plcLng; // 경도
+
+    // 구글 맵의 좌표를 포맷에 맞게 설정
+    const url = `https://www.google.com/maps/?q=${lat},${lng}`;
+
+    // 새 창에서 URL 열기
+    window.open(url, "_blank");
+  };
+
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
   const getBackgroundColor = (color, mode) =>
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
@@ -45,14 +57,34 @@ function GetFlag(props) {
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
-    { field: "plcLat", headerName: "경도", width: 150 },
-    { field: "plcLng", headerName: "위도", width: 150 },
+    { field: "plcLat", headerName: "경도", width: 150, hide: true },
+    { field: "plcLng", headerName: "위도", width: 150, hide: true },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
     { field: "regId", headerName: "등록자", width: 100 },
     { field: "regDt", headerName: "등록일시", width: 200 },
-    { field: "regSe", headerName: "등록환경", width: 100 },
+    { field: "regSe", headerName: "등록환경", width: 100, hide: true },
+    { field: "authYn", headerName: "인증 여부", width: 100 },
+    {
+      field: "map",
+      headerName: "지도",
+      width: 80,
+      renderCell: (params) => {
+        return (
+          <Button
+            variant="contained"
+            className="selectBtn"
+            onClick={() => openMapBtn(params)}
+            style={{
+              wordBreak: "keep-all",
+            }}
+          >
+            지도
+          </Button>
+        );
+      },
+    },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
   ];
@@ -79,6 +111,36 @@ function GetFlag(props) {
   const handleEditModalClose = () => {
     setEditModalOpen(false);
   };
+
+  // 깃발 인증
+  const flagAuthBtn = async () => {
+    if (selectedRows.length === 0) {
+      alert("인증할 깃발을 선택해주세요.");
+      return;
+    }
+
+    if (!window.confirm("선택한 깃발을 인증하겠습니까?")) {
+      return;
+    }
+
+    const editUrl = `https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/authFlag/`;
+    const requests = selectedRows.map((row) => {
+      const data = {
+        flagCd: row.flagCd,
+        authYn: "Y",
+      };
+      return axios.put(editUrl, data);
+    });
+
+    try {
+      await Promise.all(requests);
+      alert("인증되었습니다.");
+      window.location.reload(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // 깃발 삭제
   const deleteFlag = () => {
     if (selectedRows.length === 0) {
@@ -107,6 +169,13 @@ function GetFlag(props) {
   return (
     <div>
       <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={flagAuthBtn}
+        >
+          인증
+        </Button>
         <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}

@@ -204,7 +204,7 @@ export default function DataTable(props) {
       width: 100,
     },
     {
-      field: "google_map",
+      field: "map",
       headerName: "지도",
       width: 80,
       renderCell: (params) => {
