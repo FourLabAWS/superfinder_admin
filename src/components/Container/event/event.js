@@ -45,23 +45,23 @@ export default function Evnt() {
           let seoulTime = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 
           let regYn = items[itemNm].REG_YN?.S;
-          // if (regYn === "N" || regYn === "" || regYn === undefined) {
-          item.push({
-            id: itemNm,
-            flagCd: items[itemNm].FLAG_CD.S,
-            plcId: items[itemNm].PLC_ID.S,
-            plcNm: items[itemNm].PLC_NM.S,
-            plcLat: items[itemNm].PLC_LAT?.S,
-            plcLng: items[itemNm].PLC_LNG?.S,
-            hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
-            vrLnth: parseInt(items[itemNm].VR_LNTH.S),
-            phoneNum: items[itemNm].PHONE_NUM.S,
-            regDt: seoulTime,
-            regYn: regYn,
-            useYn: items[itemNm].USE_YN.S,
-            csntYn: items[itemNm].CSNT_YN.S,
-          });
-          // }
+          if (regYn === "N" || regYn === "" || regYn === undefined) {
+            item.push({
+              id: itemNm,
+              flagCd: items[itemNm].FLAG_CD.S,
+              plcId: items[itemNm].PLC_ID.S,
+              plcNm: items[itemNm].PLC_NM.S,
+              plcLat: items[itemNm].PLC_LAT?.S,
+              plcLng: items[itemNm].PLC_LNG?.S,
+              hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
+              vrLnth: parseInt(items[itemNm].VR_LNTH.S),
+              phoneNum: items[itemNm].PHONE_NUM.S,
+              regDt: seoulTime,
+              regYn: regYn,
+              useYn: items[itemNm].USE_YN.S,
+              csntYn: items[itemNm].CSNT_YN.S,
+            });
+          }
         });
         setList(item);
       })
