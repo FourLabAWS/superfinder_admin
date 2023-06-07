@@ -208,7 +208,7 @@ function GetFlag(props) {
         <DataGrid
           rows={rows}
           columns={columns}
-          paginationMode="server"
+          // paginationMode="server"
           keepNonExistentRowsSelected
           pageSize={15}
           rowHeight={50}

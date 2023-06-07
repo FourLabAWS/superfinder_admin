@@ -227,19 +227,21 @@ export default function DataTable(props) {
   const downloadImage = () => {
     const zip = new JSZip();
     const FileSaver = require("file-saver");
-    selectedRows.map((item) => {
+
+    // Promise 배열로 변환
+    const promises = selectedRows.map((item) => {
       let dataId = item["id"];
       let path = "getimage/" + dataId;
-      client.get(path, { responseType: "blob" }).then((response) => {
-        //FileSaver.saveAs(response.data, item['fileName']);
-        console.log("img data", typeof response.data);
+      return client.get(path, { responseType: "blob" }).then((response) => {
         zip.file(item["fileName"], response.data);
       });
     });
-    //console.log(zip.files, zip)
-    zip.generateAsync({ type: "blob" }).then((content) => {
-      console.log(content);
-      saveAs(content, "flags.zip");
+
+    // 모든 요청이 완료된 후에 zip 파일 생성
+    Promise.all(promises).then(() => {
+      zip.generateAsync({ type: "blob" }).then((content) => {
+        FileSaver.saveAs(content, "flags.zip");
+      });
     });
   };
 
