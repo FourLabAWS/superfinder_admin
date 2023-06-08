@@ -16,11 +16,16 @@ export function RegIdStats() {
   React.useEffect(() => {
     client.get("getRegId").then((response) => {
       const responseData = response.data;
+      console.log(responseData);
       const parsedBody = JSON.parse(responseData.body);
-      const formattedData = Object.entries(parsedBody).map(([date, count]) => ({
+      let formattedData = Object.entries(parsedBody).map(([date, count]) => ({
         x: date,
         y: count,
       }));
+
+      // Sort the data array by date
+      formattedData.sort((a, b) => new Date(a.x) - new Date(b.x));
+
       setData([{ id: "device_count", data: formattedData }]);
     });
   }, []);
@@ -92,6 +97,17 @@ export function RegIdStats() {
             ],
           },
         ]}
+        tooltip={({ point }) => {
+          return (
+            <div
+              style={{ background: "white", padding: "10px", border: "1px solid #ccc" }}
+            >
+              <strong>일자:</strong> {point.data.xFormatted}
+              <br />
+              <strong>사용자:</strong> {point.data.yFormatted}
+            </div>
+          );
+        }}
       />
     </div>
   );
