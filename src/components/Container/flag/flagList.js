@@ -152,17 +152,20 @@ function GetFlag(props) {
       return;
     }
 
-    selectedRows.map((item) => {
-      client
-        .delete("delFlag/" + item["flagCd"])
-        .then((response) => {
-          alert("삭제되었습니다.");
-          window.location.reload(false);
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    Promise.all(
+      selectedRows.map((item) => {
+        return client
+          .delete("delFlag/" + item["flagCd"])
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+    ).then((results) => {
+      alert("삭제되었습니다.");
+      window.location.reload(false);
     });
   };
 

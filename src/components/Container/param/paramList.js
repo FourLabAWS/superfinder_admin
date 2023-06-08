@@ -178,17 +178,20 @@ function GetParam(props, onClose, selectedParam) {
       return;
     }
 
-    selectedRows.map((item) => {
-      client
-        .delete("delParam/" + item["paramNm"])
-        .then((response) => {
-          alert("삭제되었습니다.");
-          window.location.reload(false);
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    Promise.all(
+      selectedRows.map((item) => {
+        return client
+          .delete("delParam/" + item["paramNm"])
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+    ).then((results) => {
+      alert("삭제되었습니다.");
+      window.location.reload(false);
     });
   };
 
