@@ -52,33 +52,26 @@ export default function Notice() {
 
   // 사용자를 검색한다.
   const doSearch = () => {
-    pushParams({
-      text: text,
-    });
+    setText(text);
 
-    client
-      .get("getadmin", {
-        params: {
-          contains: params["text"], // 이름이 포함된 사용자 검색
-        },
-      })
-      .then((response) => {
-        let item = [];
-        let items = response.data.Items;
-        items.map(function (a, itemNm) {
-          item.push({
-            id: itemNm,
-            admnrId: items[itemNm].ADMNR_ID.S, // ID
-            admnrEmail: items[itemNm].ADMNR_EMAIL.S, // 이메일
-            admnrNm: items[itemNm].ADMNR_NM.S, // 이름
-            useYn: items[itemNm].ADMNR_USEYN.S, // 사용여부
-            regDt: items[itemNm].ADMNR_REGDT.S, // 등록일
-            regId: items[itemNm].ADMNR_REGID.S, // 등록자
-          });
+    client.get("getadmin").then((response) => {
+      let item = [];
+      let items = response.data.Items;
+      items.map(function (a, itemNm) {
+        item.push({
+          id: itemNm,
+          admnrId: items[itemNm].ADMNR_ID?.S, // ID
+          admnrEmail: items[itemNm].ADMNR_EMAIL?.S, // 이메일
+          admnrNm: items[itemNm].ADMNR_NM?.S, // 이름
+          useYn: items[itemNm].ADMNR_USEYN?.S, // 사용여부
+          regDt: items[itemNm].ADMNR_REGDT?.S, // 등록일
+          regId: items[itemNm].ADMNR_REGID?.S, // 등록자
         });
-
-        setList(item);
       });
+
+      item = item.filter((i) => i.admnrNm && i.admnrNm.includes(text));
+      setList(item);
+    });
   };
 
   return (

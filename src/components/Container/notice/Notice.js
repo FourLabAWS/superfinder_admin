@@ -30,34 +30,27 @@ export default function Notice() {
   const [params, pushParams] = React.useState({});
 
   const handleFilter = () => {
-    pushParams({
-      text: text,
-    });
+    setText(text);
 
-    client
-      .get("getNoticeList", {
-        params: {
-          text: params["text"],
-        },
-      })
-      .then((response) => {
-        let item = [];
-        let items = response.data.Items;
-        items.map(function (a, itemNm) {
-          item.push({
-            id: itemNm,
-            notiId: items[itemNm].NOTI_ID.S, // 공지사항ID
-            notiTpSe: items[itemNm].NOTI_TP_SE.S, // 분류(긴급/일반)
-            notiTl: items[itemNm].NOTI_TL.S, // 제목
-            useYn: items[itemNm].USE_YN.S, // 사용여부
-            atchDocId: items[itemNm].ATCH_DOC_ID.S, // 첨부파일ID
-            regDt: items[itemNm].REG_DT.S, // 등록일
-            regId: items[itemNm].REG_ID.S, // 등록자
-          });
+    client.get("getNoticeList").then((response) => {
+      let item = [];
+      let items = response.data.Items;
+      items.map(function (a, itemNm) {
+        item.push({
+          id: itemNm,
+          notiId: items[itemNm].NOTI_ID.S, // 공지사항ID
+          notiTpSe: items[itemNm].NOTI_TP_SE.S, // 분류(긴급/일반)
+          notiTl: items[itemNm].NOTI_TL.S, // 제목
+          useYn: items[itemNm].USE_YN.S, // 사용여부
+          atchDocId: items[itemNm].ATCH_DOC_ID.S, // 첨부파일ID
+          regDt: items[itemNm].REG_DT.S, // 등록일
+          regId: items[itemNm].REG_ID.S, // 등록자
         });
-
-        setList(item);
       });
+
+      item = item.filter((i) => i.notiTl.includes(text));
+      setList(item);
+    });
   };
 
   useEffect(() => {

@@ -60,42 +60,35 @@ export default function Flag() {
 
   // 깃발을 검색한다.
   const doSearch = () => {
-    pushParams({
-      text: text,
-    });
+    setText(text);
 
-    client
-      .get("getFlag", {
-        params: {
-          contains: params["text"], // 이름이 포함된 깃발 검색
-        },
-      })
-      .then((response) => {
-        let item = [];
-        let items = response.data.Items;
-        items.map(function (a, itemNm) {
-          item.push({
-            id: itemNm,
-            flagCd: items[itemNm].FLAG_CD.S,
-            plcId: items[itemNm].PLC_ID.S,
-            plcNm: items[itemNm].PLC_NM.S,
-            plcLat: items[itemNm].PLC_LAT.S,
-            plclng: items[itemNm].PLC_LNG.S,
-            unitNm: items[itemNm].UNIT_NM.S,
-            hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
-            vrLnth: parseInt(items[itemNm].VR_LNTH.S),
-            authYn: items[itemNm].AUTH_YN?.S,
-            regId: items[itemNm].REG_ID.S,
-            regDt: items[itemNm].REG_DT.S,
-            regSe: items[itemNm].REG_SE.S,
-            modId: items[itemNm].MOD_ID.S,
-            modDt: items[itemNm].MOD_DT.S,
-            modSe: items[itemNm].MOD_SE.S,
-          });
+    client.get("getFlag").then((response) => {
+      let item = [];
+      let items = response.data.Items;
+      items.map(function (a, itemNm) {
+        item.push({
+          id: itemNm,
+          flagCd: items[itemNm].FLAG_CD.S,
+          plcId: items[itemNm].PLC_ID.S,
+          plcNm: items[itemNm].PLC_NM.S,
+          plcLat: items[itemNm].PLC_LAT.S,
+          plclng: items[itemNm].PLC_LNG.S,
+          unitNm: items[itemNm].UNIT_NM.S,
+          hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
+          vrLnth: parseInt(items[itemNm].VR_LNTH.S),
+          authYn: items[itemNm].AUTH_YN?.S,
+          regId: items[itemNm].REG_ID.S,
+          regDt: items[itemNm].REG_DT.S,
+          regSe: items[itemNm].REG_SE.S,
+          modId: items[itemNm].MOD_ID.S,
+          modDt: items[itemNm].MOD_DT.S,
+          modSe: items[itemNm].MOD_SE.S,
         });
-
-        setList(item);
       });
+
+      item = item.filter((i) => i.plcNm && i.plcNm.includes(text));
+      setList(item);
+    });
   };
 
   return (

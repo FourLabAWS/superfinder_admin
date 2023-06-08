@@ -65,37 +65,30 @@ export default function Param() {
 
   // 파라미터를 검색한다.
   const doSearch = () => {
-    pushParams({
-      text: text,
-    });
+    setText(text);
 
-    client
-      .get("getParam", {
-        params: {
-          contains: params["text"],
-        },
-      })
-      .then((response) => {
-        let item = [];
-        let items = response.data.Items;
-        items.map(function (a, itemNm) {
-          item.push({
-            id: itemNm,
-            paramNm: items[itemNm].PARAM_NM.S,
-            paramVal: items[itemNm].PARAM_VAL.S,
-            regId: items[itemNm].REG_ID.S,
-            regDt: items[itemNm].REG_DT.S,
-            modId: items[itemNm].MOD_ID.S,
-            modDt: items[itemNm].MOD_DT.S,
-            pixel: items[itemNm].PIXEL.S,
-            dpi: items[itemNm].DPI.S,
-            flagDownRate: items[itemNm].FLAG_DOWN_RATE.S,
-            customMaxRate: items[itemNm].CUSTOM_MAX_RATE.S,
-            customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
-          });
+    client.get("getParam").then((response) => {
+      let item = [];
+      let items = response.data.Items;
+      items.map(function (a, itemNm) {
+        item.push({
+          id: itemNm,
+          paramNm: items[itemNm].PARAM_NM.S,
+          paramVal: items[itemNm].PARAM_VAL.S,
+          regId: items[itemNm].REG_ID.S,
+          regDt: items[itemNm].REG_DT.S,
+          modId: items[itemNm].MOD_ID.S,
+          modDt: items[itemNm].MOD_DT.S,
+          pixel: items[itemNm].PIXEL.S,
+          dpi: items[itemNm].DPI.S,
+          flagDownRate: items[itemNm].FLAG_DOWN_RATE.S,
+          customMaxRate: items[itemNm].CUSTOM_MAX_RATE.S,
+          customMinRate: items[itemNm].CUSTOM_MIN_RATE.S,
         });
-        setList(item);
       });
+      item = item.filter((i) => i.paramNm && i.paramNm.includes(text));
+      setList(item);
+    });
   };
 
   const getParamDtlEndpoint =

@@ -70,44 +70,35 @@ export default function Evnt() {
       });
   }, []);
 
-  // 깃발을 검색한다.
+  // 이벤트를 검색한다.
   const doSearch = () => {
-    pushParams({
-      text: text,
-    });
+    setText(text);
 
-    client
-      .get("getEvnt", {
-        params: {
-          contains: params["text"], // 이름이 포함된 깃발 검색
-        },
-      })
-      .then((response) => {
-        let item = [];
-        let items = response.data.Items;
-
-        items.map(function (a, itemNm) {
-          item.push({
-            id: itemNm,
-            flagCd: items[itemNm].FLAG_CD.S,
-            plcId: items[itemNm].PLC_ID.S,
-            plcNm: items[itemNm].PLC_NM.S,
-            plcLat: items[itemNm].PLC_LAT?.S,
-            plcLng: items[itemNm].PLC_LNG?.S,
-            unitNm: items[itemNm].UNIT_NM.S,
-            hzLnth: parseInt(items[itemNm].HZ_LNTH.S),
-            vrLnth: parseInt(items[itemNm].VR_LNTH.S),
-            regId: items[itemNm].REG_ID.S,
-            regDt: items[itemNm].REG_DT.S,
-            regSe: items[itemNm].REG_SE.S,
-            modId: items[itemNm].MOD_ID.S,
-            modDt: items[itemNm].MOD_DT.S,
-            modSe: items[itemNm].MOD_SE.S,
-          });
+    client.get("getEvnt").then((response) => {
+      let item = [];
+      let items = response.data.Items;
+      items.map(function (a, itemNm) {
+        item.push({
+          id: itemNm,
+          flagCd: items[itemNm].FLAG_CD?.S,
+          plcId: items[itemNm].PLC_ID?.S,
+          plcNm: items[itemNm].PLC_NM?.S,
+          plcLat: items[itemNm].PLC_LAT?.S,
+          plcLng: items[itemNm].PLC_LNG?.S,
+          unitNm: items[itemNm].UNIT_NM?.S,
+          hzLnth: parseInt(items[itemNm].HZ_LNTH?.S),
+          vrLnth: parseInt(items[itemNm].VR_LNTH?.S),
+          regId: items[itemNm].REG_ID?.S,
+          regDt: items[itemNm].REG_DT?.S,
+          regSe: items[itemNm].REG_SE?.S,
+          modId: items[itemNm].MOD_ID?.S,
+          modDt: items[itemNm].MOD_DT?.S,
+          modSe: items[itemNm].MOD_SE?.S,
         });
-
-        setList(items);
       });
+      item = item.filter((i) => i.plcNm && i.plcNm.includes(text));
+      setList(item);
+    });
   };
 
   return (
@@ -133,7 +124,7 @@ export default function Evnt() {
                     width="10%"
                   >
                     <Box component="div" align="center">
-                      등록자
+                      골프장
                     </Box>
                   </Grid>
                   <Grid item xs={5}>
@@ -145,7 +136,7 @@ export default function Evnt() {
                       variant="outlined"
                       size="small"
                       fullWidth
-                      placeholder="등록자를 입력하세요"
+                      placeholder="골프장을 입력하세요"
                     />
                   </Grid>
                 </Grid>

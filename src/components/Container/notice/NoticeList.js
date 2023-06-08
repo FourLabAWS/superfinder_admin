@@ -67,17 +67,20 @@ function GetNotiList(props) {
       }
     }
 
-    selectedRows.map((item) => {
-      client
-        .delete("DelNoti/" + item["notiId"])
-        .then((response) => {
-          window.location.reload(false);
-          return response;
-        })
-
-        .catch((error) => {
-          console.error(error);
-        });
+    Promise.all(
+      selectedRows.map((item) => {
+        return client
+          .delete("DelNoti/" + item["notiId"])
+          .then((response) => {
+            return response;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+    ).then((results) => {
+      alert("삭제되었습니다.");
+      window.location.reload(false);
     });
   };
 
