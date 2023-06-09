@@ -30,7 +30,7 @@ function GetBookMark(props) {
     {
       field: "plcNm",
       headerName: "골프장",
-      width: 200,
+      width: 250,
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
