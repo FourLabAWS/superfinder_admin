@@ -152,7 +152,7 @@ export default function DataTable(props) {
     {
       field: "fileName",
       headerName: "파일명",
-      width: 350,
+      width: 500,
 
       renderCell: (params) => {
         const onClick = (e) => {

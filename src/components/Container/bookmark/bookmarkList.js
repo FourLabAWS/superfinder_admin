@@ -26,7 +26,7 @@ function GetBookMark(props) {
   // 보여줄 칼럼 정의
   const columns = [
     { field: "flagCd", headerName: "깃발 코드", width: 100 },
-    { field: "plcId", headerName: "장소 코드", width: 100 },
+    { field: "plcId", headerName: "장소 코드", width: 100, hide: true },
     {
       field: "plcNm",
       headerName: "골프장",
