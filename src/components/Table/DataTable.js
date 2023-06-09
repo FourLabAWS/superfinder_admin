@@ -196,7 +196,7 @@ export default function DataTable(props) {
     {
       field: "device_id",
       headerName: "디바이스 ID",
-      width: 150,
+      width: 350,
     },
     {
       field: "date",
