@@ -68,7 +68,7 @@ export default function Container() {
     client.get("getTest").then((response) => {
       let data = [];
       response.data.map((item) => {
-        console.log(item.DEL_YN);
+        //console.log(item.DEL_YN);
         if (item.DEL_YN === "N") {
           data.push({
             id: item.NOTI_ID,

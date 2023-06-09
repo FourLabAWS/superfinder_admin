@@ -30,7 +30,7 @@ export default function Flag() {
       .then((response) => {
         let item = [];
         let items = response.data.Items || []; // 응답이 없는 경우에는 빈 배열로 초기화
-        console.log(items);
+        //console.log(items);
         items.map(function (a, itemNm) {
           item.push({
             id: itemNm,

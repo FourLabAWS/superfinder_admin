@@ -63,7 +63,7 @@ export default function DataTable(props) {
   const [img, setImg] = React.useState();
 
   function GridSelected(data) {
-    console.log("test", data);
+    //console.log("test", data);
 
     setId(data["id"]);
     setDeviceId(data["device_id"]);

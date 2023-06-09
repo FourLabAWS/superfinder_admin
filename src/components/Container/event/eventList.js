@@ -221,7 +221,7 @@ function GetEvnt(props) {
         <DataGrid
           rows={data}
           columns={columns}
-          paginationMode="server"
+          // paginationMode="server"
           keepNonExistentRowsSelected
           pageSize={15}
           rowHeight={50}

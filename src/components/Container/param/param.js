@@ -96,7 +96,7 @@ export default function Param() {
   const handleDetail = async (paramNm) => {
     try {
       const response = await axios.get(`${getParamDtlEndpoint}?PARAM_NM=${paramNm}`);
-      console.log(response.data);
+      //console.log(response.data);
     } catch (error) {
       console.error(error);
     }

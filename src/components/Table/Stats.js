@@ -16,7 +16,7 @@ export function RegIdStats() {
   React.useEffect(() => {
     client.get("getRegId").then((response) => {
       const responseData = response.data;
-      console.log(responseData);
+      //console.log(responseData);
       const parsedBody = JSON.parse(responseData.body);
       let formattedData = Object.entries(parsedBody).map(([date, count]) => ({
         x: date,

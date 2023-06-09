@@ -45,8 +45,8 @@ function GetBookMark(props) {
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
-    { field: "plcLat", headerName: "경도", width: 150 },
-    { field: "plcLng", headerName: "위도", width: 150 },
+    { field: "plcLat", headerName: "경도", width: 200 },
+    { field: "plcLng", headerName: "위도", width: 200 },
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
@@ -150,7 +150,7 @@ function GetBookMark(props) {
         <DataGrid
           rows={rows}
           columns={columns}
-          paginationMode="server"
+          // paginationMode="server"
           keepNonExistentRowsSelected
           pageSize={15}
           rowHeight={50}

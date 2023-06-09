@@ -29,17 +29,17 @@ export function ImageTablePopup({ ...props }) {
   const [rowData, setData] = React.useState({});
   // const [memo, setMemo] = React.useState("");
 
-  console.log("params", params);
+  //console.log("params", params);
 
   React.useEffect(() => {
     client.get("getdata/" + id).then((response) => {
       setData(response["data"]["Item"]);
-      console.log("testing2", params);
+      //console.log("testing2", params);
     });
   }, [id]);
 
-  console.log("id", id);
-  console.log("data", rowData);
+  //console.log("id", id);
+  //console.log("data", rowData);
 
   React.useEffect(() => {
     const flagHValue = rowData.flagH?.S;

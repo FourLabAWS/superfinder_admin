@@ -94,14 +94,14 @@ export const ImageModal = ({ ...props }) => {
   const updateItem = () => {
     const obj = params["id"];
     const path = "getdata/update/" + obj;
-    console.log(path, memo);
+    //console.log(path, memo);
 
     client
       .patch(path, {
         body: JSON.stringify(memo),
       })
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
       });
   };
 

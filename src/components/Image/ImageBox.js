@@ -47,14 +47,14 @@ export default function ImgBox(props) {
           },
         })
         .then((response) => {
-          console.log("img2", response.data);
-          console.log("param", pathName);
+          //console.log("img2", response.data);
+          //console.log("param", pathName);
           FileSaver.saveAs(response.data, fileName["S"]);
         });
     }
 
-    console.log("imgP", pathName["S"]);
-    console.log("imgF", fileName["S"]);
+    //console.log("imgP", pathName["S"]);
+    //console.log("imgF", fileName["S"]);
   };
 
   return (

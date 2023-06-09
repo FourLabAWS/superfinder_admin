@@ -1,50 +1,73 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Drawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import GridViewIcon from '@mui/icons-material/GridView';
-import ImageSearchIcon from '@mui/icons-material/ImageSearch';
-import axios from 'axios';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Drawer from "@mui/material/Drawer";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import GridViewIcon from "@mui/icons-material/GridView";
+import ImageSearchIcon from "@mui/icons-material/ImageSearch";
+import axios from "axios";
 
 const drawerWidth = 240;
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-  };
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
 
 const SideBarItems = [
-  { id: 1, name: '대시보드', link: '/', icon: <GridViewIcon sx={{ color: '#1976d2' }} /> },
-  { id: 2, name: '이미지 관리', link: '/analysis', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
-  { id: 3, name: '공지사항', link: '/analysis', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
-  { id: 4, name: '관리자 계정 조회', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
-  { id: 5, name: '관리자 계정 생성', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
+  {
+    id: 1,
+    name: "대시보드",
+    link: "/",
+    icon: <GridViewIcon sx={{ color: "#1976d2" }} />,
+  },
+  {
+    id: 2,
+    name: "이미지 관리",
+    link: "/analysis",
+    icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+  },
+  {
+    id: 3,
+    name: "공지사항",
+    link: "/analysis",
+    icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+  },
+  {
+    id: 4,
+    name: "관리자 계정 조회",
+    icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+  },
+  {
+    id: 5,
+    name: "관리자 계정 생성",
+    icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+  },
 ];
 
 const Sidebar = () => {
   const [openModal, setOpenModal] = useState(false); // 모달 창 열림 여부 상태
   const [formData, setFormData] = useState({
-    id: '',
-    password: '',
-    name: '',
-    email: '',
+    id: "",
+    password: "",
+    name: "",
+    email: "",
   }); // 입력한 데이터 상태
 
   const handleOpenModal = () => {
@@ -70,36 +93,37 @@ const Sidebar = () => {
           id: formData.id,
           password: formData.password,
           name: formData.name,
-          email: formData.email
+          email: formData.email,
         });
       })
       .catch((error) => {
         console.error(error);
       });
   };
-  
-  const apiUrl = 'https://ouwwxbyxsf.execute-api.ap-northeast-2.amazonaws.com/signUp/signup';
+
+  const apiUrl =
+    "https://ouwwxbyxsf.execute-api.ap-northeast-2.amazonaws.com/signUp/signup";
 
   const createAdminAccount = async (formData) => {
     try {
       const response = await axios.post(apiUrl, formData, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
-      console.log(response.data);
+      //console.log(response.data);
       handleCloseModal();
     } catch (error) {
       console.error(error);
     }
   };
-  
+
   const insertAdminAccount = async (formData) => {
     try {
       const response = await axios.post(apiUrl, formData, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
       return response.data;
     } catch (error) {
@@ -107,7 +131,7 @@ const Sidebar = () => {
       return null;
     }
   };
-  
+
   return (
     <>
       <Drawer
@@ -135,7 +159,7 @@ const Sidebar = () => {
             ADMIN
           </Typography>
         </Toolbar>
-  
+
         <Divider />
         <br />
         <List>
@@ -156,7 +180,7 @@ const Sidebar = () => {
           ))}
         </List>
       </Drawer>
-  
+
       {/* 모달 창 */}
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box sx={style}>
@@ -225,6 +249,5 @@ const Sidebar = () => {
     </>
   );
 };
-
 
 export default Sidebar;
