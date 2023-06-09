@@ -50,8 +50,21 @@ function GetBookMark(props) {
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regId", headerName: "등록자", width: 100 },
-    { field: "regDt", headerName: "등록일시", width: 200 },
+    { field: "regId", headerName: "등록자", width: 200 },
+    {
+      field: "regDt",
+      headerName: "등록일자",
+      width: 200,
+      valueGetter: (params) => {
+        // UTC를 기준으로 Date 객체를 생성합니다.
+        const date = new Date(params.value + "Z");
+
+        // Date 객체를 한국 시간으로 변환합니다.
+        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+
+        return koreanDate;
+      },
+    },
     { field: "regSe", headerName: "등록환경", width: 100 },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },

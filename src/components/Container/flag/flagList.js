@@ -24,9 +24,18 @@ function GetFlag(props) {
   const openMapBtn = (params) => {
     const lat = params.row.plcLat; // 위도
     const lng = params.row.plcLng; // 경도
+    const plcId = params.row.plcId; // plcId
 
-    // 구글 맵의 좌표를 포맷에 맞게 설정
-    const url = `https://www.google.com/maps/?q=${lat},${lng}`;
+    let url;
+
+    // 숫자로 이루어진 plcId는 카카오 맵, 그렇지 않은 경우는 구글 맵
+    if (/^\d+$/.test(plcId)) {
+      // 카카오 맵 URL
+      url = `https://map.kakao.com/?itemId=${plcId}`;
+    } else {
+      // 구글 맵 URL
+      url = `https://www.google.com/maps/place/?q=place_id:${plcId}`;
+    }
 
     // 새 창에서 URL 열기
     window.open(url, "_blank");
@@ -37,8 +46,8 @@ function GetFlag(props) {
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
   // 보여줄 칼럼 정의
   const columns = [
-    { field: "flagCd", headerName: "깃발 코드", width: 100 },
-    { field: "plcId", headerName: "장소 코드", width: 100 },
+    { field: "flagCd", headerName: "깃발 코드", width: 300, hide: true },
+    { field: "plcId", headerName: "장소 코드", width: 100, hide: true },
     {
       field: "plcNm",
       headerName: "골프장",
@@ -62,8 +71,21 @@ function GetFlag(props) {
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regId", headerName: "등록자", width: 100 },
-    { field: "regDt", headerName: "등록일시", width: 200 },
+    { field: "regId", headerName: "등록자", width: 120 },
+    {
+      field: "regDt",
+      headerName: "등록일자",
+      width: 200,
+      valueGetter: (params) => {
+        // UTC를 기준으로 Date 객체를 생성합니다.
+        const date = new Date(params.value + "Z");
+
+        // Date 객체를 한국 시간으로 변환합니다.
+        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+
+        return koreanDate;
+      },
+    },
     { field: "regSe", headerName: "등록환경", width: 100, hide: true },
     { field: "authYn", headerName: "인증 여부", width: 100 },
     {

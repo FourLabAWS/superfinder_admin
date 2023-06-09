@@ -51,7 +51,20 @@ function GetNotiList(props) {
     },
     { field: "useYn", headerName: "사용여부", width: 100 },
     { field: "regId", headerName: "등록자", width: 100 },
-    { field: "regDt", headerName: "등록일자", width: 120 },
+    {
+      field: "regDt",
+      headerName: "등록일자",
+      width: 200,
+      valueGetter: (params) => {
+        // UTC를 기준으로 Date 객체를 생성합니다.
+        const date = new Date(params.value + "Z");
+
+        // Date 객체를 한국 시간으로 변환합니다.
+        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+
+        return koreanDate;
+      },
+    },
   ];
 
   const deleteItem = () => {

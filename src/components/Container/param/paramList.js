@@ -64,14 +64,27 @@ function GetParam(props, onClose, selectedParam) {
     { field: "paramVal", headerName: "파라미터 값", width: 100 },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
-    { field: "pixel", headerName: "픽셀", width: 50 },
+    { field: "pixel", headerName: "픽셀", width: 100 },
     { field: "dpi", headerName: "도트 퍼 인치", width: 100 },
     { field: "flagDownRate", headerName: "깃발 최소 비율", width: 150 },
     { field: "customMaxRate", headerName: "깃발 보정 최대치", width: 150 },
     { field: "customMinRate", headerName: "깃발 보정 최소치", width: 150 },
     { field: "flagHz", headerName: "깃발 가로", width: 100 },
     { field: "flagVr", headerName: "깃발 세로", width: 100 },
-    { field: "regDt", headerName: "등록일시", width: 200 },
+    {
+      field: "regDt",
+      headerName: "등록일자",
+      width: 200,
+      valueGetter: (params) => {
+        // UTC를 기준으로 Date 객체를 생성합니다.
+        const date = new Date(params.value + "Z");
+
+        // Date 객체를 한국 시간으로 변환합니다.
+        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+
+        return koreanDate;
+      },
+    },
     { field: "regId", headerName: "등록자", width: 100 },
     { field: "useYn", headerName: "사용여부", width: 100 },
   ];

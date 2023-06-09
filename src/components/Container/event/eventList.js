@@ -84,7 +84,20 @@ function GetEvnt(props) {
     { field: "hzLnth", headerName: "가로 길이", width: 100 },
     { field: "vrLnth", headerName: "세로 길이", width: 100 },
     { field: "phoneNum", headerName: "전화번호", width: 200 },
-    { field: "regDt", headerName: "등록일시", width: 200 },
+    {
+      field: "regDt",
+      headerName: "등록일자",
+      width: 200,
+      valueGetter: (params) => {
+        // 일단, params.value를 Date 객체로 변환합니다. 만약 params.value가 이미 Date 객체라면, 이 과정은 필요하지 않습니다.
+        const date = new Date(params.value);
+
+        // Date 객체를 한국 시간으로 변환합니다.
+        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+
+        return koreanDate;
+      },
+    },
     { field: "regSe", headerName: "등록환경", width: 100, hide: true },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
