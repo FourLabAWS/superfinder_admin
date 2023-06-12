@@ -120,7 +120,7 @@ export default function FilterTable() {
                 날짜
               </Box>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <DatePicker
                 placeholder="시작 일자"
                 value={startDate}
@@ -130,7 +130,7 @@ export default function FilterTable() {
                 renderInput={(params) => <TextField {...params} />}
               />
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={2}>
               <DatePicker
                 placeholder="종료 일자"
                 value={endDate}
@@ -146,9 +146,9 @@ export default function FilterTable() {
                 variant="contained"
                 size="large"
                 sx={{
-                  width: "50%",
+                  width: "100%",
                   fontSize: 12,
-                  marginLeft: "55vw",
+                  marginLeft: "32vw",
                   height: "100%",
                 }}
                 startIcon={<SearchIcon />}

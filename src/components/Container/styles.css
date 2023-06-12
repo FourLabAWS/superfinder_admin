@@ -18,3 +18,15 @@ li {
 
   text-align: center;
 }
+
+body::-webkit-scrollbar {
+  width: 0; /* 세로 스크롤바를 숨김 */
+}
+
+body::-webkit-scrollbar-track-piece:start {
+  display: none; /* 가로 스크롤바의 상단 부분을 숨김 */
+}
+
+body::-webkit-scrollbar-track-piece:end {
+  display: none; /* 가로 스크롤바의 하단 부분을 숨김 */
+}

@@ -31,7 +31,7 @@ export function RegIdStats() {
   }, []);
 
   return (
-    <div style={{ height: "500px" }}>
+    <div style={{ height: "250px" }}>
       <ResponsiveLine
         data={data}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}

@@ -45,7 +45,7 @@ export default function DataTable(props) {
 
     minWidth: "60vw",
     maxWidth: "80vw",
-    maxHeight: "70vh",
+    maxHeight: "85vh",
 
     // overflow: "overlay",
 
@@ -160,7 +160,7 @@ export default function DataTable(props) {
 
           const api = params.api;
           const thisRow = {};
-
+          console.log(params.row["fileName"]);
           api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
@@ -267,9 +267,7 @@ export default function DataTable(props) {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "start",
-
             width: "auto",
-
             gap: "10px",
           }}
         >

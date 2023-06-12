@@ -37,3 +37,8 @@
 /* .css-icc45o-MuiPaper-root-MuiPaper-root .css-m18s4g-MuiPaper-root-MuiPaper-root {
     box-shadow: 0 !important;
 } */
+
+.no-scrollbar {
+  height: 100vh; /* 뷰포트의 높이에 맞춤 */
+  overflow-y: hidden; /* 세로 스크롤 숨김 */
+}

@@ -48,6 +48,22 @@ function UserAdminRegModal(obj) {
       alert("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.");
       return;
     }
+
+    // 비밀번호 유효성 검사
+    const passwordValidation =
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*[@$!%*#?&]).{8,}$/;
+    if (!passwordValidation.test(formData.admnrPw)) {
+      alert("비밀번호는 대소문자, 숫자, 특수문자(@$!%*#?&)를 포함해야 합니다.");
+      return;
+    }
+
+    // 이메일 유효성 검사
+    const emailValidation = /\S+@\S+\.\S+/;
+    if (!emailValidation.test(formData.admnrEmail)) {
+      alert("올바른 이메일 형식을 입력해 주세요.");
+      return;
+    }
+
     event.preventDefault();
 
     createAdminAccount(formData)
@@ -178,11 +194,7 @@ function UserAdminRegModal(obj) {
             <Button onClick={doSave} variant="contained" sx={{ mt: 2, mr: 1 }}>
               저장
             </Button>
-            <Button
-              variant="contained"
-              sx={{ mt: 2, mr: 1 }}
-              onClick={obj.onClose}
-            >
+            <Button variant="contained" sx={{ mt: 2, mr: 1 }} onClick={obj.onClose}>
               취소
             </Button>
           </div>

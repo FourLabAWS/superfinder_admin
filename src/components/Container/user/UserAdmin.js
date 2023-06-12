@@ -120,9 +120,9 @@ export default function Notice() {
                   variant="contained"
                   size="large"
                   sx={{
-                    width: "50%",
+                    width: "100%",
                     fontSize: 12,
-                    marginLeft: "50%",
+                    //marginLeft: "30vw",
                     height: "100%",
                   }}
                   startIcon={<SearchIcon />}

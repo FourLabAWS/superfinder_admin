@@ -17,13 +17,6 @@ import { client } from "../../../routes/routes";
 
 import "../../Table/styles.css";
 
-const btnSearch = {
-  width: "50%",
-  fontSize: 12,
-  marginLeft: "50%",
-  height: "100%",
-};
-
 export default function Notice() {
   const [text, setText] = React.useState("");
   const [list, setList] = React.useState([]);
@@ -125,7 +118,12 @@ export default function Notice() {
                 <Button
                   variant="contained"
                   size="large"
-                  sx={btnSearch}
+                  sx={{
+                    width: "100%",
+                    fontSize: 12,
+                    //marginLeft: "30vw",
+                    height: "100%",
+                  }}
                   startIcon={<SearchIcon />}
                   onClick={handleFilter}
                 >

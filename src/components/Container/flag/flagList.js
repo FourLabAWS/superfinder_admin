@@ -9,10 +9,39 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 import FlagRegModal from "./flagRegModal";
 import FlagInquiryModal from "./flagInquiryModal";
 import "../../Table/styles.css";
 import "./flag.css";
+
+const today = new Date();
+
+function exportToExcel(rows, columns) {
+  let newRows = rows.map((row) => {
+    let newRow = {};
+    columns.forEach((column) => {
+      newRow[column.headerName] = row[column.field];
+    });
+    return newRow;
+  });
+
+  const ws = XLSX.utils.json_to_sheet(newRows, {
+    header: columns.map((column) => column.headerName),
+  });
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
+  const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  const file = new Blob([excelBuffer], { type: fileType });
+  saveAs(file, fileName);
+}
 
 function GetFlag(props) {
   const rows = props.data;
@@ -194,6 +223,13 @@ function GetFlag(props) {
   return (
     <div>
       <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "125px", marginLeft: "1%" }}
+          onClick={() => exportToExcel(rows, columns)}
+        >
+          엑셀 다운로드
+        </Button>
         <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}

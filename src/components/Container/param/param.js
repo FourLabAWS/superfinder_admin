@@ -118,7 +118,7 @@ export default function Param() {
                 <Grid container spacing={1}>
                   <Grid
                     item
-                    xs={1}
+                    xs={2}
                     backgroundColor="#1976d2"
                     color="#fff"
                     marginTop={1}
@@ -147,9 +147,9 @@ export default function Param() {
                   variant="contained"
                   size="large"
                   sx={{
-                    width: "50%",
+                    width: "100%",
                     fontSize: 12,
-                    marginLeft: "50%",
+                    //marginLeft: "30vw",
                     height: "100%",
                   }}
                   startIcon={<SearchIcon />}

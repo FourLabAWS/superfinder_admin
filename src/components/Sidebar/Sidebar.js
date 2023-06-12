@@ -57,12 +57,12 @@ const SideBarItems = [
     link: "/event",
     icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
   },
-  {
-    id: 13,
-    name: "즐겨찾기 관리",
-    link: "/bookmark",
-    icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
-  },
+  // {
+  //   id: 13,
+  //   name: "즐겨찾기 관리",
+  //   link: "/bookmark",
+  //   icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+  // },
   //{ id: 99, name: '게시판', link: '/board', icon: <ImageSearchIcon sx={{ color: '#1976d2' }} /> },
 ];
 
