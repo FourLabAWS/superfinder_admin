@@ -18,6 +18,8 @@ import { Modal } from "@mui/material";
 import { ImageTablePopup } from "../Popup/ModalContents";
 // import JSZipUtils from "jszip-utils";
 
+const today = new Date();
+
 const headingTextStyle = {
   fontWeight: 550,
 };
@@ -228,21 +230,32 @@ export default function DataTable(props) {
     const zip = new JSZip();
     const FileSaver = require("file-saver");
 
-    // Promise 배열로 변환
-    const promises = selectedRows.map((item) => {
-      let dataId = item["id"];
-      let path = "getimage/" + dataId;
-      return client.get(path, { responseType: "blob" }).then((response) => {
-        zip.file(item["fileName"], response.data);
-      });
-    });
+    let dataToDownload = selectedRows.length > 0 ? selectedRows : rows;
 
-    // 모든 요청이 완료된 후에 zip 파일 생성
-    Promise.all(promises).then(() => {
-      zip.generateAsync({ type: "blob" }).then((content) => {
-        FileSaver.saveAs(content, "flags.zip");
+    if (selectedRows && selectedRows.length > 0) {
+      dataToDownload = selectedRows;
+    }
+
+    Promise.all(
+      dataToDownload.map((item) => {
+        const dataId = item["id"];
+        const path = "getimage/" + dataId;
+        return client.get(path, { responseType: "blob" }).then((response) => {
+          zip.file(item["fileName"], response.data);
+        });
+      })
+    )
+      .then(() => {
+        zip.generateAsync({ type: "blob" }).then((content) => {
+          const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.zip`;
+          FileSaver.saveAs(content, fileName);
+        });
+      })
+      .catch((error) => {
+        console.error(error);
       });
-    });
   };
 
   const getBackgroundColor = (color, mode) =>

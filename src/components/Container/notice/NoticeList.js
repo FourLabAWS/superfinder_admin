@@ -9,9 +9,12 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
-
 import { client } from "../../../routes/routes";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 import "../../Table/styles.css";
+
+const today = new Date();
 
 function GetNotiList(props) {
   const rows = props.data;
@@ -24,6 +27,33 @@ function GetNotiList(props) {
   function routeChange(notiTl) {
     let path = `/noticeDtl/` + notiTl;
     movePage(path);
+  }
+
+  function exportToExcel(columns, selectedRows) {
+    let dataToExport = selectedRows.length > 0 ? selectedRows : rows;
+
+    let newRows = dataToExport.map((row) => {
+      let newRow = {};
+      columns.forEach((column) => {
+        newRow[column.headerName] = row[column.field];
+      });
+      return newRow;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(newRows, {
+      header: columns.map((column) => column.headerName),
+    });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
+    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const file = new Blob([excelBuffer], { type: fileType });
+    saveAs(file, fileName);
   }
 
   const columns = [
@@ -100,6 +130,13 @@ function GetNotiList(props) {
   return (
     <div>
       <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "125px", marginRight: "1%" }}
+          onClick={() => exportToExcel(columns, selectedRows)}
+        >
+          엑셀 다운로드
+        </Button>
         <Button
           variant="contained"
           sx={{ width: "100px", marginRight: "1%" }}

@@ -18,37 +18,39 @@ import "./flag.css";
 
 const today = new Date();
 
-function exportToExcel(rows, columns) {
-  let newRows = rows.map((row) => {
-    let newRow = {};
-    columns.forEach((column) => {
-      newRow[column.headerName] = row[column.field];
-    });
-    return newRow;
-  });
-
-  const ws = XLSX.utils.json_to_sheet(newRows, {
-    header: columns.map((column) => column.headerName),
-  });
-
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
-  const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-  const file = new Blob([excelBuffer], { type: fileType });
-  saveAs(file, fileName);
-}
-
 function GetFlag(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [openCreateFlagModal, setOpenCreateFlagModal] = useState(false);
   const [openInquiryFlagModal, setOpenInquiryFlagModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+
+  function exportToExcel(columns, selectedRows) {
+    let dataToExport = selectedRows.length > 0 ? selectedRows : rows;
+
+    let newRows = dataToExport.map((row) => {
+      let newRow = {};
+      columns.forEach((column) => {
+        newRow[column.headerName] = row[column.field];
+      });
+      return newRow;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(newRows, {
+      header: columns.map((column) => column.headerName),
+    });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
+    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const file = new Blob([excelBuffer], { type: fileType });
+    saveAs(file, fileName);
+  }
 
   const openMapBtn = (params) => {
     const lat = params.row.plcLat; // 위도
@@ -226,7 +228,7 @@ function GetFlag(props) {
         <Button
           variant="contained"
           sx={{ width: "125px", marginLeft: "1%" }}
-          onClick={() => exportToExcel(rows, columns)}
+          onClick={() => exportToExcel(columns, selectedRows)}
         >
           엑셀 다운로드
         </Button>

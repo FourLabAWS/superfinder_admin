@@ -9,12 +9,16 @@ import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 import { client } from "../../../routes/routes";
 
 import UserAdminRegModal from "./UserAdminRegModal";
 import UserAdminInquiryModal from "./UserAdminInquiryModal";
 
 import "../../Table/styles.css";
+
+const today = new Date();
 
 function GetUserAdminList(props) {
   const rows = props.data;
@@ -23,6 +27,33 @@ function GetUserAdminList(props) {
   const [openInquiryAdminModal, setOpenInquiryAdminModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
+
+  function exportToExcel(columns, selectedRows) {
+    let dataToExport = selectedRows.length > 0 ? selectedRows : rows;
+
+    let newRows = dataToExport.map((row) => {
+      let newRow = {};
+      columns.forEach((column) => {
+        newRow[column.headerName] = row[column.field];
+      });
+      return newRow;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(newRows, {
+      header: columns.map((column) => column.headerName),
+    });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
+    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const file = new Blob([excelBuffer], { type: fileType });
+    saveAs(file, fileName);
+  }
 
   const getBackgroundColor = (color, mode) =>
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
@@ -129,6 +160,13 @@ function GetUserAdminList(props) {
   return (
     <div>
       <div id="buttonArea">
+        <Button
+          variant="contained"
+          sx={{ width: "125px", marginLeft: "1%" }}
+          onClick={() => exportToExcel(columns, selectedRows)}
+        >
+          엑셀 다운로드
+        </Button>
         <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}

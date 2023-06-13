@@ -19,31 +19,6 @@ import "./event.css";
 
 const today = new Date();
 
-function exportToExcel(rows, columns) {
-  let newRows = rows.map((row) => {
-    let newRow = {};
-    columns.forEach((column) => {
-      newRow[column.headerName] = row[column.field];
-    });
-    return newRow;
-  });
-
-  const ws = XLSX.utils.json_to_sheet(newRows, {
-    header: columns.map((column) => column.headerName),
-  });
-
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
-  const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-  const file = new Blob([excelBuffer], { type: fileType });
-  saveAs(file, fileName);
-}
-
 function GetEvnt(props) {
   const { data: rows } = props;
   const [data, setData] = useState(rows);
@@ -126,6 +101,33 @@ function GetEvnt(props) {
     setEditModalOpen(false);
   };
 
+  function exportToExcel(columns, selectedRows) {
+    let dataToExport = selectedRows.length > 0 ? selectedRows : rows;
+
+    let newRows = dataToExport.map((row) => {
+      let newRow = {};
+      columns.forEach((column) => {
+        newRow[column.headerName] = row[column.field];
+      });
+      return newRow;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(newRows, {
+      header: columns.map((column) => column.headerName),
+    });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
+    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const file = new Blob([excelBuffer], { type: fileType });
+    saveAs(file, fileName);
+  }
+
   // 깃발 등록
   const doSave = () => {
     if (selectedRows.length === 0) {
@@ -165,18 +167,19 @@ function GetEvnt(props) {
     if (!window.confirm("선택한 깃발을 삭제하겠습니까?")) {
       return;
     }
-    selectedRows.map((item) => {
-      client
-        .delete("delEvnt/" + item["flagCd"])
-        .then((response) => {
-          alert("삭제되었습니다.");
-          window.location.reload(false);
-          return response;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+
+    Promise.all(
+      selectedRows.map((item) => {
+        return client.delete("delEvnt/" + item["flagCd"]);
+      })
+    )
+      .then((responses) => {
+        alert("삭제되었습니다.");
+        window.location.reload(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (
@@ -185,7 +188,7 @@ function GetEvnt(props) {
         <Button
           variant="contained"
           sx={{ width: "125px", marginLeft: "1%" }}
-          onClick={() => exportToExcel(rows, columns)}
+          onClick={() => exportToExcel(columns, selectedRows)}
         >
           엑셀 다운로드
         </Button>

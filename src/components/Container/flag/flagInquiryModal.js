@@ -16,17 +16,22 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
 // 함수 시작
+const name = localStorage.getItem("name");
+
 const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
   const [formData, setFormData] = useState({
     plcId: "",
     plcNm: "",
     hzLnth: "",
     vrLnth: "",
+    modId: name,
+    modDt: "",
   });
 
   useEffect(() => {
     setFormData({
       ...selectedFlag,
+      modId: formData.modId || name,
     });
   }, [selectedFlag]);
 
@@ -87,6 +92,7 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
     try {
       await updateFlag(formData);
       alert("수정되었습니다.");
+      console.log(formData);
       onClose();
       window.location.reload(false);
     } catch (error) {
@@ -106,6 +112,7 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
           hzLnth: formData.hzLnth,
           vrLnth: formData.vrLnth,
           unitNm: formData.unitNm,
+          modId: formData.modId,
         },
         {
           headers: {
@@ -156,12 +163,10 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
                   })
                 }
                 error={
-                  formData.hzLnth < minSize[unit].hz ||
-                  formData.hzLnth > maxSize[unit].hz
+                  formData.hzLnth < minSize[unit].hz || formData.hzLnth > maxSize[unit].hz
                 }
                 helperText={
-                  formData.hzLnth < minSize[unit].hz ||
-                  formData.hzLnth > maxSize[unit].hz
+                  formData.hzLnth < minSize[unit].hz || formData.hzLnth > maxSize[unit].hz
                     ? `가로 ${minSize[unit].hz} - ${maxSize[unit].hz}`
                     : ""
                 }
@@ -185,12 +190,10 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
                   })
                 }
                 error={
-                  formData.vrLnth < minSize[unit].vr ||
-                  formData.vrLnth > maxSize[unit].vr
+                  formData.vrLnth < minSize[unit].vr || formData.vrLnth > maxSize[unit].vr
                 }
                 helperText={
-                  formData.vrLnth < minSize[unit].vr ||
-                  formData.vrLnth > maxSize[unit].vr
+                  formData.vrLnth < minSize[unit].vr || formData.vrLnth > maxSize[unit].vr
                     ? `세로 ${minSize[unit].vr} - ${maxSize[unit].vr}`
                     : ""
                 }
@@ -210,17 +213,13 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
                   onChange={handleUnitChange}
                 >
                   <FormControlLabel value="cm" control={<Radio />} label="cm" />
-                  <FormControlLabel
-                    value="inch"
-                    control={<Radio />}
-                    label="inch"
-                  />
+                  <FormControlLabel value="inch" control={<Radio />} label="inch" />
                 </RadioGroup>
               </FormControl>
             </Grid>
             <Grid item xs={6} container>
               <TextField
-                id="modId"
+                id="regId"
                 label="등록자"
                 value={formData.regId}
                 readOnly
@@ -228,25 +227,17 @@ const FlagInquiryModal = ({ modalObj, onClose, selectedFlag }) => {
             </Grid>
             <Grid item xs={6} container>
               <TextField
-                id="modId"
+                id="regId"
                 label="등록일자"
                 value={formData.regDt}
                 readOnly
               ></TextField>
             </Grid>
             <Grid item xs={6} container>
-              <TextField
-                id="modId"
-                label="수정자"
-                value={formData.modId}
-              ></TextField>
+              <TextField id="modId" label="수정자" value={formData.modId}></TextField>
             </Grid>
             <Grid item xs={6} container>
-              <TextField
-                id="modId"
-                label="수정일자"
-                value={formData.modDt}
-              ></TextField>
+              <TextField id="modDt" label="수정일자" value={formData.modDt}></TextField>
             </Grid>
           </Grid>
         </form>

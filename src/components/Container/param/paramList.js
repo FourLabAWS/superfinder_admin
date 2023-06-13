@@ -9,10 +9,14 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { darken, lighten } from "@mui/material/styles";
 import { client } from "../../../routes/routes";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 import ParamRegModal from "./paramRegModal";
 import ParamInquiryModal from "./paramInquiryModal";
 import "../../Table/styles.css";
 import "./param.css";
+
+const today = new Date();
 
 function GetParam(props, onClose, selectedParam) {
   const rows = props.data;
@@ -21,6 +25,34 @@ function GetParam(props, onClose, selectedParam) {
   const [openInquiryParamModal, setOpenInquiryParamModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false); // 모달 창 열림 여부 상태
+
+  function exportToExcel(columns, selectedRows) {
+    let dataToExport = selectedRows.length > 0 ? selectedRows : rows;
+
+    let newRows = dataToExport.map((row) => {
+      let newRow = {};
+      columns.forEach((column) => {
+        newRow[column.headerName] = row[column.field];
+      });
+      return newRow;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(newRows, {
+      header: columns.map((column) => column.headerName),
+    });
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
+    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const file = new Blob([excelBuffer], { type: fileType });
+    saveAs(file, fileName);
+  }
+
   const getBackgroundColor = (color, mode) =>
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
 
@@ -61,20 +93,21 @@ function GetParam(props, onClose, selectedParam) {
         return <Button onClick={onClick}>{params.row["paramNm"]}</Button>;
       },
     },
-    { field: "paramVal", headerName: "파라미터 값", width: 100 },
+    { field: "paramVal", headerName: "파라미터 값", width: 100, hide: true },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
-    { field: "pixel", headerName: "픽셀", width: 100 },
+    { field: "pixel", headerName: "픽셀", width: 50 },
     { field: "dpi", headerName: "도트 퍼 인치", width: 100 },
-    { field: "flagDownRate", headerName: "깃발 최소 비율", width: 150 },
-    { field: "customMaxRate", headerName: "깃발 보정 최대치", width: 150 },
-    { field: "customMinRate", headerName: "깃발 보정 최소치", width: 150 },
-    { field: "flagHz", headerName: "깃발 가로", width: 100 },
-    { field: "flagVr", headerName: "깃발 세로", width: 100 },
+    { field: "flagDownRate", headerName: "최소 비율", width: 80 },
+    { field: "customMaxRate", headerName: "보정 최대치", width: 90 },
+    { field: "customMinRate", headerName: "보정 최소치", width: 90 },
+    { field: "flagHz", headerName: "깃발 가로", width: 90 },
+    { field: "flagVr", headerName: "깃발 세로", width: 90 },
     {
       field: "regDt",
       headerName: "등록일자",
       width: 200,
+      hide: true,
       valueGetter: (params) => {
         // UTC를 기준으로 Date 객체를 생성합니다.
         const date = new Date(params.value + "Z");
@@ -85,8 +118,34 @@ function GetParam(props, onClose, selectedParam) {
         return koreanDate;
       },
     },
-    { field: "regId", headerName: "등록자", width: 100 },
-    { field: "useYn", headerName: "사용여부", width: 100 },
+    { field: "regId", headerName: "등록자", width: 100, hide: true },
+    { field: "useYn", headerName: "사용여부", width: 80 },
+    {
+      field: "사용",
+      width: 80,
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={() => doSave(params)}
+        >
+          사용
+        </Button>
+      ),
+    },
+    {
+      field: "미사용",
+      width: 80,
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          sx={{ width: "100px", marginLeft: "1%" }}
+          onClick={() => doUnuse(params)}
+        >
+          미사용
+        </Button>
+      ),
+    },
   ];
 
   //파라미터 모달
@@ -114,25 +173,25 @@ function GetParam(props, onClose, selectedParam) {
 
   //const selectedParam = selectedRows[0].paramNm;
 
-  const doSave = async (event) => {
-    event.preventDefault();
+  const doSave = async (params) => {
+    if (params.row.useYn === "Y") {
+      alert("이미 사용 중인 파라미터입니다.");
+      return;
+    }
+
+    const inUse = rows.some((row) => row.useYn === "Y");
+
+    if (inUse) {
+      alert("미사용 처리 후 다시 시도해주세요.");
+      return;
+    }
+
     if (!window.confirm("선택한 파라미터를 사용하겠습니까?")) {
       return;
     }
-    if (rows.some((row) => row.useYn === "Y")) {
-      alert("미사용 처리 후 사용해주세요.");
-      return;
-    }
-    if (selectedRows.length === 0) {
-      alert("사용할 파라미터를 선택해주세요.");
-      return;
-    }
-    if (selectedRows.length > 1) {
-      alert("하나의 파라미터만 선택해주세요.");
-      return;
-    }
+
     try {
-      await updateUseYn(formData);
+      await updateUseYn(params.row);
       alert("선택한 파라미터를 사용합니다.");
       window.location.reload(false);
     } catch (error) {
@@ -140,13 +199,18 @@ function GetParam(props, onClose, selectedParam) {
     }
   };
 
-  const doUnuse = async (event) => {
-    event.preventDefault();
+  const doUnuse = async (params) => {
+    if (params.row.useYn === "N") {
+      alert("이미 미사용 중인 파라미터입니다.");
+      return;
+    }
+
     if (!window.confirm("선택한 파라미터를 미사용하겠습니까?")) {
       return;
     }
+
     try {
-      await updateUseYnToN(formData);
+      await updateUseYnToN(params.row);
       alert("선택한 파라미터를 미사용합니다.");
       window.location.reload(false);
     } catch (error) {
@@ -154,11 +218,11 @@ function GetParam(props, onClose, selectedParam) {
     }
   };
 
-  const updateUseYnToN = async () => {
+  const updateUseYnToN = async (row) => {
     const editUrl = `https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/UseYnParam/`;
     try {
       const data = {
-        paramNm: selectedRows[0].paramNm,
+        paramNm: row.paramNm,
         useYn: "N",
       };
       await axios.put(editUrl, data);
@@ -167,11 +231,11 @@ function GetParam(props, onClose, selectedParam) {
     }
   };
 
-  const updateUseYn = async (event) => {
+  const updateUseYn = async (row) => {
     const editUrl = `https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/UseYnParam/`;
     try {
       const data = {
-        paramNm: selectedRows[0].paramNm,
+        paramNm: row.paramNm,
         useYn: "Y",
       };
       await axios.put(editUrl, data);
@@ -213,17 +277,10 @@ function GetParam(props, onClose, selectedParam) {
       <div id="buttonArea">
         <Button
           variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={doSave}
+          sx={{ width: "125px", marginLeft: "1%" }}
+          onClick={() => exportToExcel(columns, selectedRows)}
         >
-          사용
-        </Button>
-        <Button
-          variant="contained"
-          sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={doUnuse}
-        >
-          미사용
+          엑셀 다운로드
         </Button>
         <Button
           variant="contained"

@@ -44,6 +44,10 @@ function UserAdminRegModal(obj) {
   const doSave = (event) => {
     event.preventDefault();
 
+    if (!window.confirm("사용자를 등록하시겠습니까?")) {
+      return;
+    }
+
     if (formData.admnrPw !== formData.admnrPwConfirm) {
       alert("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.");
       return;
