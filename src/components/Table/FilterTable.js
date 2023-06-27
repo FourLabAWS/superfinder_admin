@@ -51,6 +51,8 @@ export default function FilterTable() {
 
             const origin_path = item["converted_path"]["S"];
 
+            const device_model = item["device_model"]["S"];
+
             if (date >= startDateStr && date <= endDateStr) {
               data.push({
                 id: item["id"]["N"],
@@ -62,6 +64,7 @@ export default function FilterTable() {
                 origin_path: origin_path,
                 plc_lat: item["plc_lat"]?.S || "35.2",
                 plc_lng: item["plc_lng"]?.S || "129.1598",
+                device_model: item["device_model"]?.S,
               });
             }
           }
@@ -96,6 +99,7 @@ export default function FilterTable() {
             origin_path: item["converted_path"]["S"],
             plc_lat: item["plc_lat"]?.S || "35.2",
             plc_lng: item["plc_lng"]?.S || "129.1598",
+            device_model: item["device_model"]?.S,
           });
         }
       });

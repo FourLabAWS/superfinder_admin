@@ -63,6 +63,7 @@ export default function DataTable(props) {
   const [regDate, setRegDate] = React.useState();
   const [size, setSize] = React.useState();
   const [img, setImg] = React.useState();
+  const [deviceModel, setDeviceModel] = React.useState();
 
   function GridSelected(data) {
     //console.log("test", data);
@@ -72,6 +73,7 @@ export default function DataTable(props) {
     setRegDate(data["date"]);
     setSize(data["flag_size"]);
     setOpen(true);
+    setDeviceModel(data["device_model"]);
   }
 
   // 모달 end
@@ -102,6 +104,7 @@ export default function DataTable(props) {
               origin_path: item["converted_path"]["S"],
               plc_lat: item["plc_lat"]?.S,
               plc_lng: item["plc_lng"]?.S,
+              device_model: item["device_model"]?.S,
             });
           }
         });
@@ -223,6 +226,11 @@ export default function DataTable(props) {
           </Button>
         );
       },
+    },
+    {
+      field: "device_model",
+      headerName: "휴대폰 기종",
+      width: 100,
     },
   ];
 
