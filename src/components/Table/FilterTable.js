@@ -44,7 +44,6 @@ export default function FilterTable() {
             const splitName = fileName.split("_").reverse();
             const flagSize = splitName[1].toUpperCase();
             const [flagW, flagH] = flagSize.split("X");
-
             const date = item["registered_date"]["S"];
             const startDateStr = startDate.toISOString().split("T")[0];
             const endDateStr = endDate.toISOString().split("T")[0];
@@ -86,21 +85,25 @@ export default function FilterTable() {
       response.data["Items"].map((item) => {
         if (item["deleted"]["BOOL"] === false) {
           const fileName = item["original_file"]["S"];
-          const splitName = fileName.split("_").reverse();
-          const flagSize = splitName[1].toUpperCase();
-          const [flagW, flagH] = flagSize.split("X");
-          data.push({
-            id: item["id"]["N"],
-            fileName: fileName,
-            status: item["error_status"]["S"],
-            date: item["registered_date"]["S"],
-            device_id: item["device_id"]["S"],
-            flag_size: flagW + " x " + flagH,
-            origin_path: item["converted_path"]["S"],
-            plc_lat: item["plc_lat"]?.S || "35.2",
-            plc_lng: item["plc_lng"]?.S || "129.1598",
-            device_model: item["device_model"]?.S,
-          });
+          const flagMatch = fileName.match(/\d+x\d+/);
+
+          if (flagMatch) {
+            const [flagW, flagH] = flagMatch[0].split("x");
+            console.log(flagW, flagH);
+
+            data.push({
+              id: item["id"]["N"],
+              fileName: fileName,
+              status: item["error_status"]["S"],
+              date: item["registered_date"]["S"],
+              device_id: item["device_id"]["S"],
+              flag_size: flagW + " x " + flagH,
+              origin_path: item["converted_path"]["S"],
+              plc_lat: item["plc_lat"]?.S || "35.2",
+              plc_lng: item["plc_lng"]?.S || "129.1598",
+              device_model: item["device_model"]?.S,
+            });
+          }
         }
       });
       setPosts(data);
