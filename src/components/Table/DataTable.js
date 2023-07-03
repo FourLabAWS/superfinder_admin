@@ -165,7 +165,7 @@ export default function DataTable(props) {
 
           const api = params.api;
           const thisRow = {};
-          console.log(params.row["fileName"]);
+          // console.log(params.row["fileName"]);
           api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)

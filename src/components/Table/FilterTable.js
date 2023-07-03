@@ -49,7 +49,6 @@ export default function FilterTable() {
             const endDateStr = endDate.toISOString().split("T")[0];
 
             const origin_path = item["converted_path"]["S"];
-
             const device_model = item["device_model"]["S"];
 
             if (date >= startDateStr && date <= endDateStr) {
@@ -79,9 +78,14 @@ export default function FilterTable() {
     setText(e.target.value);
   };
 
+  const [deviceModels, setDeviceModels] = React.useState([]);
+  const [selectedDeviceModel, setSelectedDeviceModel] = React.useState("");
+
   React.useEffect(() => {
     client.get("getdata").then((response) => {
-      let data = [];
+      // 기기 모델을 저장할 빈 배열 생성
+      let deviceModelsArray = [];
+
       response.data["Items"].map((item) => {
         if (item["deleted"]["BOOL"] === false) {
           const fileName = item["original_file"]["S"];
@@ -89,7 +93,44 @@ export default function FilterTable() {
 
           if (flagMatch) {
             const [flagW, flagH] = flagMatch[0].split("x");
-            console.log(flagW, flagH);
+            // console.log(flagW, flagH);
+
+            data.push({
+              id: item["id"]["N"],
+              fileName: fileName,
+              status: item["error_status"]["S"],
+              date: item["registered_date"]["S"],
+              device_id: item["device_id"]["S"],
+              flag_size: flagW + " x " + flagH,
+              origin_path: item["converted_path"]["S"],
+              plc_lat: item["plc_lat"]?.S || "35.2",
+              plc_lng: item["plc_lng"]?.S || "129.1598",
+              device_model: item["device_model"]?.S,
+            });
+
+            // 기기 모델이 배열에 아직 없다면 추가
+            if (!deviceModelsArray.includes(item["device_model"]?.S)) {
+              deviceModelsArray.push(item["device_model"]?.S);
+            }
+          }
+        }
+      });
+      setPosts(data);
+      setDeviceModels(deviceModelsArray); // 상태 업데이트
+    });
+  }, []);
+
+  let data = [];
+  React.useEffect(() => {
+    client.get("getdata").then((response) => {
+      response.data["Items"].map((item) => {
+        if (item["deleted"]["BOOL"] === false) {
+          const fileName = item["original_file"]["S"];
+          const flagMatch = fileName.match(/\d+x\d+/);
+
+          if (flagMatch) {
+            const [flagW, flagH] = flagMatch[0].split("x");
+            // console.log(flagW, flagH);
 
             data.push({
               id: item["id"]["N"],
@@ -166,11 +207,24 @@ export default function FilterTable() {
             </Grid>
           </Grid>
         </Grid>
+        <Grid>
+          {deviceModels.map((deviceModel) => (
+            <Button key={deviceModel} onClick={() => setSelectedDeviceModel(deviceModel)}>
+              {deviceModel}
+            </Button>
+          ))}
+        </Grid>
       </FormGroup>
       <Toolbar />
 
       {/* 데이터그리드 */}
-      <DataTable data={rows} />
+      <DataTable
+        data={
+          selectedDeviceModel
+            ? rows.filter((row) => row.device_model === selectedDeviceModel)
+            : rows
+        }
+      />
     </div>
   );
 }

@@ -93,7 +93,7 @@ export default function ImageTable() {
             </Grid>
             <Grid item xs={4}>
               {rowData["flagW"] !== undefined && rowData["flagW"]["S"]} x{" "}
-              {rowData["flagH"] !== undefined && rowData["flagH"]["S"]} = {inchW} x{" "}
+              {rowData["flagH"] !== undefined && rowData["flagH"]["S"]} = {inchW} inch x{" "}
               {inchH} inch
             </Grid>
           </Grid>
