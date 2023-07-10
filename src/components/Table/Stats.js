@@ -20,21 +20,19 @@ export function RegIdStats() {
       const responseData = response.data;
       const parsedBody = JSON.parse(responseData.body);
 
-      let totalCount = 0;
-
-      let formattedData = Object.entries(parsedBody).map(([deviceModel, info], index) => {
-        totalCount += info.unique_device_count;
-
-        return {
-          id: index,
-          "Device Model": deviceModel,
-          "Data Count": info.data_count,
-        };
-      });
+      let formattedData = Object.entries(parsedBody.device_info).map(
+        ([deviceModel, info], index) => {
+          return {
+            id: index,
+            "Device Model": deviceModel,
+            "Data Count": info.data_count,
+          };
+        }
+      );
 
       console.log(formattedData);
       setData(formattedData);
-      setUniqueDeviceCount(totalCount);
+      setUniqueDeviceCount(parsedBody.total_unique_device_count);
     });
   }, []);
 
