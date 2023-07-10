@@ -36,19 +36,13 @@ export default function ImgBox(props) {
   const handleImage = (e, pathName, fileName) => {
     const FileSaver = require("file-saver");
 
-    let path = "getimage/1";
-
     if (pathName !== undefined && fileName !== undefined) {
+      console.log(pathName);
       client
-        .get(path, {
-          responseType: "blob",
-          params: {
-            path: pathName["S"],
-          },
+        .get(`https://superfind.s3.ap-northeast-2.amazonaws.com/${pathName["S"]}`, {
+          responseType: "blob", // blob data is expected
         })
         .then((response) => {
-          //console.log("img2", response.data);
-          //console.log("param", pathName);
           FileSaver.saveAs(response.data, fileName["S"]);
         });
     }

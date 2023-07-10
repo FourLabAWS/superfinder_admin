@@ -40,6 +40,12 @@ const SideBarItems = [
     icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
   },
   {
+    id: 14,
+    name: "유저 관리",
+    link: "/user",
+    icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+  },
+  {
     id: 10,
     name: "깃발 관리",
     link: "/flag",

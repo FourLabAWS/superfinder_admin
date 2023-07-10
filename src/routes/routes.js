@@ -19,7 +19,7 @@ import Flag from "../pages/flag/flag";
 import Param from "../pages/param/param";
 import Event from "../pages/event/event";
 import BookMark from "../pages/bookmark/bookmark";
-
+import User from "../pages/user/User";
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const client = axios.create({ baseURL: BASE_URL });
@@ -92,6 +92,16 @@ const routes = [
       <PrivateRoute>
         {" "}
         <UserAdmin />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 14,
+    path: "/user",
+    component: (
+      <PrivateRoute>
+        {" "}
+        <User />{" "}
       </PrivateRoute>
     ),
   },
