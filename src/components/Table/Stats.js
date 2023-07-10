@@ -9,106 +9,47 @@ import PieChart, {
 } from "devextreme-react/pie-chart";
 import { ResponsiveLine } from "@nivo/line";
 import { client } from "../../routes/routes";
+import { DataGrid } from "@mui/x-data-grid";
 
 export function RegIdStats() {
   const [data, setData] = React.useState([]);
+  const [uniqueDeviceCount, setUniqueDeviceCount] = React.useState(0);
 
   React.useEffect(() => {
     client.get("getRegId").then((response) => {
       const responseData = response.data;
-      //console.log(responseData);
       const parsedBody = JSON.parse(responseData.body);
-      let formattedData = Object.entries(parsedBody).map(([date, count]) => ({
-        x: date,
-        y: count,
-      }));
 
-      // Sort the data array by date
-      formattedData.sort((a, b) => new Date(a.x) - new Date(b.x));
+      let totalCount = 0;
 
-      setData([{ id: "device_count", data: formattedData }]);
+      let formattedData = Object.entries(parsedBody).map(([deviceModel, info], index) => {
+        totalCount += info.unique_device_count;
+
+        return {
+          id: index,
+          "Device Model": deviceModel,
+          "Data Count": info.data_count,
+        };
+      });
+
+      console.log(formattedData);
+      setData(formattedData);
+      setUniqueDeviceCount(totalCount);
     });
   }, []);
 
+  const columns = [
+    { field: "id", hide: true },
+    { field: "Device Model", headerName: "휴대폰 기종", width: 300 },
+    { field: "Data Count", headerName: "촬영 수", width: 200 },
+  ];
+
   return (
-    <div style={{ height: "250px" }}>
-      <ResponsiveLine
-        data={data}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        xScale={{
-          type: "time",
-          format: "%Y-%m",
-          precision: "month",
-        }}
-        xFormat="time:%Y-%m"
-        yScale={{
-          type: "linear",
-          min: "auto",
-          max: "auto",
-          stacked: true,
-          reverse: false,
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          format: "%Y-%m",
-          tickValues: "every 1 month",
-          legend: "Time",
-          legendOffset: -12,
-        }}
-        axisLeft={{
-          orient: "left",
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "Device Count",
-          legendOffset: -40,
-          legendPosition: "middle",
-        }}
-        pointSize={10}
-        pointColor={{ theme: "background" }}
-        pointBorderWidth={2}
-        pointBorderColor={{ from: "serieColor" }}
-        pointLabelYOffset={-12}
-        useMesh={true}
-        legends={[
-          {
-            anchor: "bottom-right",
-            direction: "column",
-            justify: false,
-            translateX: 100,
-            translateY: 0,
-            itemsSpacing: 0,
-            itemDirection: "left-to-right",
-            itemWidth: 80,
-            itemHeight: 20,
-            itemOpacity: 0.75,
-            symbolSize: 12,
-            symbolShape: "circle",
-            symbolBorderColor: "rgba(0, 0, 0, .5)",
-            effects: [
-              {
-                on: "hover",
-                style: {
-                  itemBackground: "rgba(0, 0, 0, .03)",
-                  itemOpacity: 1,
-                },
-              },
-            ],
-          },
-        ]}
-        tooltip={({ point }) => {
-          return (
-            <div
-              style={{ background: "white", padding: "10px", border: "1px solid #ccc" }}
-            >
-              <strong>일자:</strong> {point.data.xFormatted}
-              <br />
-              <strong>사용자:</strong> {point.data.yFormatted}
-            </div>
-          );
-        }}
-      />
+    <div
+      style={{ marginLeft: "32%", marginBottom: "3.5%", height: 530, width: "30.45%" }}
+    >
+      <h2>디바이스 총 {uniqueDeviceCount}대</h2>{" "}
+      <DataGrid rows={data} columns={columns} pageSize={10} />
     </div>
   );
 }
