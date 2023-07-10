@@ -49,7 +49,7 @@ export function RegIdStats() {
       style={{ marginLeft: "32%", marginBottom: "3.5%", height: 530, width: "30.45%" }}
     >
       <h2>디바이스 총 {uniqueDeviceCount}대</h2>{" "}
-      <DataGrid rows={data} columns={columns} pageSize={10} />
+      <DataGrid rows={data} columns={columns} pageSize={data.length} />
     </div>
   );
 }
