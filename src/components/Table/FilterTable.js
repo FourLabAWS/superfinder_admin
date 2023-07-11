@@ -50,6 +50,7 @@ export default function FilterTable() {
 
             const origin_path = item["converted_path"]["S"];
             const device_model = item["device_model"]["S"];
+            const count = item["count"]["S"];
 
             if (date >= startDateStr && date <= endDateStr) {
               data.push({
@@ -63,6 +64,7 @@ export default function FilterTable() {
                 plc_lat: item["plc_lat"]?.S || "35.2",
                 plc_lng: item["plc_lng"]?.S || "129.1598",
                 device_model: item["device_model"]?.S,
+                count: item["count"]?.N,
               });
             }
           }
@@ -85,6 +87,7 @@ export default function FilterTable() {
     client.get("getdata").then((response) => {
       // 기기 모델을 저장할 빈 배열 생성
       let deviceModelsArray = [];
+      let countModelsArray = [];
 
       response.data["Items"].map((item) => {
         if (item["deleted"]["BOOL"] === false) {
@@ -106,11 +109,15 @@ export default function FilterTable() {
               plc_lat: item["plc_lat"]?.S || "35.2",
               plc_lng: item["plc_lng"]?.S || "129.1598",
               device_model: item["device_model"]?.S,
+              count: item["count"]?.N,
             });
 
             // 기기 모델이 배열에 아직 없다면 추가
             if (!deviceModelsArray.includes(item["device_model"]?.S)) {
               deviceModelsArray.push(item["device_model"]?.S);
+            }
+            if (!countModelsArray.includes(item["count"]?.S)) {
+              countModelsArray.push(item["count"]?.S);
             }
           }
         }
@@ -143,6 +150,7 @@ export default function FilterTable() {
               plc_lat: item["plc_lat"]?.S || "35.2",
               plc_lng: item["plc_lng"]?.S || "129.1598",
               device_model: item["device_model"]?.S,
+              count: item["count"]?.N,
             });
           }
         }

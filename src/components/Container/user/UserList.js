@@ -13,8 +13,7 @@ import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import { client } from "../../../routes/routes";
 
-import UserAdminRegModal from "./UserAdminRegModal";
-import UserAdminInquiryModal from "./UserAdminInquiryModal";
+import UserInquiryModal from "./UserInquiryModal";
 
 import "../../Table/styles.css";
 
@@ -23,11 +22,12 @@ const today = new Date();
 function GetUserList(props) {
   const rows = props.data;
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const [openCreateAdminModal, setOpenCreateAdminModal] = useState(false);
-  const [openInquiryAdminModal, setOpenInquiryAdminModal] = useState(false);
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [openInquiryModal, setOpenInquiryModal] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
-
+  // 상태 추가
+  const [editRows, setEditRows] = useState({});
   function exportToExcel(columns, selectedRows) {
     let dataToExport = selectedRows.length > 0 ? selectedRows : rows;
 
@@ -60,10 +60,15 @@ function GetUserList(props) {
 
   // 보여줄 칼럼 정의
   const columns = [
-    { field: "admnrId", headerName: "아이디", width: 150 },
+    { field: "device_id", headerName: "디바이스 ID", width: 150 },
     {
-      field: "admnrNm",
-      headerName: "이름",
+      field: "device_model",
+      headerName: "휴대폰 기종",
+      width: 200,
+    },
+    {
+      field: "shot_count",
+      headerName: "촬영 횟수",
       width: 200,
       renderCell: (params) => {
         const onClick = (e) => {
@@ -78,49 +83,48 @@ function GetUserList(props) {
 
           userInquiryModal(thisRow);
         };
-        return <Button onClick={onClick}>{params.row["admnrNm"]}</Button>;
+        return <Button onClick={onClick}>{params.row["shot_count"]}</Button>;
       },
     },
-    { field: "admnrEmail", headerName: "이메일", width: 200 },
-    { field: "useYn", headerName: "사용여부", width: 100 },
+    { field: "useYn", headerName: "사용여부", width: 100, hide: true },
     {
-      field: "regDt",
+      field: "last_dt",
       headerName: "등록일자",
       width: 200,
-      valueGetter: (params) => {
-        // UTC를 기준으로 Date 객체를 생성합니다.
-        const date = new Date(params.value + "Z");
+      // valueGetter: (params) => {
+      //   // UTC를 기준으로 Date 객체를 생성합니다.
+      //   const date = new Date(params.value + "Z");
 
-        // Date 객체를 한국 시간으로 변환합니다.
-        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+      //   // Date 객체를 한국 시간으로 변환합니다.
+      //   const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
 
-        return koreanDate;
-      },
+      //   return koreanDate;
+      // },
     },
-    { field: "regId", headerName: "등록자", width: 120 },
+    { field: "regId", headerName: "등록자", width: 120, hide: true },
   ];
 
-  //사용자 모달
-  const userAddModal = () => {
-    setOpenCreateAdminModal(true);
-  };
+  // //사용자 모달
+  // const userAddModal = () => {
+  //   setOpenCreateModal(true);
+  // };
 
-  const userAddCloseModal = () => {
-    setOpenCreateAdminModal(false);
-  };
+  // const userAddCloseModal = () => {
+  //   setOpenCreateAdminModal(false);
+  // };
 
   const userInquiryModal = (selectedRows) => {
     setSelectedRows(selectedRows);
-    setOpenInquiryAdminModal(true);
+    setOpenInquiryModal(true);
   };
 
   const userInquiryCloseModal = () => {
-    setOpenInquiryAdminModal(false);
+    setOpenInquiryModal(false);
   };
 
   const handleEditModalOpen = (selectedRows) => {
     selectedRows(selectedRows);
-    setOpenInquiryAdminModal(false);
+    setOpenInquiryModal(false);
     setEditModalOpen(true);
   };
 
@@ -128,34 +132,41 @@ function GetUserList(props) {
     setEditModalOpen(false);
   };
 
-  //사용자 삭제
-  const deleteUser = () => {
-    if (selectedRows.length === 0) {
-      alert("삭제할 사용자를 선택해주세요.");
-      return;
-    }
+  // const handleEditCellChangeCommitted = (params) => {
+  //   const { id, field, value } = params;
+  //   const updatedRows = rows.map((row) => {
+  //     if (row.id === id) {
+  //       return { ...row, [field]: value };
+  //     }
+  //     return row;
+  //   });
 
-    if (!window.confirm("선택한 사용자를 삭제하겠습니까?")) {
-      return;
-    }
+  //   setSelectedRows(updatedRows);
+  // };
 
-    selectedRows.map((item) => {
-      if (item["admnrId"].indexOf("sadmin") >= 0) {
-        alert("삭제 불가한 아이디입니다.");
-      } else {
-        client
-          .delete("delAdmin/" + item["admnrId"])
-          .then((response) => {
-            alert("삭제되었습니다.");
-            window.location.reload(false);
-            return response;
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    });
-  };
+  // const onSave = () => {
+  //   if (selectedRows.length === 0) {
+  //     alert("데이터를 선택해주세요.");
+  //     return;
+  //   }
+
+  //   if (!window.confirm("선택한 사용자를 수정하겠습니까?")) {
+  //     return;
+  //   }
+
+  //   selectedRows.map((item) => {
+  //     client
+  //       .put("editUser/" + item["device_id"])
+  //       .then((response) => {
+  //         alert("수정되었습니다.");
+  //         window.location.reload(false);
+  //         return response;
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   });
+  // };
 
   return (
     <div>
@@ -167,20 +178,20 @@ function GetUserList(props) {
         >
           엑셀 다운로드
         </Button>
-        <Button
+        {/* <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}
           onClick={userAddModal}
         >
           추가
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           variant="contained"
           sx={{ width: "100px", marginLeft: "1%" }}
-          onClick={deleteUser}
+          onClick={onSave}
         >
-          삭제
-        </Button>
+          수정 
+        </Button>*/}
       </div>
       <Typography variant="h7" noWrap component="div" sx={{ fontWeight: 550 }}>
         목록 (총 건수 : {rows.length} 건)
@@ -211,7 +222,7 @@ function GetUserList(props) {
           experimentalFeatures={{ newEditingApi: true }}
           initialState={{
             sorting: {
-              sortModel: [{ field: "admnrRegDt", sort: "desc" }],
+              sortModel: [{ field: "lastDt", sort: "desc" }],
             },
           }}
           onSelectionModelChange={(ids) => {
@@ -220,9 +231,8 @@ function GetUserList(props) {
               .map((row) => {
                 return {
                   ...row,
-                  useYn: row.admnrUseYn,
-                  regId: row.admnrRegId,
-                  regDt: row.admnrRegDt,
+                  device_id: row.device_id,
+                  shot_count: row.shot_count,
                 };
               })
               .filter((row) => selectedIDs.has(row.id));
@@ -233,13 +243,12 @@ function GetUserList(props) {
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
 
-      {/* <UserAdminRegModal modalObj={openCreateAdminModal} onClose={userAddCloseModal} />
-      <UserAdminInquiryModal
-        modalObj={openInquiryAdminModal}
+      <UserInquiryModal
+        modalObj={openInquiryModal}
         onClose={userInquiryCloseModal}
         selectedUser={selectedRows}
         onEdit={handleEditModalOpen}
-      /> */}
+      />
     </div>
   );
 }

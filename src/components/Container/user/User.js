@@ -26,20 +26,30 @@ export default function Notice() {
   // 맨처음 사용자를 불러온다.
   useEffect(() => {
     client
-      .post("getUser")
+      .post("getUserInfo")
       .then((response) => {
-        let item = [];
-        let items = response.data.Items;
-
-        items.map(function (a, itemNm) {
-          item.push({
-            id: itemNm,
-            device_id: items[itemNm].device_id?.S, // ID
-            device_model: items[itemNm].device_model?.S, // 이메일
+        console.log(response);
+        let items = [];
+        let responseBody = JSON.parse(response.data.body);
+        let dataItems = responseBody.Items;
+        console.log(dataItems);
+        dataItems.map(function (item, index) {
+          items.push({
+            id: item.device_id?.S,
+            device_id: item.device_id?.S,
+            device_model: item.device_model?.S,
+            shot_count: item.shot_count?.N,
+            last_dt: item.last_dt?.S,
           });
         });
 
-        setList(item);
+        let uniqueItems = Array.from(new Set(items.map((item) => item.device_id))).map(
+          (device_id) => {
+            return items.find((item) => item.device_id === device_id);
+          }
+        );
+
+        setList(uniqueItems);
       })
       .catch((error) => {
         console.error(error);

@@ -232,6 +232,11 @@ export default function DataTable(props) {
       headerName: "휴대폰 기종",
       width: 100,
     },
+    {
+      field: "count",
+      headerName: "촬영 횟수",
+      width: 100,
+    },
   ];
 
   const downloadImage = () => {
