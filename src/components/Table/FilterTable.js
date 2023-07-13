@@ -48,7 +48,7 @@ export default function FilterTable() {
             const startDateStr = startDate.toISOString().split("T")[0];
             const endDateStr = endDate.toISOString().split("T")[0];
 
-            const origin_path = item["converted_path"]["S"];
+            const origin_path = item["original_path"]["S"];
             const device_model = item["device_model"]["S"];
             const count = item["count"]["S"];
 
@@ -105,7 +105,7 @@ export default function FilterTable() {
               date: item["registered_date"]["S"],
               device_id: item["device_id"]["S"],
               flag_size: flagW + " x " + flagH,
-              origin_path: item["converted_path"]["S"],
+              origin_path: item["original_path"]["S"],
               plc_lat: item["plc_lat"]?.S || "35.2",
               plc_lng: item["plc_lng"]?.S || "129.1598",
               device_model: item["device_model"]?.S,
@@ -146,7 +146,7 @@ export default function FilterTable() {
               date: item["registered_date"]["S"],
               device_id: item["device_id"]["S"],
               flag_size: flagW + " x " + flagH,
-              origin_path: item["converted_path"]["S"],
+              origin_path: item["original_path"]["S"],
               plc_lat: item["plc_lat"]?.S || "35.2",
               plc_lng: item["plc_lng"]?.S || "129.1598",
               device_model: item["device_model"]?.S,

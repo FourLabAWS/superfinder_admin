@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { client } from "../../routes/routes";
+import axios from "axios";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -38,7 +39,7 @@ export default function ImgBox(props) {
 
     if (pathName !== undefined && fileName !== undefined) {
       console.log(pathName);
-      client
+      axios
         .get(`https://superfind.s3.ap-northeast-2.amazonaws.com/${pathName["S"]}`, {
           responseType: "blob", // blob data is expected
         })

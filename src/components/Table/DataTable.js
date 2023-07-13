@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -88,31 +89,42 @@ export default function DataTable(props) {
 
   const [posts, setPosts] = React.useState([]);
 
-  const refreshItem = () => {
-    client.get("migrate_data").then(() => {
-      client.get("getdata").then((response) => {
-        let data = [];
-        response.data["Items"].map((item) => {
-          if (item["deleted"]["BOOL"] === false) {
-            data.push({
-              id: item["id"]["N"],
-              fileName: item["original_file"]["S"],
-              status: item["error_status"]["S"],
-              date: item["registered_date"]["S"],
-              device_id: item["device_id"]["S"],
-              flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
-              origin_path: item["converted_path"]["S"],
-              plc_lat: item["plc_lat"]?.S,
-              plc_lng: item["plc_lng"]?.S,
-              device_model: item["device_model"]?.S,
-            });
-          }
-        });
-        setPosts(data);
-        window.location.reload(false);
+  const fetchNewData = async (newPage = 1) => {
+    try {
+      // Initiate data migration
+      await client.get("migrate_data");
+
+      // Call the API to fetch the data for the new page
+      const response = await client.get("getdata", {
+        params: { page: newPage },
       });
-    });
+
+      let data = [];
+      response.data["Items"].map((item) => {
+        if (item["deleted"]["BOOL"] === false) {
+          data.push({
+            id: item["id"]["N"],
+            fileName: item["original_file"]["S"],
+            status: item["error_status"]["S"],
+            date: item["registered_date"]["S"],
+            device_id: item["device_id"]["S"],
+            flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
+            origin_path: item["origin_path"]["S"],
+            plc_lat: item["plc_lat"]?.S,
+            plc_lng: item["plc_lng"]?.S,
+            device_model: item["device_model"]?.S,
+          });
+        }
+      });
+      setPosts(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    fetchNewData();
+  }, []);
 
   const openMapBtn = (params) => {
     const lat = params.row.plc_lat; // 위도
@@ -299,18 +311,6 @@ export default function DataTable(props) {
         >
           <Button
             variant="contained"
-            className="refreshButton"
-            sx={{ marginRight: "3%" }}
-            startIcon={<RefreshIcon />}
-            onClick={refreshItem}
-            style={{
-              wordBreak: "keep-all",
-            }}
-          >
-            업데이트
-          </Button>
-          <Button
-            variant="contained"
             className="downloadButton"
             startIcon={<DownloadIcon />}
             onClick={downloadImage}
@@ -349,15 +349,12 @@ export default function DataTable(props) {
         <DataGrid
           rows={rows}
           columns={columns}
-          //ssr로 변경 필요..
-          // paginationMode="server"
+          paginationMode="server"
           keepNonExistentRowsSelected
           pageSize={50}
-          //
           rowHeight={100}
           rowsPerPageOptions={[5]}
           rowSelectionModel={50}
-          //
           getRowClassName={(params) => `super-app-theme--${params.row.status}`}
           checkboxSelection
           disableSelectionOnClick
@@ -372,6 +369,10 @@ export default function DataTable(props) {
             const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
 
             setSelectedRows(selectedRows);
+          }}
+          onPageChange={(newPage) => {
+            // Fetch new data based on `newPage` index
+            fetchNewData(newPage);
           }}
         />
         {/* 팝업 페이지 */}

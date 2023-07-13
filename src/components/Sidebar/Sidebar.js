@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
@@ -26,6 +27,9 @@ const SideBarItems = [
     name: "이미지 관리",
     link: "/analysis",
     icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
+    onClick: () => {
+      window.location.reload();
+    },
   },
   {
     id: 3,
@@ -73,6 +77,7 @@ const SideBarItems = [
 ];
 
 const Sidebar = () => {
+  const location = useLocation();
   return (
     <Drawer
       sx={{
@@ -105,7 +110,9 @@ const Sidebar = () => {
       <List>
         {SideBarItems.map((menu) => (
           <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
-            <ListItemButton>
+            <ListItemButton
+              onClick={() => location.pathname === menu.link && window.location.reload()}
+            >
               <ListItemIcon>{menu.icon}</ListItemIcon>
               <ListItemText
                 primaryTypographyProps={{
