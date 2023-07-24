@@ -109,7 +109,7 @@ export default function DataTable(props) {
             date: item["registered_date"]["S"],
             device_id: item["device_id"]["S"],
             flag_size: item["flagH"]["S"] + " x " + item["flagW"]["S"],
-            origin_path: item["origin_path"]["S"],
+            original_path: item["original_path"]["S"],
             plc_lat: item["plc_lat"]?.S,
             plc_lng: item["plc_lng"]?.S,
             device_model: item["device_model"]?.S,
@@ -122,8 +122,17 @@ export default function DataTable(props) {
     }
   };
 
+  const migrateData = async () => {
+    try {
+      const res = await client.get("postImg");
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    fetchNewData();
+    migrateData();
   }, []);
 
   const openMapBtn = (params) => {
@@ -151,14 +160,22 @@ export default function DataTable(props) {
       field: "img",
       headerName: "이미지",
       width: 100,
-      renderCell: (params) => (
-        <img
-          src={`https://superfind.s3.ap-northeast-2.amazonaws.com/${params.row.origin_path}`}
-          alt="Row Image"
-          width="80"
-          height="80"
-        />
-      ),
+      renderCell: (params) =>
+        params.row.status === "original" ? (
+          <img
+            src={`https://superfind.s3.ap-northeast-2.amazonaws.com/${params.row.origin_path}`}
+            alt="origin"
+            width="80"
+            height="80"
+          />
+        ) : (
+          <img
+            src={`https://superfind.s3.ap-northeast-2.amazonaws.com/${params.row.converted_path}`}
+            alt="convert"
+            width="80"
+            height="80"
+          />
+        ),
     },
     {
       field: "id",
@@ -213,12 +230,12 @@ export default function DataTable(props) {
     {
       field: "device_id",
       headerName: "디바이스 ID",
-      width: 350,
+      width: 150,
     },
     {
       field: "date",
       headerName: "등록일자",
-      width: 100,
+      width: 150,
     },
     {
       field: "map",
@@ -349,7 +366,7 @@ export default function DataTable(props) {
         <DataGrid
           rows={rows}
           columns={columns}
-          paginationMode="server"
+          //paginationMode="server"
           keepNonExistentRowsSelected
           pageSize={50}
           rowHeight={100}
