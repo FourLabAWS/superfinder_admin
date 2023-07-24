@@ -35,6 +35,7 @@ export default function FilterTable() {
       const res = await client.get("postImg");
       console.log(res);
       let data = [];
+      let devices = [];
       for (const item of res.data) {
         if (item.status === "original") {
           data.push({
@@ -68,7 +69,11 @@ export default function FilterTable() {
             //plc_lat: res.
           });
         }
+        if (!devices.includes(item.device_model)) {
+          devices.push(item.device_model);
+        }
       }
+      setDeviceModels(devices);
       setPosts(data);
     } catch (error) {
       console.error(error);
