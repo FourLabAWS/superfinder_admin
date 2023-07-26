@@ -26,20 +26,20 @@ export default function Notice() {
   // 맨처음 사용자를 불러온다.
   useEffect(() => {
     client
-      .post("getUserInfo")
+      .get("getusertable")
       .then((response) => {
-        console.log(response);
+        console.log("유저수세기", response);
         let items = [];
-        let responseBody = JSON.parse(response.data.body);
-        let dataItems = responseBody.Items;
-        console.log(dataItems);
+        let responseBody = response.data;
+        let dataItems = responseBody;
+        console.log("뿌려지는?", dataItems);
         dataItems.map(function (item, index) {
           items.push({
-            id: item.device_id?.S,
-            device_id: item.device_id?.S,
-            device_model: item.device_model?.S,
-            shot_count: item.shot_count?.N,
-            last_dt: item.last_dt?.S,
+            id: item.device_id,
+            device_id: item.device_id,
+            device_model: item.device_model,
+            shot_count: item.shot_count,
+            last_dt: item.last_dt,
           });
         });
 
