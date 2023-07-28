@@ -1,14 +1,14 @@
 import * as React from "react";
-import FormGroup from "@mui/material/FormGroup";
+import moment from "moment";
+import { FormControl } from "@mui/material";
+import { Select } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { FormGroup } from "@mui/material";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import moment from "moment";
-import { FormControl } from "@mui/material";
-import { Select } from "@mui/material";
-import { MenuItem } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import DataTable from "../Table/DataTable";
@@ -47,10 +47,11 @@ export default function FilterTable() {
             flag_size: item.flagW + "x" + item.flagH,
             origin_path: item.original_path,
             device_model: item.device_model,
+            file_size: item.size,
+            converted_path: item.converted_path,
             plc_lat: "",
             plc_lng: "",
             count: "",
-            //plc_lat: res.
           });
         } else {
           data.push({
@@ -58,17 +59,19 @@ export default function FilterTable() {
             fileName: item.name,
             status: item.status,
             date: item.reg_date,
-            //.replace(/(.+?)-(.+?)-/, "$1-$2-\n"),
+            origin_path: item.original_path,
             device_id: item.device_id,
             flag_size: item.flagW + "x" + item.flagH,
             converted_path: item.converted_path,
             device_model: item.device_model,
+            file_size: item.size,
             plc_lat: "",
             plc_lng: "",
             count: "",
             //plc_lat: res.
           });
         }
+
         if (!devices.includes(item.device_model)) {
           devices.push(item.device_model);
         }
@@ -208,7 +211,13 @@ export default function FilterTable() {
   return (
     <div>
       <FormGroup sx={{ width: "100%" }}>
-        <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
+        <Grid
+          container
+          spacing={0}
+          component={Paper}
+          padding={2}
+          variant="outlined"
+        >
           <Grid container spacing={1}>
             <Grid
               item
@@ -228,7 +237,10 @@ export default function FilterTable() {
                 placeholder="시작 일자"
                 defaultValue={startDate}
                 onChange={(newValue) => {
-                  console.log("시작 일자", moment(newValue.$d).format("YYYY-MM-DD"));
+                  console.log(
+                    "시작 일자",
+                    moment(newValue.$d).format("YYYY-MM-DD")
+                  );
                   setStartDate(moment(newValue.$d).format("YYYY-MM-DD"));
                   setNumStart(Number(moment(newValue.$d).format("YYYYMMDD")));
                 }}
@@ -241,7 +253,10 @@ export default function FilterTable() {
                 placeholder="종료 일자"
                 defaultValue={endDate}
                 onChange={(newValue) => {
-                  console.log("종료 일자", moment(newValue.$d).format("YYYY-MM-DD"));
+                  console.log(
+                    "종료 일자",
+                    moment(newValue.$d).format("YYYY-MM-DD")
+                  );
                   setEndDate(moment(newValue.$d).format("YYYY-MM-DD"));
                   setNumEnd(Number(moment(newValue.$d).format("YYYYMMDD")));
                 }}
@@ -279,13 +294,16 @@ export default function FilterTable() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid>
+        {/* <Grid>
           {deviceModels.map((deviceModel) => (
-            <Button key={deviceModel} onClick={() => setSelectedDeviceModel(deviceModel)}>
+            <Button
+              key={deviceModel}
+              onClick={() => setSelectedDeviceModel(deviceModel)}
+            >
               {deviceModel}
             </Button>
           ))}
-        </Grid>
+        </Grid> */}
       </FormGroup>
       <Toolbar />
 
@@ -294,7 +312,9 @@ export default function FilterTable() {
         data={
           filterRow.length > 1
             ? selectedDeviceModel
-              ? filterRow.filter((filter) => filter.device_model === selectedDeviceModel)
+              ? filterRow.filter(
+                  (filter) => filter.device_model === selectedDeviceModel
+                )
               : filterRow
             : selectedDeviceModel
             ? rows.filter((row) => row.device_model === selectedDeviceModel)

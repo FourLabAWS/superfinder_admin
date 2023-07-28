@@ -202,7 +202,12 @@ export default function DataTable(props) {
           return GridSelected(thisRow);
         };
         return (
-          <ImageModal btnTxt={params.row["fileName"]} onClick={onClick}></ImageModal>
+          <ImageModal
+            btnTxt={params.row["fileName"]}
+            //original = {}
+            //success = {}
+            onClick={onClick}
+          ></ImageModal>
         );
         // <Butzton onClick={onClick}>{params.row["fileName"]}</Butzton>;
       },
@@ -384,7 +389,7 @@ export default function DataTable(props) {
           onSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
             const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
-
+            console.log("고른 사진", selectedRows); // 정상
             setSelectedRows(selectedRows);
           }}
           onPageChange={(newPage) => {
@@ -400,7 +405,11 @@ export default function DataTable(props) {
           aria-describedby="modal-modal-description"
         >
           <Box sx={modalStyle}>
-            <ImageTablePopup id={id} deviceId={deviceId} />
+            <ImageTablePopup
+              id={id}
+              deviceId={deviceId}
+              data={rows.filter((el) => el.id === id)}
+            />
           </Box>
         </Modal>
       </Box>

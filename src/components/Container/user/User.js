@@ -28,11 +28,9 @@ export default function Notice() {
     client
       .get("getusertable")
       .then((response) => {
-        console.log("유저수세기", response);
         let items = [];
         let responseBody = response.data;
         let dataItems = responseBody;
-        console.log("뿌려지는?", dataItems);
         dataItems.map(function (item, index) {
           items.push({
             id: item.device_id,
@@ -56,29 +54,50 @@ export default function Notice() {
       });
   }, []);
 
-  // 사용자를 검색한다.
   const doSearch = () => {
     setText(text);
 
-    client.post("getUser").then((response) => {
-      let item = [];
-      let items = response.data.Items;
-      items.map(function (a, itemNm) {
-        item.push({
-          id: itemNm,
-          admnrId: items[itemNm].ADMNR_ID?.S, // ID
-          admnrEmail: items[itemNm].ADMNR_EMAIL?.S, // 이메일
-          admnrNm: items[itemNm].ADMNR_NM?.S, // 이름
-          useYn: items[itemNm].ADMNR_USEYN?.S, // 사용여부
-          regDt: items[itemNm].ADMNR_REGDT?.S, // 등록일
-          regId: items[itemNm].ADMNR_REGID?.S, // 등록자
+    client.get("getusertable").then((response) => {
+      let searchItem = [];
+      let items = response.data;
+      items.map(function (item, idx) {
+        searchItem.push({
+          id: item.device_id,
+          device_id: item.device_id,
+          device_model: item.device_model,
+          shot_count: item.shot_count,
+          last_dt: item.last_dt,
         });
       });
 
-      item = item.filter((i) => i.admnrNm && i.admnrNm.includes(text));
-      setList(item);
+      let searchFilterItem = searchItem.filter((i) => i.id && i.id.includes(text));
+      setList(searchFilterItem);
     });
   };
+
+  // 사용자를 검색한다.
+  // const doSearch = () => {
+  //   setText(text);
+
+  //   client.post("getUser").then((response) => {
+  //     let item = [];
+  //     let items = response.data.Items;
+  //     items.map(function (a, itemNm) {
+  //       item.push({
+  //         id: itemNm,
+  //         admnrId: items[itemNm].ADMNR_ID?.S, // ID
+  //         admnrEmail: items[itemNm].ADMNR_EMAIL?.S, // 이메일
+  //         admnrNm: items[itemNm].ADMNR_NM?.S, // 이름
+  //         useYn: items[itemNm].ADMNR_USEYN?.S, // 사용여부
+  //         regDt: items[itemNm].ADMNR_REGDT?.S, // 등록일
+  //         regId: items[itemNm].ADMNR_REGID?.S, // 등록자
+  //       });
+  //     });
+
+  //     item = item.filter((i) => i.admnrNm && i.admnrNm.includes(text));
+  //     setList(item);
+  //   });
+  // };
 
   return (
     <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}>

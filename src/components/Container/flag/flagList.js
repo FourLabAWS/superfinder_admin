@@ -47,29 +47,33 @@ function GetFlag(props) {
     const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
       .toString()
       .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
-    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     const file = new Blob([excelBuffer], { type: fileType });
     saveAs(file, fileName);
   }
 
   const openMapBtn = (params) => {
-    const lat = params.row.plcLat; // 위도
-    const lng = params.row.plcLng; // 경도
+    const foreYn = params.row.foreign;
     const plcId = params.row.plcId; // plcId
+    console.log("params", params);
 
     let url;
 
     // 숫자로 이루어진 plcId는 카카오 맵, 그렇지 않은 경우는 구글 맵
-    if (/^\d+$/.test(plcId)) {
+    if (foreYn === "국내") {
       // 카카오 맵 URL
       url = `https://map.kakao.com/?itemId=${plcId}`;
-    } else {
+      window.open(url, "_blank");
+    } else if (foreYn === "국외") {
       // 구글 맵 URL
       url = `https://www.google.com/maps/place/?q=place_id:${plcId}`;
+      window.open(url, "_blank");
+    } else {
+      alert("위치 정보가 없습니다.");
     }
 
     // 새 창에서 URL 열기
-    window.open(url, "_blank");
   };
 
   //const [openModal, setOpenModal] = useState(false);    // 모달 창 열림 여부 상태
@@ -91,7 +95,9 @@ function GetFlag(props) {
           api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
-            .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+            );
           flagInquiryModal(thisRow);
         };
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
@@ -112,7 +118,9 @@ function GetFlag(props) {
         const date = new Date(params.value + "Z");
 
         // Date 객체를 한국 시간으로 변환합니다.
-        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+        const koreanDate = date.toLocaleString("ko-KR", {
+          timeZone: "Asia/Seoul",
+        });
 
         return koreanDate;
       },
@@ -138,6 +146,7 @@ function GetFlag(props) {
         );
       },
     },
+    { field: "foreign", headerName: "국내/외", width: 120 },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
   ];
@@ -264,7 +273,10 @@ function GetFlag(props) {
           height: 560,
           "& .super-app-theme--unsuccess": {
             bgcolor: (theme) =>
-              getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+              getBackgroundColor(
+                theme.palette.warning.main,
+                theme.palette.mode
+              ),
           },
         }}
       >
@@ -303,7 +315,10 @@ function GetFlag(props) {
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
 
-      <FlagRegModal modalObj={openCreateFlagModal} onClose={flagAddCloseModal} />
+      <FlagRegModal
+        modalObj={openCreateFlagModal}
+        onClose={flagAddCloseModal}
+      />
       <FlagInquiryModal
         modalObj={openInquiryFlagModal}
         onClose={flagInquiryCloseModal}

@@ -20,7 +20,11 @@ const Item = styled(Paper)(({ theme }) => ({
 
 // 이미지 팝업
 export function ImageTablePopup({ ...props }) {
-  const { id, deviceId } = props;
+  const { id, deviceId, data } = props;
+
+  console.log("@@@", props.data);
+  const [flagX, flagY] = props.data[0].flag_size.split("x").map(Number);
+  //@@@ 07_2023/4659969d9f892a7e/original/CAP564986289656992820_48x35_8_SM-F926N_1.6_originalIMG.jpg
 
   const inch = 0.4;
   const params = useParams();
@@ -42,8 +46,8 @@ export function ImageTablePopup({ ...props }) {
   //console.log("data", rowData);
 
   React.useEffect(() => {
-    const flagHValue = rowData.flagH?.S;
-    const flagWValue = rowData.flagW?.S;
+    const flagHValue = flagX;
+    const flagWValue = flagY;
     const numericHValue = parseFloat(flagHValue);
     const numericWValue = parseFloat(flagWValue);
     const numericHInInch = numericHValue * inch;
@@ -53,7 +57,7 @@ export function ImageTablePopup({ ...props }) {
       setWidth(numericWinInch);
       setHeight(numericHInInch);
     }
-  }, [rowData.flagH, rowData.flagW]);
+  }, [flagX, flagY]);
 
   //   React.useEffect(() => {
   //     rowData["flagW"] !== undefined &&
@@ -72,7 +76,13 @@ export function ImageTablePopup({ ...props }) {
   return (
     <Paper elevation={0} square sx={{ fontSize: 14 }}>
       <FormGroup>
-        <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
+        <Grid
+          container
+          spacing={0}
+          component={Paper}
+          padding={2}
+          variant="outlined"
+        >
           {/* 이미지 정보 */}
           <Grid
             container
@@ -90,8 +100,10 @@ export function ImageTablePopup({ ...props }) {
               >
                 <Typography strong>디바이스 ID :</Typography>
                 <Typography>
-                  {rowData["device_id"] !== undefined && rowData["device_id"]["S"]}
-                  {deviceId}
+                  {/* {rowData["device_id"] !== undefined &&
+                    rowData["device_id"]["S"]}
+                  {deviceId} */}
+                  {data[0].device_id}
                 </Typography>
               </div>
             </Grid>
@@ -102,8 +114,9 @@ export function ImageTablePopup({ ...props }) {
               >
                 <Typography strong>등록일자 :</Typography>
                 <Typography>
-                  {rowData["registered_date"] !== undefined &&
-                    rowData["registered_date"]["S"]}
+                  {/* {rowData["registered_date"] !== undefined &&
+                    rowData["registered_date"]["S"]} */}
+                  {data[0].date}
                 </Typography>
               </div>
             </Grid>
@@ -112,9 +125,8 @@ export function ImageTablePopup({ ...props }) {
               <Typography>깃발 크기 :</Typography>
               <Typography>
                 <Grid item xs={10}>
-                  {rowData["flagW"] !== undefined && rowData["flagW"]["S"]} x{" "}
-                  {rowData["flagH"] !== undefined && rowData["flagH"]["S"]} ={" "}
-                  {Math.ceil(inchW)} inch x {Math.ceil(inchH)} inch
+                  {flagX} x {flagY} = {Math.ceil(inchW)} inch x{" "}
+                  {Math.ceil(inchH)} inch
                 </Grid>
               </Typography>
             </Grid>
@@ -130,7 +142,7 @@ export function ImageTablePopup({ ...props }) {
             style={{ height: "50vh" }}
           >
             <Grid className="imagebox">
-              <ImgBox data={rowData} />
+              <ImgBox data={data[0]} />
             </Grid>
           </Grid>
         </Grid>
