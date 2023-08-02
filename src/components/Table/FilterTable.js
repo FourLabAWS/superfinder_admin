@@ -53,24 +53,25 @@ export default function FilterTable() {
             plc_lng: "",
             count: "",
           });
-        } else {
-          data.push({
-            id: item.id,
-            fileName: item.name,
-            status: item.status,
-            date: item.reg_date,
-            origin_path: item.original_path,
-            device_id: item.device_id,
-            flag_size: item.flagW + "x" + item.flagH,
-            converted_path: item.converted_path,
-            device_model: item.device_model,
-            file_size: item.size,
-            plc_lat: "",
-            plc_lng: "",
-            count: "",
-            //plc_lat: res.
-          });
-        }
+        } 
+        // else {
+        //   data.push({
+        //     id: item.id,
+        //     fileName: item.name,
+        //     status: item.status,
+        //     date: item.reg_date,
+        //     origin_path: item.original_path,
+        //     device_id: item.device_id,
+        //     flag_size: item.flagW + "x" + item.flagH,
+        //     converted_path: item.converted_path,
+        //     device_model: item.device_model,
+        //     file_size: item.size,
+        //     plc_lat: "",
+        //     plc_lng: "",
+        //     count: "",
+        //     //plc_lat: res.
+        //   });
+        // }
 
         if (!devices.includes(item.device_model)) {
           devices.push(item.device_model);
