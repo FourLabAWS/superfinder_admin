@@ -105,11 +105,11 @@ export const ImageModal = ({ ...props }) => {
       });
   };
 
-  React.useEffect(() => {
-    client.get("getdata/" + params["id"]).then((response) => {
-      setData(response["data"]["Item"]);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   client.get("getdata/" + params["id"]).then((response) => {
+  //     setData(response["data"]["Item"]);
+  //   });
+  // }, []);
 
   const inch = 0.4; // Update the conversion rate
 

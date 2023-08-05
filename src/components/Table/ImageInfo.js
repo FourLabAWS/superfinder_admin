@@ -44,11 +44,11 @@ export default function ImageTable() {
       });
   };
 
-  React.useEffect(() => {
-    client.get("getdata/" + params["id"]).then((response) => {
-      setData(response["data"]["Item"]);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   client.get("getdata/" + params["id"]).then((response) => {
+  //     setData(response["data"]["Item"]);
+  //   });
+  // }, []);
 
   React.useEffect(() => {
     rowData["flagW"] !== undefined &&

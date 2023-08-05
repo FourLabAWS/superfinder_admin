@@ -35,12 +35,12 @@ export function ImageTablePopup({ ...props }) {
 
   //console.log("params", params);
 
-  React.useEffect(() => {
-    client.get("getdata/" + id).then((response) => {
-      setData(response["data"]["Item"]);
-      //console.log("testing2", params);
-    });
-  }, [id]);
+  // React.useEffect(() => {
+  //   client.get("getdata/" + id).then((response) => {
+  //     setData(response["data"]["Item"]);
+  //     //console.log("testing2", params);
+  //   });
+  // }, [id]);
 
   //console.log("id", id);
   //console.log("data", rowData);

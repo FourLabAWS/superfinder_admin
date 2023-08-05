@@ -29,13 +29,18 @@ export default function FilterTable() {
   // 이미지 배열들
   const [rows, setPosts] = React.useState([]);
   const [filterRow, setFilterRow] = React.useState([]);
+  const [pageNo, setPageNo] = React.useState(0);
+
+  const [pageParam, setPageParam] = React.useState("null");
 
   const migrateData = async () => {
     try {
-      const res = await client.get("postImg");
+      const res = await client.get(`getPageImg/${pageParam}`);
+      //const res = await client.get(`getPageImg/${pageParam}`);
       console.log(res);
       let data = [];
       let devices = [];
+
       for (const item of res.data) {
         if (item.status === "original") {
           data.push({
@@ -53,25 +58,7 @@ export default function FilterTable() {
             plc_lng: "",
             count: "",
           });
-        } 
-        // else {
-        //   data.push({
-        //     id: item.id,
-        //     fileName: item.name,
-        //     status: item.status,
-        //     date: item.reg_date,
-        //     origin_path: item.original_path,
-        //     device_id: item.device_id,
-        //     flag_size: item.flagW + "x" + item.flagH,
-        //     converted_path: item.converted_path,
-        //     device_model: item.device_model,
-        //     file_size: item.size,
-        //     plc_lat: "",
-        //     plc_lng: "",
-        //     count: "",
-        //     //plc_lat: res.
-        //   });
-        // }
+        }
 
         if (!devices.includes(item.device_model)) {
           devices.push(item.device_model);
@@ -85,11 +72,8 @@ export default function FilterTable() {
   };
 
   React.useEffect(() => {
-    if (rows.length > 1) {
-    } else {
-      migrateData();
-    }
-  }, []);
+    migrateData();
+  }, [pageParam]);
 
   const doSearch = () => {
     let filterArr = [];
@@ -114,48 +98,6 @@ export default function FilterTable() {
       }
       setFilterRow(filterArr);
     });
-
-    // axios
-    //   .get(
-    //     "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/getdata"
-    //   )
-    //   .then(async (response) => {
-    //     console.log(response.data);
-    //     let data = [];
-    //     for (const item of response.data["Items"]) {
-    //       if (item["deleted"]["BOOL"] === false) {
-    //         const fileName = item["original_file"]["S"];
-    //         const splitName = fileName.split("_").reverse();
-    //         const flagSize = splitName[1].toUpperCase();
-    //         const [flagW, flagH] = flagSize.split("X");
-    //         const date = item["registered_date"]["S"];
-    //         const startDateStr = startDate.toISOString().split("T")[0];
-    //         const endDateStr = endDate.toISOString().split("T")[0];
-    //         const origin_path = item["original_path"]["S"];
-    //         const device_model = item["device_model"]["S"];
-    //         const count = item["count"]["S"];
-    //         if (date >= startDateStr && date <= endDateStr) {
-    //           data.push({
-    //             id: item["id"]["N"],
-    //             fileName: fileName,
-    //             status: item["error_status"]["S"],
-    //             date: date,
-    //             device_id: item["device_id"]["S"],
-    //             flag_size: flagW + " x " + flagH,
-    //             origin_path: origin_path,
-    //             plc_lat: item["plc_lat"]?.S || "35.2",
-    //             plc_lng: item["plc_lng"]?.S || "129.1598",
-    //             device_model: item["device_model"]?.S,
-    //             count: item["count"]?.N,
-    //           });
-    //         }
-    //       }
-    //     }
-    //     setPosts(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error retrieving data:", error);
-    //   });
   };
 
   const handleInput = (e) => {
@@ -164,50 +106,6 @@ export default function FilterTable() {
 
   const [deviceModels, setDeviceModels] = React.useState([]);
   const [selectedDeviceModel, setSelectedDeviceModel] = React.useState("");
-
-  // React.useEffect(() => {
-  //   client.get("getdata").then((response) => {
-  //     // 기기 모델을 저장할 빈 배열 생성
-  //     let deviceModelsArray = [];
-  //     let countModelsArray = [];
-
-  //     response.data["Items"].map((item) => {
-  //       if (item["deleted"]["BOOL"] === false) {
-  //         const fileName = item["original_file"]["S"];
-  //         const flagMatch = fileName.match(/\d+x\d+/);
-
-  //         if (flagMatch) {
-  //           const [flagW, flagH] = flagMatch[0].split("x");
-  //           // console.log(flagW, flagH);
-
-  //           data.push({
-  //             id: item["id"]["N"],
-  //             fileName: fileName,
-  //             status: item["error_status"]["S"],
-  //             date: item["registered_date"]["S"],
-  //             device_id: item["device_id"]["S"],
-  //             flag_size: flagW + " x " + flagH,
-  //             origin_path: item["original_path"]["S"],
-  //             plc_lat: item["plc_lat"]?.S || "35.2",
-  //             plc_lng: item["plc_lng"]?.S || "129.1598",
-  //             device_model: item["device_model"]?.S,
-  //             count: item["count"]?.N,
-  //           });
-
-  //           // 기기 모델이 배열에 아직 없다면 추가
-  //           if (!deviceModelsArray.includes(item["device_model"]?.S)) {
-  //             deviceModelsArray.push(item["device_model"]?.S);
-  //           }
-  //           if (!countModelsArray.includes(item["count"]?.S)) {
-  //             countModelsArray.push(item["count"]?.S);
-  //           }
-  //         }
-  //       }
-  //     });
-  //     setPosts(data);
-  //     setDeviceModels(deviceModelsArray); // 상태 업데이트
-  //   });
-  // }, []);
 
   return (
     <div>
@@ -310,6 +208,8 @@ export default function FilterTable() {
 
       {/* 데이터그리드 */}
       <DataTable
+        page={pageNo}
+        setPage={setPageNo}
         data={
           filterRow.length > 1
             ? selectedDeviceModel

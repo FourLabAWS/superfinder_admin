@@ -39,12 +39,29 @@ export default function ImgBox({ ...props }) {
 
     if (pathName !== undefined && fileName !== undefined) {
       console.log(pathName);
-      axios
-        .get(`https://superfind.s3.ap-northeast-2.amazonaws.com/${pathName}`, {
-          responseType: "blob", // blob data is expected
+      fetch(`https://superfind.s3.ap-northeast-2.amazonaws.com/${pathName}`, {
+        cache: "no-cache",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Header": "*",
+        },
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          console.log("성공");
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout((_) => {
+            window.URL.revokeObjectURL(url);
+          }, 60000);
+          a.remove();
         })
-        .then((response) => {
-          FileSaver.saveAs(response.data, fileName);
+        .catch((error) => {
+          console.log(error);
         });
     }
 
@@ -128,11 +145,7 @@ export default function ImgBox({ ...props }) {
                     variant="contained"
                     size="small"
                     onClick={(e) => {
-                      handleImage(
-                        e,
-                        props.data.origin_path,
-                        props.data.origin_path
-                      );
+                      handleImage(e, props.data.origin_path, props.data.origin_path);
                     }}
                   >
                     이미지 다운로드
