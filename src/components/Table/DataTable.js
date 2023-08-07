@@ -283,16 +283,30 @@ export default function DataTable(props) {
       dataToDownload = selectedRows;
     }
 
-    Promise.all(
-      dataToDownload.map((item) => {
-        const dataId = item["id"];
-        const path = "getimage/" + dataId;
-        return client.get(path, { responseType: "blob" }).then((response) => {
-          zip.file(item["fileName"], response.data);
+    console.log("DATAtoDOWNLOAD", dataToDownload);
+    const promiseFile = dataToDownload.map((el) => {
+      return fetch(
+        `https://superfind.s3.ap-northeast-2.amazonaws.com/${el.origin_path}`,
+        {
+          cache: "no-cache",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Header": "*",
+          },
+        }
+      )
+        .then((res) => res.blob())
+        .then((blob) => {
+          zip.file(el.id, blob);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-    )
+    });
+
+    Promise.all(promiseFile)
       .then(() => {
+        // 모든 fetch 요청이 완료된 후에 zip 파일을 생성하고 저장합니다.
         zip.generateAsync({ type: "blob" }).then((content) => {
           const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
             .toString()
@@ -301,7 +315,7 @@ export default function DataTable(props) {
         });
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
   };
 
