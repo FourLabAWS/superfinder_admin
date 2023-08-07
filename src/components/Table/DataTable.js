@@ -162,11 +162,21 @@ export default function DataTable(props) {
 
   const deleteItem = () => {
     console.log("고른 값", selectedRows);
-    selectedRows.map((item) => {
-      client.delete("deleteItem/" + item["id"]).then((response) => {
-        window.location.reload(false);
-        return response;
-      });
+    Promise.all(
+      selectedRows.map((item) => {
+        return client
+          .delete("deleteImage/" + item["id"])
+          .then((response) => {
+            window.location.reload(false);
+            return response;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+    ).then((results) => {
+      alert("삭제되었습니다.");
+      window.location.reload(false);
     });
   };
 
