@@ -25,9 +25,23 @@ const headingTextStyle = {
   fontWeight: 550,
 };
 
+const CustomPagination = ({ prevBtn, nextBtn }) => {
+  return (
+    <div>
+      <button onClick={prevBtn}>{"<"}</button>
+      <button onClick={nextBtn}>{">"}</button>
+    </div>
+  );
+};
+
 export default function DataTable(props) {
   const rows = props.data;
+  const prevBtn = props.handlePrev;
+  const nextBtn = props.handleNext;
+
   const [selectedRows, setSelectedRows] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(0);
+
   //
   let navigate = useNavigate();
 
@@ -147,6 +161,7 @@ export default function DataTable(props) {
   };
 
   const deleteItem = () => {
+    console.log("고른 값", selectedRows);
     selectedRows.map((item) => {
       client.delete("deleteItem/" + item["id"]).then((response) => {
         window.location.reload(false);
@@ -283,8 +298,13 @@ export default function DataTable(props) {
       dataToDownload = selectedRows;
     }
 
-    console.log("DATAtoDOWNLOAD", dataToDownload);
-    const promiseFile = dataToDownload.map((el) => {
+    let downloadItems =
+      dataToDownload.length > 50
+        ? selectedRows.slice(50 * currentPage, 50 * (currentPage + 1))
+        : dataToDownload;
+
+    console.log("DATAtoDOWNLOAD", downloadItems);
+    const promiseFile = downloadItems.map((el) => {
       return fetch(
         `https://superfind.s3.ap-northeast-2.amazonaws.com/${el.origin_path}`,
         {
@@ -406,10 +426,16 @@ export default function DataTable(props) {
             console.log("고른 사진", selectedRows); // 정상
             setSelectedRows(selectedRows);
           }}
-          onPageChange={(newPage) => {
+          onPageChange={(page) => {
+            setCurrentPage(page);
             // Fetch new data based on `newPage` index
-            fetchNewData(newPage);
+            //fetchNewData(newPage);
           }}
+          // components={{
+          //   Pagination: () => (
+          //     <CustomPagination prevBtn={prevBtn} nextBtn={nextBtn} />
+          //   ),
+          // }}
         />
         {/* 팝업 페이지 */}
         <Modal
