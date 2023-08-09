@@ -38,10 +38,10 @@ export default function DataTable(props) {
   const rows = props.data;
   const prevBtn = props.handlePrev;
   const nextBtn = props.handleNext;
-
-  const [selectedRows, setSelectedRows] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(0);
 
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [allRows, setAllRows] = React.useState([]);
   //
   let navigate = useNavigate();
 
@@ -161,9 +161,11 @@ export default function DataTable(props) {
   };
 
   const deleteItem = () => {
-    console.log("고른 값", selectedRows);
+    let deleteItems = selectedRows;
+    console.log("고른 값", deleteItems);
+
     Promise.all(
-      selectedRows.map((item) => {
+      deleteItems.map((item) => {
         return client
           .delete("deleteImage/" + item["id"])
           .then((response) => {
@@ -183,6 +185,7 @@ export default function DataTable(props) {
   const columns = [
     {
       field: "img",
+      sortable: false,
       headerName: "이미지",
       width: 100,
       renderCell: (params) =>
@@ -204,12 +207,14 @@ export default function DataTable(props) {
     },
     {
       field: "id",
+      sortable: false,
       headerName: "번호",
       width: 90,
       hide: true,
     },
     {
       field: "fileName",
+      sortable: false,
       headerName: "파일명",
       width: 500,
 
@@ -239,36 +244,43 @@ export default function DataTable(props) {
     },
     {
       field: "flag_size",
+      sortable: false,
       headerName: "깃발 크기",
       width: 100,
     },
     {
       field: "plc_lat",
+      sortable: false,
       headerName: "위도",
       width: 100,
     },
     {
       field: "plc_lng",
+      sortable: false,
       headerName: "경도",
       width: 100,
     },
     {
       field: "status",
+      sortable: false,
       headerName: "상태",
       width: 120,
     },
     {
       field: "device_id",
+      sortable: false,
       headerName: "디바이스 ID",
       width: 150,
     },
     {
       field: "date",
+      sortable: false,
       headerName: "등록일자",
       width: 150,
     },
     {
       field: "map",
+      sortable: false,
       headerName: "지도",
       width: 80,
       renderCell: (params) => {
@@ -288,11 +300,13 @@ export default function DataTable(props) {
     },
     {
       field: "device_model",
+      sortable: false,
       headerName: "휴대폰 기종",
       width: 100,
     },
     {
       field: "count",
+      sortable: false,
       headerName: "촬영 횟수",
       width: 100,
     },
@@ -308,10 +322,7 @@ export default function DataTable(props) {
       dataToDownload = selectedRows;
     }
 
-    let downloadItems =
-      dataToDownload.length > 50
-        ? selectedRows.slice(50 * currentPage, 50 * (currentPage + 1))
-        : dataToDownload;
+    let downloadItems = dataToDownload;
 
     console.log("DATAtoDOWNLOAD", downloadItems);
     const promiseFile = downloadItems.map((el) => {
@@ -415,8 +426,10 @@ export default function DataTable(props) {
         <DataGrid
           rows={rows}
           columns={columns}
+          loading={props.imgLoading}
           //paginationMode="server"
           keepNonExistentRowsSelected
+          hideFooterSelectedRowCount
           pageSize={50}
           rowHeight={100}
           rowsPerPageOptions={[5]}
@@ -425,27 +438,27 @@ export default function DataTable(props) {
           checkboxSelection
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
-          initialState={{
-            sorting: {
-              sortModel: [{ field: "date", sort: "desc" }],
-            },
-          }}
           onSelectionModelChange={(ids) => {
+            let multiRows;
             const selectedIDs = new Set(ids);
             const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
-            console.log("고른 사진", selectedRows); // 정상
-            setSelectedRows(selectedRows);
+            if (selectedRows.length > 50) {
+              multiRows = selectedRows.slice(currentPage * 50, (currentPage + 1) * 50);
+            } else {
+              multiRows = selectedRows;
+            }
+            console.log("고른 사진", multiRows);
+            setSelectedRows(multiRows);
           }}
           onPageChange={(page) => {
             setCurrentPage(page);
+            const startIndex = page * 50;
+            const endIndex = (page + 1) * 50;
+            const itemsOnCurrentPage = rows.slice(startIndex, endIndex);
+            console.log("현재 페이지의 아이템들:", itemsOnCurrentPage);
             // Fetch new data based on `newPage` index
             //fetchNewData(newPage);
           }}
-          // components={{
-          //   Pagination: () => (
-          //     <CustomPagination prevBtn={prevBtn} nextBtn={nextBtn} />
-          //   ),
-          // }}
         />
         {/* 팝업 페이지 */}
         <Modal

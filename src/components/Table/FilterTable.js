@@ -30,11 +30,13 @@ export default function FilterTable() {
   const [rows, setPosts] = React.useState([]);
   const [filterRow, setFilterRow] = React.useState([]);
   const [pageNo, setPageNo] = React.useState(0);
+  const [imgLoading, setImgLoading] = React.useState(false);
 
   const [pageParam, setPageParam] = React.useState("null");
 
   const migrateData = async () => {
     try {
+      setImgLoading(true);
       const res = await client.get(`getPageImg/${pageParam}`);
       //const res = await client.get(`getPageImg/${pageParam}`);
       console.log(res);
@@ -66,6 +68,7 @@ export default function FilterTable() {
       }
       setDeviceModels(devices);
       setPosts(data);
+      setImgLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -110,13 +113,7 @@ export default function FilterTable() {
   return (
     <div>
       <FormGroup sx={{ width: "100%" }}>
-        <Grid
-          container
-          spacing={0}
-          component={Paper}
-          padding={2}
-          variant="outlined"
-        >
+        <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
           <Grid container spacing={1}>
             <Grid
               item
@@ -136,10 +133,7 @@ export default function FilterTable() {
                 placeholder="시작 일자"
                 defaultValue={startDate}
                 onChange={(newValue) => {
-                  console.log(
-                    "시작 일자",
-                    moment(newValue.$d).format("YYYY-MM-DD")
-                  );
+                  console.log("시작 일자", moment(newValue.$d).format("YYYY-MM-DD"));
                   setStartDate(moment(newValue.$d).format("YYYY-MM-DD"));
                   setNumStart(Number(moment(newValue.$d).format("YYYYMMDD")));
                 }}
@@ -152,10 +146,7 @@ export default function FilterTable() {
                 placeholder="종료 일자"
                 defaultValue={endDate}
                 onChange={(newValue) => {
-                  console.log(
-                    "종료 일자",
-                    moment(newValue.$d).format("YYYY-MM-DD")
-                  );
+                  console.log("종료 일자", moment(newValue.$d).format("YYYY-MM-DD"));
                   setEndDate(moment(newValue.$d).format("YYYY-MM-DD"));
                   setNumEnd(Number(moment(newValue.$d).format("YYYYMMDD")));
                 }}
@@ -208,14 +199,13 @@ export default function FilterTable() {
 
       {/* 데이터그리드 */}
       <DataTable
+        imgLoading={imgLoading}
         page={pageNo}
         setPage={setPageNo}
         data={
           filterRow.length > 1
             ? selectedDeviceModel
-              ? filterRow.filter(
-                  (filter) => filter.device_model === selectedDeviceModel
-                )
+              ? filterRow.filter((filter) => filter.device_model === selectedDeviceModel)
               : filterRow
             : selectedDeviceModel
             ? rows.filter((row) => row.device_model === selectedDeviceModel)

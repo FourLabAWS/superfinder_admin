@@ -44,14 +44,28 @@ export default function Container() {
             localStorage.setItem("authenticated", true);
             localStorage.setItem("user", Id);
             localStorage.setItem("name", resData.ADMNR_NM.S);
-            navigate("/");
-            window.location.reload(false);
           } else {
             alert("아이디/패스워드를 확인해주세요.");
           }
         } else {
           alert("아이디/패스워드를 확인해주세요.");
         }
+      })
+      .then(() => {
+        client.get("getDashboard").then((res) => {
+          console.log(res);
+          if (res !== null && res !== undefined) {
+            localStorage.setItem("dateShot", JSON.stringify(res.data.dateShot));
+            localStorage.setItem("deviceCnt", res.data.deviceCnt);
+            localStorage.setItem("shotCnt", res.data.shotCnt);
+            localStorage.setItem("dateUser", JSON.stringify(res.data.dateUser));
+            localStorage.setItem("newDevice", JSON.stringify(res.data.newDevice));
+            localStorage.setItem("newUser", res.data.newUser);
+            localStorage.setItem("deviceShotCnt", JSON.stringify(res.data.deviceShotCnt));
+          }
+          navigate("/");
+          window.location.reload(false);
+        });
       })
       .catch((error) => {
         console.log(error);

@@ -1,5 +1,8 @@
 import * as React from "react";
 import Paper from "@mui/material/Paper";
+import { Chart } from "devextreme-react/chart";
+import { useNavigate } from "react-router-dom";
+
 import PieChart, {
   Export as PieExport,
   Series as PieSeries,
@@ -10,44 +13,37 @@ import PieChart, {
 import { ResponsiveLine } from "@nivo/line";
 import { client } from "../../routes/routes";
 import { DataGrid } from "@mui/x-data-grid";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
-export function RegIdStats() {
-  const [data, setData] = React.useState([]);
-  const [uniqueDeviceCount, setUniqueDeviceCount] = React.useState(0);
-
-  React.useEffect(() => {
-    client.get("getRegId").then((response) => {
-      const responseData = response.data;
-      const parsedBody = JSON.parse(responseData.body);
-
-      let formattedData = Object.entries(parsedBody.device_info).map(
-        ([deviceModel, info], index) => {
-          return {
-            id: index,
-            "Device Model": deviceModel,
-            "Data Count": info.data_count,
-          };
-        }
-      );
-
-      console.log(formattedData);
-      setData(formattedData);
-      setUniqueDeviceCount(parsedBody.total_unique_device_count);
-    });
-  }, []);
-
-  const columns = [
-    { field: "id", hide: true },
-    { field: "Device Model", headerName: "휴대폰 기종", width: 300 },
-    { field: "Data Count", headerName: "촬영 수", width: 200 },
-  ];
+export function RegIdStats({ ...props }) {
+  const columns =
+    props.date === "Y"
+      ? [
+          { field: "id", hide: true },
+          { field: "fir", headerName: "날짜", width: 300 },
+          { field: "sec", headerName: "촬영 수", width: 200 },
+        ]
+      : [
+          { field: "id", hide: true },
+          { field: "fir", headerName: "휴대폰 기종", width: 300 },
+          { field: "sec", headerName: "촬영 수", width: 200 },
+        ];
 
   return (
     <div
-      style={{ marginLeft: "32%", marginBottom: "3.5%", height: 530, width: "30.45%" }}
+      style={{
+        height: 530,
+        width: "30.45%",
+        margin: 50,
+      }}
     >
-      <h2>디바이스 총 {uniqueDeviceCount}대</h2>{" "}
-      <DataGrid rows={data} columns={columns} pageSize={data.length} />
+      <h2>{props.mainTxt}</h2>
+      <DataGrid rows={props.data} columns={columns} />
     </div>
   );
 }
@@ -76,5 +72,46 @@ export function Stats() {
         </PieSeries>
       </PieChart>
     </Paper>
+  );
+}
+
+export function Graphs() {
+  return (
+    <React.Fragment>
+      <Chart></Chart>
+    </React.Fragment>
+  );
+}
+
+export function BasicCard({ ...props }) {
+  const navigate = useNavigate();
+
+  return (
+    <Card sx={{ minWidth: 275, mx: 1 }}>
+      <CardContent>
+        {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Word of the Day
+        </Typography> */}
+        <Typography variant="h5" component="div">
+          {props.mainTxt}
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          {props.subTxt}
+        </Typography>
+        <Typography variant="h5">{props.data.toLocaleString()}</Typography>
+      </CardContent>
+      <CardActions>
+        <Button
+          size="small"
+          onClick={
+            props.route.indexOf("유저")
+              ? () => navigate("/analysis") //User
+              : () => navigate("/User") ///analysis
+          }
+        >
+          {props.route}
+        </Button>
+      </CardActions>
+    </Card>
   );
 }

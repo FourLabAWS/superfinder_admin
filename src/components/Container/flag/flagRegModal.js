@@ -14,6 +14,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 // 함수 시작
 function FlagRegModal(obj) {
@@ -151,9 +152,37 @@ function FlagRegModal(obj) {
           p: 4,
         }}
       >
-        <Typography variant="h6" gutterBottom>
-          깃발 등록
-        </Typography>
+        <Box>
+          <Grid container alignItems="center">
+            <Grid item xs={6}>
+              <Typography variant="h6" gutterBottom>
+                깃발 등록
+              </Typography>
+            </Grid>
+
+            <FormControl>
+              <RadioGroup
+                row
+                aria-labelledby="demo-form-control-label-placement"
+                name="mapReg"
+                defaultValue="kakao"
+              >
+                <FormControlLabel
+                  value="kakao"
+                  control={<Radio />}
+                  label="카카오맵"
+                  labelPlacement="start"
+                />
+                <FormControlLabel
+                  value="google"
+                  control={<Radio />}
+                  label="구글 맵"
+                  labelPlacement="start"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+        </Box>
         <form>
           <Grid container spacing={2}>
             <Grid item xs={12}>
