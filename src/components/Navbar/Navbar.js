@@ -29,7 +29,7 @@ const Navbar = () => {
       <Toolbar>
         <Typography noWrap component="div" variant="h6" sx={{ width: "100%" }}>
           <span>
-            <b>super finder</b>
+            <b>SuperFinder</b>
           </span>
         </Typography>
         <Typography

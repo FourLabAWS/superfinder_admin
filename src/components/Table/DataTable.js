@@ -188,6 +188,8 @@ export default function DataTable(props) {
       sortable: false,
       headerName: "이미지",
       width: 100,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) =>
         params.row.status === "original" ? (
           <img
@@ -216,7 +218,9 @@ export default function DataTable(props) {
       field: "fileName",
       sortable: false,
       headerName: "파일명",
-      width: 500,
+
+      width: 450,
+      headerAlign: "center",
 
       renderCell: (params) => {
         const onClick = (e) => {
@@ -247,41 +251,55 @@ export default function DataTable(props) {
       sortable: false,
       headerName: "깃발 크기",
       width: 100,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "plc_lat",
       sortable: false,
       headerName: "위도",
       width: 100,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "plc_lng",
       sortable: false,
       headerName: "경도",
       width: 100,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "status",
       sortable: false,
       headerName: "상태",
       width: 120,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "device_id",
       sortable: false,
       headerName: "디바이스 ID",
       width: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "date",
       sortable: false,
       headerName: "등록일자",
       width: 150,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "map",
       sortable: false,
       headerName: "지도",
+      align: "center",
+      headerAlign: "center",
       width: 80,
       renderCell: (params) => {
         return (
@@ -303,12 +321,16 @@ export default function DataTable(props) {
       sortable: false,
       headerName: "휴대폰 기종",
       width: 100,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "count",
       sortable: false,
       headerName: "촬영 횟수",
       width: 100,
+      align: "center",
+      headerAlign: "center",
     },
   ];
 

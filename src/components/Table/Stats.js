@@ -25,25 +25,25 @@ export function RegIdStats({ ...props }) {
     props.date === "Y"
       ? [
           { field: "id", hide: true },
-          { field: "fir", headerName: "날짜", width: 300 },
-          { field: "sec", headerName: "촬영 수", width: 200 },
+          { field: "fir", headerName: "날짜", width: 200 },
+          { field: "sec", headerName: "촬영 수", width: 100 },
         ]
       : [
           { field: "id", hide: true },
-          { field: "fir", headerName: "휴대폰 기종", width: 300 },
-          { field: "sec", headerName: "촬영 수", width: 200 },
+          { field: "fir", headerName: "휴대폰 기종", width: 200 },
+          { field: "sec", headerName: "촬영 수", width: 100 },
         ];
 
   return (
     <div
       style={{
         height: 530,
-        width: "30.45%",
+        width: "40.45%",
         margin: 50,
       }}
     >
       <h2>{props.mainTxt}</h2>
-      <DataGrid rows={props.data} columns={columns} />
+      <DataGrid rows={props.data} columns={columns} hideFooterPagination />
     </div>
   );
 }

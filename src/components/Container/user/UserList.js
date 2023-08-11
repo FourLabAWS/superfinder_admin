@@ -65,11 +65,15 @@ function GetUserList(props) {
       field: "device_model",
       headerName: "휴대폰 기종",
       width: 200,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "shot_count",
       headerName: "촬영 횟수",
       width: 200,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
@@ -90,6 +94,8 @@ function GetUserList(props) {
     {
       field: "last_dt",
       headerName: "등록일자",
+      align: "center",
+      headerAlign: "center",
       width: 200,
       // valueGetter: (params) => {
       //   // UTC를 기준으로 Date 객체를 생성합니다.

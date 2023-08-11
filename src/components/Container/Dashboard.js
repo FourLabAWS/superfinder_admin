@@ -73,7 +73,7 @@ export default function Container() {
 
   console.log(dashBoard);
   return (
-    <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}>
+    <Box component="main" sx={{ flexGrow: 20, bgcolor: "background.default", p: 2 }}>
       <br />
       <Toolbar />
 
@@ -113,11 +113,12 @@ export default function Container() {
       <Box
         sx={{
           display: "flex",
+          gap: "100px",
           flexDirection: "row",
           justifyContent: "center",
           flexWrap: "wrap",
           margin: "0 auto",
-          maxWidth: "1200px",
+          maxWidth: "2200px",
         }}
       >
         <RegIdStats mainTxt={"날짜별 촬영 수"} date={"Y"} data={dashBoard.dateShot} />

@@ -38,6 +38,8 @@ function GetEvnt(props) {
       field: "plcNm",
       headerName: "골프장",
       width: 300,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
@@ -52,23 +54,73 @@ function GetEvnt(props) {
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
-    { field: "flagCd", headerName: "깃발 코드", width: 100, hide: true },
-    { field: "plcLat", headerName: "경도", width: 200, hide: true },
-    { field: "plcLng", headerName: "위도", width: 200, hide: true },
-    { field: "plcId", headerName: "장소 아이디", width: 100, hide: true },
-    { field: "hzLnth", headerName: "가로 길이", width: 100 },
-    { field: "vrLnth", headerName: "세로 길이", width: 100 },
-    { field: "phoneNum", headerName: "전화번호", width: 200 },
+    {
+      field: "flagCd",
+      headerName: "깃발 코드",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+      hide: true,
+    },
+    {
+      field: "plcLat",
+      headerName: "경도",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+      hide: true,
+    },
+    {
+      field: "plcLng",
+      headerName: "위도",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+      hide: true,
+    },
+    {
+      field: "plcId",
+      headerName: "장소 아이디",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+      hide: true,
+    },
+    {
+      field: "hzLnth",
+      headerName: "가로 길이",
+      align: "center",
+      headerAlign: "center",
+      width: 100,
+    },
+    {
+      field: "vrLnth",
+      headerName: "세로 길이",
+      align: "center",
+      headerAlign: "center",
+      width: 100,
+    },
+    {
+      field: "phoneNum",
+      headerName: "전화번호",
+      align: "center",
+      headerAlign: "center",
+      width: 200,
+    },
     {
       field: "regDt",
       headerName: "등록일자",
       width: 200,
+      align: "center",
+      headerAlign: "center",
       valueGetter: (params) => {
         // 일단, params.value를 Date 객체로 변환합니다. 만약 params.value가 이미 Date 객체라면, 이 과정은 필요하지 않습니다.
         const date = new Date(params.value);
 
         // Date 객체를 한국 시간으로 변환합니다.
-        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+        const koreanDate = date.toLocaleString("ko-KR", {
+          timeZone: "Asia/Seoul",
+        });
 
         return koreanDate;
       },

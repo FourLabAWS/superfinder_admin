@@ -114,20 +114,23 @@ export default function FilterTable() {
     <div>
       <FormGroup sx={{ width: "100%" }}>
         <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
-          <Grid container spacing={1}>
+          <Grid container spacing={1} alignItems="center">
             <Grid
               item
               xs={1}
-              backgroundColor="#1976d2"
-              color="#fff"
-              marginTop={1}
-              width="10%"
+              sx={{
+                backgroundColor: "#1976d2",
+                color: "#fff",
+                textAlign: "center",
+                height: 40,
+                display: "flex",
+                //alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              <Box component="div" align="center">
-                날짜
-              </Box>
+              날짜
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <DatePicker
                 format="YYYY-MM-DD"
                 placeholder="시작 일자"
@@ -140,7 +143,10 @@ export default function FilterTable() {
                 renderInput={(params) => <TextField {...params} />}
               />
             </Grid>
-            <Grid item xs={2}>
+
+            <Grid item xs={6}>
+              {" "}
+              {/* Adjust the margin */}
               <DatePicker
                 format="YYYY-MM-DD"
                 placeholder="종료 일자"
@@ -153,7 +159,15 @@ export default function FilterTable() {
                 renderInput={(params) => <TextField {...params} />}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid
+              item
+              xs={2} // Adjust the width
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               {/* Select 컴포넌트 추가 */}
               <Select
                 value={selectedDeviceModel}
@@ -171,8 +185,15 @@ export default function FilterTable() {
                 ))}
               </Select>
             </Grid>
-
-            <Grid item xs={2} sx={{ marginLeft: "400px" }}>
+            <Grid
+              item
+              xs={2} // Adjust the width
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+              }}
+            >
               <Button
                 variant="contained"
                 size="large"
@@ -184,16 +205,6 @@ export default function FilterTable() {
             </Grid>
           </Grid>
         </Grid>
-        {/* <Grid>
-          {deviceModels.map((deviceModel) => (
-            <Button
-              key={deviceModel}
-              onClick={() => setSelectedDeviceModel(deviceModel)}
-            >
-              {deviceModel}
-            </Button>
-          ))}
-        </Grid> */}
       </FormGroup>
       <Toolbar />
 

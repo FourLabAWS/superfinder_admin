@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import SearchIcon from "@mui/icons-material/Search";
 import Toolbar from "@mui/material/Toolbar";
+
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
@@ -85,13 +86,17 @@ export default function Flag() {
         let lat = "";
         let lng = "";
         let verifyForeign = "";
+        let mapCategory = "";
         let items = response.data.Items || []; // 응답이 없는 경우에는 빈 배열로 초기화
         console.log(response.data.Items);
         items.map(function (a, itemNm) {
-          if (
-            items[itemNm].PLC_LAT.S !== "" &&
-            items[itemNm].PLC_LNG.S !== ""
-          ) {
+          // if (items[itemNm].MAP_CT === undefined) {
+          //   mapCategory = "";
+          // } else {
+          //   mapCategory = items[itemNm].MAP_CT.S;
+          // }
+          //
+          if (items[itemNm].PLC_LAT.S !== "" && items[itemNm].PLC_LNG.S !== "") {
             lat = items[itemNm].PLC_LAT.S;
             lng = items[itemNm].PLC_LNG.S;
             if (checkInsideKorea({ lat, lng })) {
@@ -119,6 +124,7 @@ export default function Flag() {
             modId: items[itemNm].MOD_ID.S,
             modDt: items[itemNm].MOD_DT.S,
             modSe: items[itemNm].MOD_SE.S,
+            mapCt: items[itemNm].MAP_CT === undefined ? "" : items[itemNm].MAP_CT.S,
             foreign: verifyForeign,
           });
         });
@@ -169,6 +175,7 @@ export default function Flag() {
           modId: items[itemNm].MOD_ID.S,
           modDt: items[itemNm].MOD_DT.S,
           modSe: items[itemNm].MOD_SE.S,
+          mapCt: items[itemNm].MAP_CT === undefined ? "" : items[itemNm].MAP_CT.S,
           foreign: verifyForeign,
         });
       });
@@ -179,10 +186,7 @@ export default function Flag() {
   };
 
   return (
-    <Box
-      component="main"
-      sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}
-    >
+    <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", p: 2 }}>
       <br />
       <Toolbar />
       <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 550 }}>
@@ -191,13 +195,7 @@ export default function Flag() {
       <br />
       <div>
         <FormGroup sx={{ width: "100%" }}>
-          <Grid
-            container
-            spacing={0}
-            component={Paper}
-            padding={2}
-            variant="outlined"
-          >
+          <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
             <Grid container spacing={1}>
               <Grid item xs={10}>
                 <Grid container spacing={1}>

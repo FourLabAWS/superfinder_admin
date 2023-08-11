@@ -54,14 +54,35 @@ export default function Container() {
       .then(() => {
         client.get("getDashboard").then((res) => {
           console.log(res);
+          let sortDateUser;
+          let sortDateShot;
+          let sortShotCount;
+          //const userDate = res.data.dateUser.map((el) => new Date(el.date));
+          //const deviceDate = res.data.dateShot.map((el) => el.date);
+          if (
+            res.data.dateUser !== null &&
+            res.data.dateShot !== null &&
+            res.data.deviceShotCnt !== null
+          ) {
+            sortDateUser = res.data.dateUser.sort(
+              (a, b) => new Date(a.date) - new Date(b.date)
+            );
+            sortDateShot = res.data.dateShot.sort(
+              (a, b) => new Date(a.date) - new Date(b.date)
+            );
+            sortShotCount = res.data.deviceShotCnt.sort(
+              (a, b) => Number(b.shotCount) - Number(a.shotCount)
+            );
+          }
+
           if (res !== null && res !== undefined) {
-            localStorage.setItem("dateShot", JSON.stringify(res.data.dateShot));
+            localStorage.setItem("dateShot", JSON.stringify(sortDateShot));
             localStorage.setItem("deviceCnt", res.data.deviceCnt);
             localStorage.setItem("shotCnt", res.data.shotCnt);
-            localStorage.setItem("dateUser", JSON.stringify(res.data.dateUser));
+            localStorage.setItem("dateUser", JSON.stringify(sortDateUser));
             localStorage.setItem("newDevice", JSON.stringify(res.data.newDevice));
             localStorage.setItem("newUser", res.data.newUser);
-            localStorage.setItem("deviceShotCnt", JSON.stringify(res.data.deviceShotCnt));
+            localStorage.setItem("deviceShotCnt", JSON.stringify(sortShotCount));
           }
           navigate("/");
           window.location.reload(false);

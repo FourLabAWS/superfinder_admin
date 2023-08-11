@@ -57,12 +57,27 @@ function GetNotiList(props) {
   }
 
   const columns = [
-    { field: "notiId", headerName: "번호", width: 80, hide: true },
-    { field: "notiTpSe", headerName: "구분", width: 100 },
+    {
+      field: "notiId",
+      headerName: "번호",
+      width: 80,
+      align: "center",
+      headerAlign: "center",
+      hide: true,
+    },
+    {
+      field: "notiTpSe",
+      headerName: "구분",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "notiTl",
       headerName: "제목",
       width: 600,
+
+      headerAlign: "center",
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
@@ -79,18 +94,34 @@ function GetNotiList(props) {
         return <Button onClick={onClick}>{params.row["notiTl"]}</Button>;
       },
     },
-    { field: "useYn", headerName: "사용여부", width: 100 },
-    { field: "regId", headerName: "등록자", width: 100 },
+    {
+      field: "useYn",
+      headerName: "사용여부",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "regId",
+      headerName: "등록자",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "regDt",
       headerName: "등록일자",
       width: 200,
+      align: "center",
+      headerAlign: "center",
       valueGetter: (params) => {
         // UTC를 기준으로 Date 객체를 생성합니다.
         const date = new Date(params.value + "Z");
 
         // Date 객체를 한국 시간으로 변환합니다.
-        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+        const koreanDate = date.toLocaleString("ko-KR", {
+          timeZone: "Asia/Seoul",
+        });
 
         return koreanDate;
       },

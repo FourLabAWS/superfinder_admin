@@ -47,30 +47,30 @@ function GetFlag(props) {
     const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
       .toString()
       .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.xlsx`;
-    const fileType =
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     const file = new Blob([excelBuffer], { type: fileType });
     saveAs(file, fileName);
   }
 
   const openMapBtn = (params) => {
-    const foreYn = params.row.foreign;
+    const mapCategory = params.row.mapCt;
     const plcId = params.row.plcId; // plcId
     console.log("params", params);
 
     let url;
 
     // 숫자로 이루어진 plcId는 카카오 맵, 그렇지 않은 경우는 구글 맵
-    if (foreYn === "국내") {
+    if (mapCategory === "kakao") {
       // 카카오 맵 URL
       url = `https://map.kakao.com/?itemId=${plcId}`;
       window.open(url, "_blank");
-    } else if (foreYn === "국외") {
+    } else if (mapCategory === "google") {
       // 구글 맵 URL
       url = `https://www.google.com/maps/place/?q=place_id:${plcId}`;
       window.open(url, "_blank");
     } else {
-      alert("위치 정보가 없습니다.");
+      url = `https://www.google.com/maps/place/?q=place_id:${plcId}`;
+      window.open(url, "_blank");
     }
 
     // 새 창에서 URL 열기
@@ -81,12 +81,19 @@ function GetFlag(props) {
     mode === "dark" ? darken(color, 0.6) : lighten(color, 0.6);
   // 보여줄 칼럼 정의
   const columns = [
-    { field: "flagCd", headerName: "깃발 코드", width: 300, hide: true },
+    {
+      field: "flagCd",
+      headerName: "깃발 코드",
+      width: 300,
+      hide: true,
+    },
     { field: "plcId", headerName: "장소 코드", width: 100, hide: true },
     {
       field: "plcNm",
       headerName: "골프장",
       width: 200,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation();
@@ -95,24 +102,56 @@ function GetFlag(props) {
           api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
-            .forEach(
-              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-            );
+            .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
           flagInquiryModal(thisRow);
         };
         return <Button onClick={onClick}>{params.row["plcNm"]}</Button>;
       },
     },
-    { field: "plcLat", headerName: "경도", width: 150, hide: true },
-    { field: "plcLng", headerName: "위도", width: 150, hide: true },
-    { field: "hzLnth", headerName: "가로 길이", width: 100 },
-    { field: "vrLnth", headerName: "세로 길이", width: 100 },
-    { field: "unitNm", headerName: "단위", width: 100 },
-    { field: "regId", headerName: "등록자", width: 120 },
+    {
+      field: "plcLat",
+      headerName: "경도",
+      width: 150,
+      hide: true,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "plcLng",
+      headerName: "위도",
+      width: 150,
+      hide: true,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "hzLnth",
+      headerName: "가로 길이",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "vrLnth",
+      headerName: "세로 길이",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "unitNm",
+      headerName: "단위",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    { field: "regId", headerName: "등록자", width: 120, headerAlign: "center" },
     {
       field: "regDt",
       headerName: "등록일자",
       width: 200,
+      align: "center",
+      headerAlign: "center",
       valueGetter: (params) => {
         // UTC를 기준으로 Date 객체를 생성합니다.
         const date = new Date(params.value + "Z");
@@ -126,11 +165,19 @@ function GetFlag(props) {
       },
     },
     { field: "regSe", headerName: "등록환경", width: 100, hide: true },
-    { field: "authYn", headerName: "인증 여부", width: 100 },
+    {
+      field: "authYn",
+      headerName: "인증 여부",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "map",
       headerName: "지도",
       width: 80,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         return (
           <Button
@@ -146,7 +193,20 @@ function GetFlag(props) {
         );
       },
     },
-    { field: "foreign", headerName: "국내/외", width: 120 },
+    {
+      field: "mapCt",
+      headerName: "지도 구분",
+      width: 120,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "foreign",
+      headerName: "국내/외",
+      width: 120,
+      align: "center",
+      headerAlign: "center",
+    },
     { field: "modId", headerName: "수정자", width: 100, hide: true },
     { field: "modDt", headerName: "수정일자", width: 100, hide: true },
   ];
@@ -273,10 +333,7 @@ function GetFlag(props) {
           height: 560,
           "& .super-app-theme--unsuccess": {
             bgcolor: (theme) =>
-              getBackgroundColor(
-                theme.palette.warning.main,
-                theme.palette.mode
-              ),
+              getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
           },
         }}
       >
@@ -315,10 +372,7 @@ function GetFlag(props) {
       </Box>
       <Divider sx={{ padding: 1, border: "none" }} />
 
-      <FlagRegModal
-        modalObj={openCreateFlagModal}
-        onClose={flagAddCloseModal}
-      />
+      <FlagRegModal modalObj={openCreateFlagModal} onClose={flagAddCloseModal} />
       <FlagInquiryModal
         modalObj={openInquiryFlagModal}
         onClose={flagInquiryCloseModal}

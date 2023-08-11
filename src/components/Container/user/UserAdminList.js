@@ -64,6 +64,8 @@ function GetUserAdminList(props) {
     {
       field: "admnrNm",
       headerName: "이름",
+      align: "center",
+      headerAlign: "center",
       width: 200,
       renderCell: (params) => {
         const onClick = (e) => {
@@ -81,23 +83,45 @@ function GetUserAdminList(props) {
         return <Button onClick={onClick}>{params.row["admnrNm"]}</Button>;
       },
     },
-    { field: "admnrEmail", headerName: "이메일", width: 200 },
-    { field: "useYn", headerName: "사용여부", width: 100 },
+    {
+      field: "admnrEmail",
+      headerName: "이메일",
+      width: 200,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "useYn",
+      headerName: "사용여부",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
     {
       field: "regDt",
       headerName: "등록일자",
       width: 200,
+      align: "center",
+      headerAlign: "center",
       valueGetter: (params) => {
         // UTC를 기준으로 Date 객체를 생성합니다.
         const date = new Date(params.value + "Z");
 
         // Date 객체를 한국 시간으로 변환합니다.
-        const koreanDate = date.toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+        const koreanDate = date.toLocaleString("ko-KR", {
+          timeZone: "Asia/Seoul",
+        });
 
         return koreanDate;
       },
     },
-    { field: "regId", headerName: "등록자", width: 120 },
+    {
+      field: "regId",
+      headerName: "등록자",
+      align: "center",
+      headerAlign: "center",
+      width: 120,
+    },
   ];
 
   //사용자 모달
