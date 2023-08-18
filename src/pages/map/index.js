@@ -2,49 +2,26 @@ import React, { useEffect, useRef } from "react";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { client } from "../../routes/routes";
 
-// const locations = [
-//   { lat: -31.56391, lng: 147.154312 },
-//   { lat: -33.718234, lng: 150.363181 },
-//   { lat: -33.727111, lng: 150.371124 },
-//   { lat: -33.848588, lng: 151.209834 },
-//   { lat: -33.851702, lng: 151.216968 },
-//   { lat: -34.671264, lng: 150.863657 },
-//   { lat: -35.304724, lng: 148.662905 },
-//   { lat: -36.817685, lng: 175.699196 },
-//   { lat: -36.828611, lng: 175.790222 },
-//   { lat: -37.75, lng: 145.116667 },
-//   { lat: -37.759859, lng: 145.128708 },
-//   { lat: -37.765015, lng: 145.133858 },
-//   { lat: -37.770104, lng: 145.143299 },
-//   { lat: -37.7737, lng: 145.145187 },
-//   { lat: -37.774785, lng: 145.137978 },
-//   { lat: -37.819616, lng: 144.968119 },
-//   { lat: -38.330766, lng: 144.695692 },
-//   { lat: -39.927193, lng: 175.053218 },
-//   { lat: -41.330162, lng: 174.865694 },
-//   { lat: -42.734358, lng: 147.439506 },
-//   { lat: -42.734358, lng: 147.501315 },
-//   { lat: -42.735258, lng: 147.438 },
-//   { lat: -43.999792, lng: 170.463352 },
-// ];
 const { google } = window;
 const WorldMap = () => {
   const mapRef = useRef(null);
   const [locations, setLocations] = React.useState([]);
 
-  const initMap = () => {
+  const initMap = (latlng) => {
     const map = new google.maps.Map(mapRef.current, {
-      center: { lat: -34.398, lng: 150.644 },
-      zoom: 8,
+      center: { lat: 37.51175556, lng: 127.1079306 },
+      zoom: 6,
+      scrollwheel: false,
+      streetViewControl: false,
     });
     const infoWindow = new google.maps.InfoWindow({
       content: "",
       disableAutoPan: true,
     });
     // Create an array of alphabetical characters used to label the markers.
-    const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const labels = "";
     // Add some markers to the map.
-    const markers = locations.map((position, i) => {
+    const markers = latlng.map((position, i) => {
       const label = labels[i % labels.length];
       const marker = new google.maps.Marker({
         position,
@@ -60,19 +37,61 @@ const WorldMap = () => {
     });
 
     // Add a marker clusterer to manage the markers.
-    new MarkerClusterer({ markers, map });
+    new MarkerClusterer({
+      markers,
+      map,
+      gridSize: 100,
+    });
   };
 
   useEffect(() => {
-    client.get("getLatlng").then((res) => {
-      console.log(res);
-      const latLng = res.data.map((el) => ({
-        lat: parseFloat(el.lat),
-        lng: parseFloat(el.lng),
-      }));
-      setLocations(latLng);
-    });
-    initMap();
+    let test;
+    let latLng;
+    const fetchLatLng = async () => {
+      try {
+        await client.get("getLatlng").then((res) => {
+          console.log(res);
+          latLng = res.data.map((el) => ({
+            lat: parseFloat(el.lat),
+            lng: parseFloat(el.lng),
+          }));
+          //   test = [
+          //     { lat: -36.817685, lng: 175.699196 },
+          //     { lat: 31.817685, lng: 120.699196 },
+          //     { lat: 37.51175556, lng: 121.1079306 },
+          //     { lat: 37.11175556, lng: 121.1079306 },
+          //     { lat: -36.817685, lng: 171.699196 },
+          //     { lat: 31.817685, lng: 123.699196 },
+          //     { lat: 37.51175556, lng: 121.1079306 },
+          //     { lat: 37.11175556, lng: 127.1079306 },
+          //     { lat: -36.817685, lng: 171.699196 },
+          //     { lat: 31.817685, lng: 124.699196 },
+          //     { lat: 37.51175556, lng: 127.1079306 },
+          //     { lat: 37.11175556, lng: 123.1079306 },
+          //     { lat: -36.817685, lng: 177.699196 },
+          //     { lat: 31.817685, lng: 120.399196 },
+          //     { lat: 37.51175556, lng: 122.1079306 },
+          //     { lat: 37.11175556, lng: 120.1079306 },
+          //     { lat: -31.817685, lng: 177.699196 },
+          //     { lat: 36.817685, lng: 120.399196 },
+          //     { lat: 33.51175556, lng: 122.1079306 },
+          //     { lat: 32.11175556, lng: 120.1079306 },
+          //     { lat: -38.817685, lng: 177.699196 },
+          //     { lat: 39.817685, lng: 120.399196 },
+          //     { lat: 38.51175556, lng: 122.1079306 },
+          //     { lat: 5.11175556, lng: 120.1079306 },
+          //     { lat: 3.11175556, lng: 120.1079306 },
+          //     { lat: 1.11175556, lng: 120.1079306 },
+          //     { lat: -1.11175556, lng: 120.1079306 },
+          //   ];
+          setLocations(latLng);
+        });
+        initMap(latLng);
+      } catch (error) {
+        console.log("ERROR", error);
+      }
+    };
+    fetchLatLng();
   }, []);
 
   return (
@@ -80,7 +99,7 @@ const WorldMap = () => {
       <div
         className="map"
         style={{
-          width: "1800px",
+          width: "1650px",
           height: "1000px",
           display: "flex",
           justifyContent: "center",
