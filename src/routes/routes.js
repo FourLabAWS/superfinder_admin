@@ -20,6 +20,7 @@ import Param from "../pages/param/param";
 import Event from "../pages/event/event";
 import BookMark from "../pages/bookmark/bookmark";
 import User from "../pages/user/User";
+import WorldMap from "../pages/map";
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const client = axios.create({ baseURL: BASE_URL });
@@ -172,6 +173,15 @@ const routes = [
       <PrivateRoute>
         {" "}
         <BookMark />{" "}
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 97,
+    path: "/map",
+    component: (
+      <PrivateRoute>
+        <WorldMap />
       </PrivateRoute>
     ),
   },

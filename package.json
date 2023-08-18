@@ -9,6 +9,7 @@
     "@devexpress/dx-react-chart-material-ui": "^4.0.3",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "@googlemaps/google-maps-services-js": "^3.3.35",
     "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.10.15",
     "@mui/lab": "^5.0.0-alpha.132",

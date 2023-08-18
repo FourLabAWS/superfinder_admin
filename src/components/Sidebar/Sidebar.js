@@ -24,6 +24,12 @@ const SideBarItems = [
   },
   {
     id: 2,
+    name: "지역별 현황",
+    link: "/map",
+    icon: <GridViewIcon sx={{ color: "#1976d2" }} />,
+  },
+  {
+    id: 3,
     name: "이미지 관리",
     link: "/analysis",
     icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
@@ -32,13 +38,13 @@ const SideBarItems = [
     },
   },
   {
-    id: 3,
+    id: 4,
     name: "공지사항",
     link: "/notice",
     icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
   },
   {
-    id: 4,
+    id: 5,
     name: "사용자 관리",
     link: "/userAdmin",
     icon: <ImageSearchIcon sx={{ color: "#1976d2" }} />,
@@ -109,9 +115,16 @@ const Sidebar = () => {
       <br />
       <List>
         {SideBarItems.map((menu) => (
-          <ListItem key={menu.id} disablePadding component={Link} to={menu.link}>
+          <ListItem
+            key={menu.id}
+            disablePadding
+            component={Link}
+            to={menu.link}
+          >
             <ListItemButton
-              onClick={() => location.pathname === menu.link && window.location.reload()}
+              onClick={() =>
+                location.pathname === menu.link && window.location.reload()
+              }
             >
               <ListItemIcon>{menu.icon}</ListItemIcon>
               <ListItemText

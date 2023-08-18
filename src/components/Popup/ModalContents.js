@@ -76,14 +76,9 @@ export function ImageTablePopup({ ...props }) {
   return (
     <Paper elevation={0} square sx={{ fontSize: 14 }}>
       <FormGroup>
-        <Grid
-          container
-          spacing={0}
-          component={Paper}
-          padding={2}
-          variant="outlined"
-        >
+        <Grid container spacing={0} component={Paper} padding={2} variant="outlined">
           {/* 이미지 정보 */}
+          <Typography strong>파일 이름 : {data[0].fileName}</Typography>
           <Grid
             container
             padding="1%"
@@ -125,8 +120,7 @@ export function ImageTablePopup({ ...props }) {
               <Typography>깃발 크기 :</Typography>
               <Typography>
                 <Grid item xs={10}>
-                  {flagX} x {flagY} = {Math.ceil(inchW)} inch x{" "}
-                  {Math.ceil(inchH)} inch
+                  {flagX} x {flagY} = {Math.ceil(inchW)} inch x {Math.ceil(inchH)} inch
                 </Grid>
               </Typography>
             </Grid>

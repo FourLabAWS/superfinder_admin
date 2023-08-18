@@ -232,7 +232,9 @@ export default function DataTable(props) {
           api
             .getAllColumns()
             .filter((c) => c.field !== "__check__" && !!c)
-            .forEach((c) => (thisRow[c.field] = params.getValue(params.id, c.field)));
+            .forEach(
+              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
+            );
           return GridSelected(thisRow);
         };
         return (
@@ -266,6 +268,14 @@ export default function DataTable(props) {
       field: "plc_lng",
       sortable: false,
       headerName: "경도",
+      width: 100,
+      align: "center",
+      headerAlign: "center",
+    },
+    {
+      field: "placeNm",
+      sortable: false,
+      headerName: "지역",
       width: 100,
       align: "center",
       headerAlign: "center",
@@ -373,7 +383,10 @@ export default function DataTable(props) {
         zip.generateAsync({ type: "blob" }).then((content) => {
           const fileName = `${today.getFullYear()}_${(today.getMonth() + 1)
             .toString()
-            .padStart(2, "0")}_${today.getDate().toString().padStart(2, "0")}.zip`;
+            .padStart(2, "0")}_${today
+            .getDate()
+            .toString()
+            .padStart(2, "0")}.zip`;
           FileSaver.saveAs(content, fileName);
         });
       })
@@ -441,7 +454,10 @@ export default function DataTable(props) {
           width: "100%",
           "& .super-app-theme--unsuccess": {
             bgcolor: (theme) =>
-              getBackgroundColor(theme.palette.warning.main, theme.palette.mode),
+              getBackgroundColor(
+                theme.palette.warning.main,
+                theme.palette.mode
+              ),
           },
         }}
       >
@@ -465,7 +481,10 @@ export default function DataTable(props) {
             const selectedIDs = new Set(ids);
             const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
             if (selectedRows.length > 50) {
-              multiRows = selectedRows.slice(currentPage * 50, (currentPage + 1) * 50);
+              multiRows = selectedRows.slice(
+                currentPage * 50,
+                (currentPage + 1) * 50
+              );
             } else {
               multiRows = selectedRows;
             }

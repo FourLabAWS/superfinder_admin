@@ -56,8 +56,9 @@ export default function FilterTable() {
             device_model: item.device_model,
             file_size: item.size,
             converted_path: item.converted_path,
-            plc_lat: "",
-            plc_lng: "",
+            plc_lat: item.lat,
+            plc_lng: item.lng,
+            placeNm: item.placeNm,
             count: "",
           });
         }
@@ -66,6 +67,7 @@ export default function FilterTable() {
           devices.push(item.device_model);
         }
       }
+      devices.unshift("전체보기");
       setDeviceModels(devices);
       setPosts(data);
       setImgLoading(false);
@@ -171,7 +173,13 @@ export default function FilterTable() {
               {/* Select 컴포넌트 추가 */}
               <Select
                 value={selectedDeviceModel}
-                onChange={(event) => setSelectedDeviceModel(event.target.value)}
+                onChange={(event) => {
+                  if (event.target.value === "전체보기") {
+                    setSelectedDeviceModel("");
+                  } else {
+                    setSelectedDeviceModel(event.target.value);
+                  }
+                }}
                 displayEmpty
                 sx={{ width: "100%" }}
               >
