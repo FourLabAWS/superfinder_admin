@@ -91,7 +91,6 @@ export default function DataTable(props) {
     setDeviceModel(data["device_model"]);
   }
 
-  // 모달 end
 
   //
   // function routeChange(data) {
