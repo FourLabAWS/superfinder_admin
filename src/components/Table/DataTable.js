@@ -162,7 +162,7 @@ export default function DataTable(props) {
 
   const deleteItem = () => {
     let deleteItems = selectedRows;
-    console.log("고른 값", deleteItems);
+    console.log("값", deleteItems);
 
     Promise.all(
       deleteItems.map((item) => {
