@@ -24,7 +24,7 @@ import WorldMap from "../pages/map";
 //const BASE_URL = "https://o0a46p97p0.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const BASE_URL = "https://ji40ssrbe6.execute-api.ap-northeast-2.amazonaws.com/v1/";
 const client = axios.create({ baseURL: BASE_URL });
-
+//1
 const routes = [
   {
     id: 1,
