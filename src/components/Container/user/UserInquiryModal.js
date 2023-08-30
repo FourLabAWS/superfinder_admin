@@ -72,7 +72,7 @@ const UserInquiryModal = ({ modalObj, onClose, selectedUser, onEdit }) => {
       <DialogTitle>사용자 정보</DialogTitle>
       <DialogContent>
         <form onSubmit={doSave}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} my={1}>
             <Grid item xs={12}>
               <TextField
                 type="text"
